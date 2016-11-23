@@ -13,19 +13,22 @@ void Map::updateChildren() {
 }
 
 Map::Map(int rows, int columns) {
-    nodes[columns][rows];
+    Map::columns = columns;
+    Map::rows = rows;
+    nodes.resize((unsigned long)Map::columns);
+    for(int i = 0; i< columns; i++)
+        nodes[i].resize((unsigned long)Map::rows);
     create();
 }
 
 void Map::create() {
-    int x = 0, y = 0;
-    for (x; x <= columns; x++) {
-        for (y; y <= rows; y++) {
-            nodes[x].push_back(new NodeBlock(*new Point(x,y)));
+    for (int x = 0; x < columns; x++) {
+        for (int y = 0; y < rows; y++) {
+            nodes[x][y] = (new NodeBlock(*new Point(x,y)));
         }
     }
-    for (x; x <= columns; x++) {
-        for (y; y <= rows; y++) {
+    for (int x = 0; x <= columns; x++) {
+        for (int y = 0; y <= rows; y++) {
             if(x - 1 >= 0)
                 nodes[x][y]->setLeft(nodes[x - 1][y]);
             if(y + 1 < rows)
