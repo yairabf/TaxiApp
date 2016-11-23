@@ -22,9 +22,8 @@ queue<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
             return fastestRoute;
         }
         current->setVisited(true);
-        std::vector<Node*> children = current->getChildren();
-        for(Node* node : children) {
-            if(node!= nullptr && !node->isVisited()) {
+        for(Node* node : current->getChildren()) {
+            if(!node->isVisited()) {
                 node->setDistance(current->getDistance() + 1);
                 node->setFather(current);
                 route.push(node);

@@ -36,7 +36,7 @@ public:
 
     void setDistance(int d) override;
 
-    void* getValue() override ;
+    Point* getValue() override ;
 
 };
 #endif //ADPROG1_1_NODEBLOCK_H

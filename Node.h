@@ -6,6 +6,7 @@
 #define ADPROG1_1_NODE_H
 
 #include <vector>
+#include "Point.h"
 
 class Node {
 protected:
@@ -22,7 +23,7 @@ public:
     virtual void setFather(Node* father) = 0;
     virtual int getDistance() = 0;
     virtual void setDistance(int d) = 0;
-    virtual void* getValue() = 0;
+    virtual Point* getValue() = 0;
 };
 
 #endif //ADPROG1_1_NODE_H

@@ -27,8 +27,8 @@ void Map::create() {
             nodes[x][y] = (new NodeBlock(*new Point(x,y)));
         }
     }
-    for (int x = 0; x <= columns; x++) {
-        for (int y = 0; y <= rows; y++) {
+    for (int x = 0; x < columns; x++) {
+        for (int y = 0; y < rows; y++) {
             if(x - 1 >= 0)
                 nodes[x][y]->setLeft(nodes[x - 1][y]);
             if(y + 1 < rows)
