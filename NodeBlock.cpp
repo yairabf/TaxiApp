@@ -33,12 +33,12 @@ void NodeBlock::setVisited(bool visited) {
     NodeBlock::visited = visited;
 }
 
-std::vector<Node *> NodeBlock::getChildren() {
-    children;
+std::vector<Node *>* NodeBlock::getChildren() {
+    return &children;
 }
 
 Node *NodeBlock::getFather() {
-    father;
+    return NodeBlock::father;
 }
 
 void NodeBlock::setFather(Node *father) {
@@ -54,5 +54,5 @@ void NodeBlock::setDistance(int d) {
 }
 
 bool NodeBlock::isVisited() {
-    return visited;
+    return NodeBlock::visited;
 }

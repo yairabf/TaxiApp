@@ -26,7 +26,7 @@ public:
 
     void setVisited(bool visited) override;
 
-    std::vector<Node *> getChildren() override;
+    std::vector<Node *>* getChildren() override;
 
     Node *getFather() override;
 

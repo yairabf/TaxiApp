@@ -6,30 +6,31 @@
 
 using namespace std;
 
-queue<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
+stack<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
     queue<Node*> route;
     start->setDistance(0);
+    start->setVisited(true);
     route.push(start);
     while (!route.empty()) {
         Node *current = route.front();
         route.pop();
         if(current == goal) {
-            queue<Node*> fastestRoute;
+            stack<Node*> fastestRoute;
             while (current != nullptr) {
                 fastestRoute.push(current);
                 current = current->getFather();
             }
             return fastestRoute;
         }
-        current->setVisited(true);
-        for(Node* node : current->getChildren()) {
+        for(Node* node : *current->getChildren()) {
             if(!node->isVisited()) {
                 node->setDistance(current->getDistance() + 1);
+                node->setVisited(true);
                 node->setFather(current);
                 route.push(node);
             }
         }
     }
-    queue <Node*> empty;
+    stack <Node*> empty;
     return empty;
 }

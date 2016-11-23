@@ -16,14 +16,15 @@ protected:
     int distance;
 
 public:
-    virtual bool isVisited() = 0;
     virtual void setVisited(bool visited) = 0;
-    virtual std::vector<Node*> getChildren() = 0;
+    virtual std::vector<Node*>* getChildren() = 0;
     virtual Node* getFather() = 0;
     virtual void setFather(Node* father) = 0;
     virtual int getDistance() = 0;
     virtual void setDistance(int d) = 0;
     virtual Point* getValue() = 0;
+    virtual bool isVisited() = 0;
+
 };
 
 #endif //ADPROG1_1_NODE_H

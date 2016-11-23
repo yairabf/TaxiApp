@@ -7,9 +7,9 @@ int main() {
     BreadthFirstSearch bfs;
     Node* start = map.getBlock(Point(0,0));
     Node* goal = map.getBlock(Point(4,4));
-    std::queue<Node*> fast = bfs.breadthFirstSearch(start, goal);
+    std::stack<Node*> fast = bfs.breadthFirstSearch(start, goal);
     while (!fast.empty()) {
-        cout << "(" << fast.front()->getValue() << ")" << endl;
+        cout << "(" << fast.top()->getValue()->getX() <<","<< fast.top()->getValue()->getY()<< ")" << endl;
         fast.pop();
     }
     return 0;
