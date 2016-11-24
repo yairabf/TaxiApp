@@ -6,6 +6,12 @@
 
 using namespace std;
 
+/**
+ *
+ * @param start
+ * @param goal
+ * @return
+ */
 stack<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
     queue<Node*> route;
     start->setDistance(0);

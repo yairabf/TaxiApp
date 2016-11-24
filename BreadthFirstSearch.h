@@ -9,6 +9,9 @@
 #include <queue>
 #include "Node.h"
 
+/**
+ *
+ */
 class BreadthFirstSearch {
 public:
     std::stack<Node*> breadthFirstSearch(Node* start, Node* goal);

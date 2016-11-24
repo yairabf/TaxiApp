@@ -8,6 +8,9 @@
 #include "Node.h"
 #include "Point.h"
 
+/**
+ *
+ */
 class NodeBlock : public Node {
 private:
     Point point;
