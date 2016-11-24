@@ -3,10 +3,23 @@
 #include "BreadthFirstSearch.h"
 
 int main() {
-    Map map = Map(5,5);
+    int rows, column, xStart, yStart, xGoal, yGoal;
+    char temp;
+    cin >> column;
+    cin >> temp;
+    cin >> rows;
+    cin >> temp;
+    cin >> xStart;
+    cin >> temp;
+    cin >> yStart;
+    cin >> temp;
+    cin >> xGoal;
+    cin >>temp;
+    cin >> yGoal ;
+    Map map = Map(column,rows);
     BreadthFirstSearch bfs;
-    Node* start = map.getBlock(Point(0,0));
-    Node* goal = map.getBlock(Point(4,4));
+    Node* start = map.getBlock(Point(xStart,yStart));
+    Node* goal = map.getBlock(Point(xGoal,yGoal));
     std::stack<Node*> fast = bfs.breadthFirstSearch(start, goal);
     while (!fast.empty()) {
         cout << "(" << fast.top()->getValue()->getX() <<","<< fast.top()->getValue()->getY()<< ")" << endl;
