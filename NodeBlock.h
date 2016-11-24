@@ -7,6 +7,8 @@
 
 #include "Node.h"
 #include "Point.h"
+#include <string>
+
 
 /**
  *
@@ -14,34 +16,83 @@
 class NodeBlock : public Node {
 private:
     Point point;
+
 public:
-    void setLeft(Node* left);
-
-    void setRight(Node* right);
-
-    void setUp(Node* up);
-
-    void setDown(Node* down);
-
+    /**
+     * Constructor that receives a point and set it as the value of the node.
+     * @param point
+     */
     NodeBlock(Point point);
 
-    ~NodeBlock();
-
+    /**
+     * tells if the node been visited while searching
+     * @return true or false.
+     */
     bool isVisited() override ;
 
+    /**
+     * setter for the boolean value that tells us if the node been visited
+     * @param visited true or false.
+     */
     void setVisited(bool visited) override;
 
+    /**
+     * getter that return pointer to tne vector of neighbors of the node.
+     * @return pointer to the vector of nodes.
+     */
     std::vector<Node *>* getChildren() override;
 
+    /**
+     * getter for the father of the node
+     * @return pointer to the node's father.
+     */
     Node *getFather() override;
 
+    /**
+     * setter for the node's father.
+     * @param father
+     */
     void setFather(Node *father) override;
 
+    /**
+     * getter for the distance of the node from the start point while searching.
+     * @return the distance from the start point.
+     */
     int getDistance() override;
 
+    /**
+     * setter for the distance
+     * @param d the distance from the start point
+     */
     void setDistance(int d) override;
 
-    Point* getValue() override ;
+    /**
+     * set the left neighbor of the node
+     * @param left neighbor.
+     */
+    void setLeft(Node* left);
 
+    /**
+     * set the right neighbor of the node
+     * @param right neighbor
+     */
+    void setRight(Node* right);
+
+    /**
+     * set the upper neighbor of the node
+     * @param up neighbor
+     */
+    void setUp(Node* up);
+
+    /**
+     * set the downer neighbor of the node
+     * @param down neighbor
+     */
+    void setDown(Node* down);
+
+    /**
+     * prints the vaule that the node holds.
+     */
+    string printValue() const override ;
 };
 #endif //ADPROG1_1_NODEBLOCK_H

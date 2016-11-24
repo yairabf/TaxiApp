@@ -1,4 +1,5 @@
 
+
 #include <iostream>
 #include "Map.h"
 
@@ -13,14 +14,11 @@ void Map::updateChildren() {
 Map::Map(int rows, int columns) {
     Map::columns = columns;
     Map::rows = rows;
-    nodes.resize((unsigned long)Map::columns);
-    for(int i = 0; i< columns; i++)
-        nodes[i].resize((unsigned long)Map::rows);
     create();
+    setChildren();
 }
 
 Map::~Map() {
-    std::cout << "Destructing map" << std::endl;
     for(int i=0;i<nodes.size();i++){
         for(int j=0;j<nodes[i].size();j++){
             delete nodes[i][j];
@@ -29,11 +27,16 @@ Map::~Map() {
 }
 
 void Map::create() {
+    nodes.resize((unsigned long)Map::columns);
     for (int x = 0; x < columns; x++) {
+        nodes[x].resize((unsigned long)Map::rows);
         for (int y = 0; y < rows; y++) {
             nodes[x][y] = (new NodeBlock(Point(x,y)));
         }
     }
+}
+
+void Map::setChildren() {
     for (int x = 0; x < columns; x++) {
         for (int y = 0; y < rows; y++) {
             if(x - 1 >= 0)
@@ -51,3 +54,4 @@ void Map::create() {
 Node* Map::getBlock(Point point) {
     return nodes[point.getX()][point.getY()];
 }
+

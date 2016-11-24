@@ -6,12 +6,6 @@
 
 using namespace std;
 
-/**
- *
- * @param start
- * @param goal
- * @return
- */
 stack<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
     queue<Node*> route;
     start->setDistance(0);
@@ -20,7 +14,12 @@ stack<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
     while (!route.empty()) {
         Node *current = route.front();
         route.pop();
+
+        /*if we got to the wanted goal*/
         if(current == goal) {
+
+            /* we create the stuck that will hold the fastest route and
+             * push all the node from the goal to the start point*/
             stack<Node*> fastestRoute;
             while (current != nullptr) {
                 fastestRoute.push(current);
@@ -28,6 +27,8 @@ stack<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
             }
             return fastestRoute;
         }
+        /*while we search each node we push every unvisited child he have to the queue and
+         * update the child distance from the start point */
         for(Node* node : *current->getChildren()) {
             if(!node->isVisited()) {
                 node->setDistance(current->getDistance() + 1);
@@ -39,4 +40,8 @@ stack<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
     }
     stack <Node*> empty;
     return empty;
+}
+
+BreadthFirstSearch::BreadthFirstSearch(Graph* graph1) {
+graph = graph1;
 }

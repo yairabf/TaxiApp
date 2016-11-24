@@ -3,15 +3,11 @@
 //
 
 #include "NodeBlock.h"
+using namespace std;
 
 
 
 NodeBlock::NodeBlock(Point point) : point(point) {}
-
-
-NodeBlock::~NodeBlock() {
-
-}
 
 void NodeBlock::setLeft(Node *left) {
     children.push_back(left);
@@ -28,11 +24,6 @@ void NodeBlock::setUp(Node *up) {
 void NodeBlock::setDown(Node *down) {
     children.push_back(down);
 }
-
-Point* NodeBlock::getValue() {
-    return &point;
-};
-
 
 void NodeBlock::setVisited(bool visited) {
     NodeBlock::visited = visited;
@@ -61,4 +52,15 @@ void NodeBlock::setDistance(int d) {
 bool NodeBlock::isVisited() {
     return NodeBlock::visited;
 }
+
+string NodeBlock::printValue() const {
+    return   "("  + to_string(point.getX()) + ", " + to_string(point.getY()) + ")5_5,0_0,2_2";
+}
+
+//
+
+std::ostream& operator<<(std::ostream& out, const Node& node) {
+    out << node.printValue();
+    return out;
+};
 
