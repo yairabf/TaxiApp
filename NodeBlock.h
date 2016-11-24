@@ -25,6 +25,8 @@ public:
 
     NodeBlock(Point point);
 
+    ~NodeBlock();
+
     bool isVisited() override ;
 
     void setVisited(bool visited) override;

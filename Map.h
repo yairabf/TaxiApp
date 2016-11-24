@@ -19,6 +19,7 @@ private:
     vector<vector<NodeBlock*>> nodes;
 
 public:
+    ~Map();
     Map(int rows, int columns);
     void create();
     void updateChildren();

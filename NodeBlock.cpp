@@ -8,6 +8,11 @@
 
 NodeBlock::NodeBlock(Point point) : point(point) {}
 
+
+NodeBlock::~NodeBlock() {
+
+}
+
 void NodeBlock::setLeft(Node *left) {
     children.push_back(left);
 }
@@ -56,3 +61,4 @@ void NodeBlock::setDistance(int d) {
 bool NodeBlock::isVisited() {
     return NodeBlock::visited;
 }
+

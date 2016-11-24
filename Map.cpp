@@ -1,7 +1,5 @@
-//
-// Created by yair on 22/11/16.
-//
 
+#include <iostream>
 #include "Map.h"
 
 void Map::setObstacle(Point point) {
@@ -21,10 +19,19 @@ Map::Map(int rows, int columns) {
     create();
 }
 
+Map::~Map() {
+    std::cout << "Destructing map" << std::endl;
+    for(int i=0;i<nodes.size();i++){
+        for(int j=0;j<nodes[i].size();j++){
+            delete nodes[i][j];
+        }
+    }
+}
+
 void Map::create() {
     for (int x = 0; x < columns; x++) {
         for (int y = 0; y < rows; y++) {
-            nodes[x][y] = (new NodeBlock(*new Point(x,y)));
+            nodes[x][y] = (new NodeBlock(Point(x,y)));
         }
     }
     for (int x = 0; x < columns; x++) {
