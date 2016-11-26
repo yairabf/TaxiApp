@@ -18,7 +18,7 @@ class Map : public Graph {
 private:
     int rows;
     int columns;
-    vector<vector<NodeBlock*>> nodes;
+    vector<vector<NodeBlock*> > nodes;
 
     /**
      * a private method that connect each NodeBlock to its neighbors.

@@ -3,6 +3,7 @@
 //
 
 #include "NodeBlock.h"
+#include <sstream>
 using namespace std;
 
 
@@ -53,13 +54,15 @@ bool NodeBlock::isVisited() {
     return NodeBlock::visited;
 }
 
-string NodeBlock::printValue() const {
-    return   "("  + to_string(point.getX()) + ", " + to_string(point.getY()) + ")5_5,0_0,2_2";
+string NodeBlock::printValue() {
+    string x = static_cast<ostringstream*>( &(ostringstream() << point.getX()) )->str();
+    string y = static_cast<ostringstream*>( &(ostringstream() << point.getY()) )->str();
+    return   "("  + x + ", " + y + ")";
 }
 
 //
 
-std::ostream& operator<<(std::ostream& out, const Node& node) {
+std::ostream& operator<<(std::ostream& out, Node& node) {
     out << node.printValue();
     return out;
 };

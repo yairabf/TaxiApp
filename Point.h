@@ -24,13 +24,13 @@ public:
      * getter for the x value.
      * @return
      */
-    int getX() const ;
+    int getX();
 
     /**
      * getter for the y value.
      * @return
      */
-    int getY() const ;
+    int getY();
 
 };
 #endif //ADPROG1_1_POINT_H

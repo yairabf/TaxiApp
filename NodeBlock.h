@@ -28,13 +28,13 @@ public:
      * tells if the node been visited while searching
      * @return true or false.
      */
-    bool isVisited() override ;
+    bool isVisited() override;
 
     /**
      * setter for the boolean value that tells us if the node been visited
      * @param visited true or false.
      */
-    void setVisited(bool visited) override;
+    void setVisited(bool visited)override;
 
     /**
      * getter that return pointer to tne vector of neighbors of the node.
@@ -91,8 +91,8 @@ public:
     void setDown(Node* down);
 
     /**
-     * prints the vaule that the node holds.
+     * prints the value that the node holds.
      */
-    string printValue() const override ;
+    std::string printValue() override ;
 };
 #endif //ADPROG1_1_NODEBLOCK_H

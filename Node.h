@@ -9,8 +9,6 @@
 #include "Point.h"
 #include <string>
 
-using namespace std;
-
 /**
  * An abstract class that represent Node/Vertex of a graph the node
  * has functionality that let use him for calculating route print the
@@ -18,7 +16,7 @@ using namespace std;
  */
 class Node {
 protected:
-    vector<Node*> children;
+    std::vector<Node*> children;
     bool visited;
     Node* father;
     int distance;
@@ -68,11 +66,11 @@ public:
     /**
      * prints the vaule that the node holds.
      */
-    virtual string printValue() const = 0;
+    virtual std::string printValue() = 0;
 
 };
 
-std::ostream&operator<<(std::ostream& out, const Node& node);
+std::ostream&operator<<(std::ostream& out, Node& node);
 
 
 #endif //ADPROG1_1_NODE_H

@@ -6,12 +6,12 @@
 #define ADPROG1_1_GRAPH_H
 
 /**
- *
+ * an abstract class that represent Graph.
  */
 class Graph {
 public:
     /**
-     *
+     * the method will create the Graph.
      */
     virtual void create() = 0;
 };

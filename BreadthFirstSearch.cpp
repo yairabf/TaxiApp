@@ -7,7 +7,7 @@
 using namespace std;
 
 stack<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
-    queue<Node*> route;
+    queue < Node* > route;
     start->setDistance(0);
     start->setVisited(true);
     route.push(start);
@@ -20,8 +20,8 @@ stack<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
 
             /* we create the stuck that will hold the fastest route and
              * push all the node from the goal to the start point*/
-            stack<Node*> fastestRoute;
-            while (current != nullptr) {
+            stack <Node*> fastestRoute;
+            while (current != NULL) {
                 fastestRoute.push(current);
                 current = current->getFather();
             }
@@ -29,7 +29,8 @@ stack<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
         }
         /*while we search each node we push every unvisited child he have to the queue and
          * update the child distance from the start point */
-        for(Node* node : *current->getChildren()) {
+        for(int i=0;i< current->getChildren()->size(); i++) {
+            Node* node = current->getChildren()->at(i);
             if(!node->isVisited()) {
                 node->setDistance(current->getDistance() + 1);
                 node->setVisited(true);
@@ -37,6 +38,7 @@ stack<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
                 route.push(node);
             }
         }
+
     }
     stack <Node*> empty;
     return empty;
