@@ -25,6 +25,11 @@ private:
      */
     void setChildren();
 
+    /**
+     * The method create the grid and fill with pointers of NodeBlock
+     */
+    void create();
+
 public:
     /**
      * Deconstructor.
@@ -37,11 +42,6 @@ public:
      * @param columns int variable that represent the number of columns of the grid
      */
     Map(int rows, int columns);
-
-    /**
-     * The method create the grid and fill with pointers of NodeBlock
-     */
-    void create() override ;
 
     /**
      *

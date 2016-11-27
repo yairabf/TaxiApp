@@ -11,7 +11,7 @@ void Map::updateChildren() {
 
 }
 
-Map::Map(int rows, int columns) {
+Map::Map(int columns,int rows) {
     Map::columns = columns;
     Map::rows = rows;
     create();

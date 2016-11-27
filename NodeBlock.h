@@ -28,43 +28,43 @@ public:
      * tells if the node been visited while searching
      * @return true or false.
      */
-    bool isVisited() override;
+    bool isVisited();
 
     /**
      * setter for the boolean value that tells us if the node been visited
      * @param visited true or false.
      */
-    void setVisited(bool visited)override;
+    void setVisited(bool visited);
 
     /**
      * getter that return pointer to tne vector of neighbors of the node.
      * @return pointer to the vector of nodes.
      */
-    std::vector<Node *>* getChildren() override;
+    std::vector<Node *>* getChildren();
 
     /**
      * getter for the father of the node
      * @return pointer to the node's father.
      */
-    Node *getFather() override;
+    Node *getFather();
 
     /**
      * setter for the node's father.
      * @param father
      */
-    void setFather(Node *father) override;
+    void setFather(Node *father);
 
     /**
      * getter for the distance of the node from the start point while searching.
      * @return the distance from the start point.
      */
-    int getDistance() override;
+    int getDistance();
 
     /**
      * setter for the distance
      * @param d the distance from the start point
      */
-    void setDistance(int d) override;
+    void setDistance(int d);
 
     /**
      * set the left neighbor of the node
@@ -93,6 +93,6 @@ public:
     /**
      * prints the value that the node holds.
      */
-    std::string printValue() override ;
+    std::string printValue();
 };
 #endif //ADPROG1_1_NODEBLOCK_H

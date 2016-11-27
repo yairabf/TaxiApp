@@ -32,7 +32,7 @@ int main() {
     Node *start = map.getBlock(Point(xStart, yStart));
     Node *goal = map.getBlock(Point(xGoal, yGoal));
 
-    //receving the fasteset route using the BFS algorithm.
+    //receiving the fastest route using the BFS algorithm.
     std::stack<Node *> fast = bfs.breadthFirstSearch(start, goal);
 
     /*print the route*/

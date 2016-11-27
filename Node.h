@@ -69,7 +69,12 @@ public:
     virtual std::string printValue() = 0;
 
 };
-
+/**
+ * overloading for the out stream.
+ * @param out output of the values that the Node holds
+ * @param node the node that we want to output his value
+ * @return
+ */
 std::ostream&operator<<(std::ostream& out, Node& node);
 
 

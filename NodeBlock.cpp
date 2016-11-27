@@ -57,11 +57,15 @@ bool NodeBlock::isVisited() {
 string NodeBlock::printValue() {
     string x = static_cast<ostringstream*>( &(ostringstream() << point.getX()) )->str();
     string y = static_cast<ostringstream*>( &(ostringstream() << point.getY()) )->str();
-    return   "("  + x + ", " + y + ")";
+    return   "("  + x + "," + y + ")";
 }
 
-//
-
+/**
+ * overloading the operator "<<" of an out stream.
+ * @param out
+ * @param node
+ * @return
+ */
 std::ostream& operator<<(std::ostream& out, Node& node) {
     out << node.printValue();
     return out;

@@ -1,6 +1,3 @@
-//
-// Created by yair on 22/11/16.
-//
 
 #ifndef ADPROG1_1_BREADTHFIRSTSEARCH_H
 #define ADPROG1_1_BREADTHFIRSTSEARCH_H

@@ -1,6 +1,3 @@
-//
-// Created by yair on 24/11/16.
-//
 
 #ifndef ADPROG1_1_GRAPH_H
 #define ADPROG1_1_GRAPH_H
@@ -9,7 +6,7 @@
  * an abstract class that represent Graph.
  */
 class Graph {
-public:
+protected:
     /**
      * the method will create the Graph.
      */

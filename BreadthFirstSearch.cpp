@@ -30,7 +30,7 @@ stack<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
         /*while we search each node we push every unvisited child he have to the queue and
          * update the child distance from the start point */
         for(int i=0;i< current->getChildren()->size(); i++) {
-            Node* node = current->getChildren()->at(i);
+            Node* node = current->getChildren()->at((unsigned long)i);
             if(!node->isVisited()) {
                 node->setDistance(current->getDistance() + 1);
                 node->setVisited(true);
