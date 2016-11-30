@@ -71,8 +71,8 @@ public:
 };
 /**
  * overloading for the out stream.
- * @param out output of the values that the Node holds
- * @param node the node that we want to output his value
+ * @param out output of the values that the Ndoe holds
+ * @param node the node that we want to output his vlaue
  * @return
  */
 std::ostream&operator<<(std::ostream& out, Node& node);

@@ -1,6 +1,3 @@
-//
-// Created by yair on 22/11/16.
-//
 
 #include "NodeBlock.h"
 #include <sstream>

@@ -44,13 +44,13 @@ public:
     Map(int rows, int columns);
 
     /**
-     *
+     * update all childre to be not visited.
      */
     void updateChildren();
 
     /**
-     *
-     * @param point
+     * notify a NodeBlock that he an obstacle.
+     * @param point the location we want to set an obstacle.
      */
     void setObstacle(Point point);
 

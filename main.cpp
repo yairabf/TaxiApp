@@ -10,7 +10,6 @@
 int main() {
     int rows, column, xStart, yStart, xGoal, yGoal;
     char temp;
-
     /* reading from the user the value */
     cin >> column;
     cin >> temp;
