@@ -5,7 +5,6 @@
 /**
  * The main method that runs the program, the method receives form the user the size of the grid
  * and the location of the start point and the goal and the method prints the the fastest route.
- * @return hanay
  */
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc,argv);
