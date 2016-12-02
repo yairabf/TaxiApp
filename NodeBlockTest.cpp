@@ -3,31 +3,43 @@
 
 using namespace std;
 
-class NodeBlockTEst: public ::testing::Test{
+class NodeBlockTest: public ::testing::Test{
+protected:
+    NodeBlock n00;
+    NodeBlock n01;
+    NodeBlock n10;
+    NodeBlock n11;
     virtual void SetUp() {
         cout << "Setting Up" << endl;
+        (Point(0,0));
+        (Point(0,1));
+        (Point(1,0));
+        (Point(1,1));
     }
 
+    virtual void TearDown(){
+        cout << "Tearing Down" << endl;
+    }
+
+public:
+    NodeBlockTest():n00(NULL),n01(NULL),n10(NULL),n11(NULL){}
 };
 
-NodeBlock n00 (Point(0,0));
-NodeBlock n01 (Point(0,1));
-NodeBlock n10 (Point(1,0));
-NodeBlock n11 (Point(1,1));
 
 
-TEST(NodeBlockTest, VisitedTest) {
+
+TEST_F(NodeBlockTest, VisitedTest) {
     n00.setVisited(false);
     n01.setVisited(true);
     n10.setVisited(true);
     n11.setVisited(false);
     ASSERT_FALSE(n00.isVisited()) << "wrong boolean value returned";
     ASSERT_FALSE(n11.isVisited()) << "wrong boolean value returned";
-    ASSERT_TRUE(n01.isVisited()) << "wrong boolean value returned";
+        ASSERT_TRUE(n01.isVisited()) << "wrong boolean value returned";
     ASSERT_TRUE(n10.isVisited()) << "wrong boolean value returned";
 }
 
-TEST(NodeBlockTest, FatherTest) {
+TEST_F(NodeBlockTest, FatherTest) {
     n11.setFather(&n01);
     n01.setFather(&n00);
     ASSERT_TRUE(n11.getFather() != NULL) << "father wasn't set as expected";
@@ -36,7 +48,7 @@ TEST(NodeBlockTest, FatherTest) {
     ASSERT_EQ(n01.getFather(),&n00) << "wrong father was set";
 }
 
-TEST(NodeBlockTest, ChildrenTest) {
+TEST_F(NodeBlockTest, ChildrenTest) {
     NodeBlock n12 (Point(1,2));
     NodeBlock n21 (Point(2,1));
     n11.setLeft(&n01);
@@ -54,7 +66,7 @@ TEST(NodeBlockTest, ChildrenTest) {
     EXPECT_TRUE(n11.getChildren()->at(3) = &n10) << "Wrong children was set";
 }
 
-TEST(NodeBlockTest, DistancTest) {
+TEST_F(NodeBlockTest, DistancTest) {
     n00.setDistance(3);
     ASSERT_EQ(3, n00.getDistance()) << "Wrong value returned";
     n10.setDistance(5);
