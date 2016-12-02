@@ -1,6 +1,3 @@
-//
-// Created by yair on 20/11/16.
-//
 
 #include "BreadthFirstSearch.h"
 

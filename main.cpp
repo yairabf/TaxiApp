@@ -1,16 +1,19 @@
 #include <iostream>
+#include "gtest/gtest.h"
 #include "Map.h"
 #include "BreadthFirstSearch.h"
-
 /**
  * The main method that runs the program, the method receives form the user the size of the grid
  * and the location of the start point and the goal and the method prints the the fastest route.
  * @return hanay
  */
-int main() {
+int main(int argc, char** argv) {
+    ::testing::InitGoogleTest(&argc,argv);
+    /*
     int rows, column, xStart, yStart, xGoal, yGoal;
     char temp;
     /* reading from the user the value */
+    /*
     cin >> column;
     cin >> temp;
     cin >> rows;
@@ -35,9 +38,10 @@ int main() {
     std::stack<Node *> fast = bfs.breadthFirstSearch(start, goal);
 
     /*print the route*/
+    /*
     while (!fast.empty()) {
         cout << *fast.top() << endl;
         fast.pop();
-    }
-    return 0;
+    }*/
+    return RUN_ALL_TESTS();
 }

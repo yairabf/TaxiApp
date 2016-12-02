@@ -1,6 +1,3 @@
-//
-// Created by yair on 22/11/16.
-//
 
 #ifndef ADPROG1_1_NODE_H
 #define ADPROG1_1_NODE_H
@@ -69,6 +66,7 @@ public:
     virtual std::string printValue() = 0;
 
 };
+
 /**
  * overloading for the out stream.
  * @param out output of the values that the Ndoe holds
