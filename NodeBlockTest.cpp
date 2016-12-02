@@ -88,3 +88,5 @@ TEST_F(NodeBlockTest, DistancTest) {
 
 }
 
+TEST_F(NodeBlockTest, printValueTest) {
+}
