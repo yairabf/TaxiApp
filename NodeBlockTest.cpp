@@ -3,10 +3,18 @@
 
 using namespace std;
 
+class NodeBlockTEst: public ::testing::Test{
+    virtual void SetUp() {
+        cout << "Setting Up" << endl;
+    }
+
+};
+
 NodeBlock n00 (Point(0,0));
 NodeBlock n01 (Point(0,1));
 NodeBlock n10 (Point(1,0));
 NodeBlock n11 (Point(1,1));
+
 
 TEST(NodeBlockTest, VisitedTest) {
     n00.setVisited(false);
@@ -67,3 +75,4 @@ TEST(NodeBlockTest, DistancTest) {
     ASSERT_EQ(n00.getDistance(),2) << "wrong distance";
 
 }
+
