@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 #include "Point.h"
-
+//here doesnt work aswell
 using namespace std;
 Point p1(1,1);
 Point p2(2,2);
