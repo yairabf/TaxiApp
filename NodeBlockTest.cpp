@@ -34,6 +34,4 @@ TEST(SetterTest, GetChildrenTest) {
     n11.setUp(&n12);
     n11.setRight(&n21);
     n11.setDown(&n10);
-
-
 }
