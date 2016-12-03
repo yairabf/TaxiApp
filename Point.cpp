@@ -1,8 +1,10 @@
-//
-// Created by yair on 22/11/16.
-//
+
 
 #include "Point.h"
+#include <string>
+#include <sstream>
+
+using namespace std;
 
 Point::Point(int x, int y) : x(x), y(y) {}
 
@@ -12,4 +14,13 @@ int Point::getX()  {
 
 int Point::getY()  {
     return y;
+}
+
+std::string Point::toString() {
+    std::ostringstream x;
+    std::ostringstream y;
+    x << Point::x;
+    y << Point::y;
+    std::string str = "(" + x.str() + "," + y.str() + ")";
+    return str;
 }

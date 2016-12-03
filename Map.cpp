@@ -4,11 +4,15 @@
 #include "Map.h"
 
 void Map::setObstacle(Point point) {
-
+    nodes[point.getX()][point.getY()]->setIsObstacle(true);
 }
 
 void Map::updateChildren() {
-
+    for(int i=0;i<nodes.size();i++){
+        for(int j=0;j<nodes[i].size();j++){
+            nodes[i][j]->setVisited(false);
+        }
+    }
 }
 
 Map::Map(int columns,int rows) {
@@ -51,7 +55,7 @@ void Map::setChildren() {
     }
 }
 
-Node* Map::getBlock(Point point) {
+NodeBlock* Map::getBlock(Point point) {
     return nodes[point.getX()][point.getY()];
 }
 

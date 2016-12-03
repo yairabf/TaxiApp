@@ -56,7 +56,7 @@ public:
      * @param point
      * @return
      */
-    Node* getBlock(Point point);
+    NodeBlock* getBlock(Point point);
 };
 
 #endif //ADPROG1_1_MAP_H

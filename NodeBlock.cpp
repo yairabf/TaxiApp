@@ -52,9 +52,15 @@ bool NodeBlock::isVisited() {
 }
 
 string NodeBlock::printValue() {
-    string x = static_cast<ostringstream*>( &(ostringstream() << point.getX()) )->str();
-    string y = static_cast<ostringstream*>( &(ostringstream() << point.getY()) )->str();
-    return   "("  + x + "," + y + ")";
+    return point.toString();
+}
+
+bool NodeBlock::getIsObstacle() {
+    return isObstacle;
+}
+
+void NodeBlock::setIsObstacle(bool isObstacle) {
+    NodeBlock::isObstacle = isObstacle;
 }
 
 /**

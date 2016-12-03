@@ -13,6 +13,7 @@
 class NodeBlock : public Node {
 private:
     Point point;
+    bool isObstacle = false;
 
 public:
     /**
@@ -26,6 +27,18 @@ public:
      * @return true or false.
      */
     bool isVisited();
+
+    /**
+     *
+     * @return
+     */
+    bool getIsObstacle();
+
+    /**
+     *
+     * @param isObstacle
+     */
+    void setIsObstacle(bool isObstacle);
 
     /**
      * setter for the boolean value that tells us if the node been visited

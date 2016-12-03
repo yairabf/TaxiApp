@@ -1,9 +1,7 @@
-//
-// Created by yair on 22/11/16.
-//
-
 #ifndef ADPROG1_1_POINT_H
 #define ADPROG1_1_POINT_H
+
+#include <string>
 
 /**
  * class that represent point with x value and y value.
@@ -31,6 +29,12 @@ public:
      * @return
      */
     int getY();
+
+    /**
+     * returns a string of the point in the form of "(x,y)"
+     * @return string that represent the value of the point
+     */
+    std::string toString();
 
 };
 #endif //ADPROG1_1_POINT_H

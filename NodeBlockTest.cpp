@@ -88,7 +88,7 @@ TEST_F(NodeBlockTest, DistancTest) {
 }
 
 TEST_F(NodeBlockTest, printValueTest) {
-    ASSERT_EQ("(0,0)", n00->printValue()) << "printed the wrong value";
+    EXPECT_EQ("(0,0)", n00->printValue()) << "printed the wrong value";
     ASSERT_EQ("(0,1)", n01->printValue()) << "printed the wrong value";
     ASSERT_EQ("(1,0)", n10->printValue()) << "printed the wrong value";
     ASSERT_EQ("(1,1)", n11->printValue()) << "printed the wrong value";
