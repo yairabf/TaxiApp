@@ -25,5 +25,5 @@ int TripInfo::getNumberOfPassengers() const {
 }
 
 float TripInfo::getTarrif() const {
-    return tarrif;
+    return tariff;
 }

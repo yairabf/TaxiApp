@@ -1,6 +1,3 @@
-//
-// Created by hanani on 02/12/16.
-//
 
 #ifndef ADPROG1_1_TAXI_H
 #define ADPROG1_1_TAXI_H
