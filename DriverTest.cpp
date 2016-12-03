@@ -2,6 +2,7 @@
 
 #include "gtest/gtest.h"
 #include "Driver.h"
+#include "NodeBlock.h"
 
 using namespace std;
 
@@ -57,4 +58,10 @@ TEST_F(DriverTest, AvgSatisfactionTest) {
     ASSERT_EQ(driver.getAvgSatisfaction(),0) << "Average satisfaction wasn't construct well";
     driver.setAvgSatisfaction(4.4);
     ASSERT_TRUE(driver.getAvgSatisfaction() - 4.4 < 0.00001 ) << "Average satisfaction wasn't set well";
+}
+
+TEST_F(DriverTest, LocationTest) {
+    Node* loc = new NodeBlock(Point(5,4));
+    driver.setLocation(loc);
+    EXPECT_EQ(driver.getLocation(), loc) << " Driver location wasn't set well";
 }
