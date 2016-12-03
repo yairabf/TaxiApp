@@ -12,6 +12,11 @@
  */
 class NodeBlock : public Node {
 private:
+protected:
+    std::vector<Node*> children;
+    bool visited = false;
+    Node* father;
+    int distance;
     Point point;
     bool isObstacle = false;
 

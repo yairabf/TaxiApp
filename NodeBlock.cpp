@@ -5,7 +5,10 @@ using namespace std;
 
 
 
-NodeBlock::NodeBlock(Point point) : point(point) {}
+NodeBlock::NodeBlock(Point point) : point(point) {
+    distance = 0;
+    father = NULL;
+}
 
 void NodeBlock::setLeft(Node *left) {
     children.push_back(left);
@@ -31,7 +34,7 @@ std::vector<Node *>* NodeBlock::getChildren() {
     return &children;
 }
 
-Node *NodeBlock::getFather() {
+Node* NodeBlock::getFather() {
     return NodeBlock::father;
 }
 

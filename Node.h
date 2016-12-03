@@ -12,11 +12,6 @@
  * value it holds. etc..
  */
 class Node {
-protected:
-    std::vector<Node*> children;
-    bool visited;
-    Node* father;
-    int distance;
 
 public:
     /**

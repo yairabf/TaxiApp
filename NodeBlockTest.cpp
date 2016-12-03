@@ -11,10 +11,6 @@ protected:
     NodeBlock* n11;
     virtual void SetUp() {
         cout << "Setting Up" << endl;
-        n00 = new NodeBlock(Point(0,0));
-        n01 = new NodeBlock(Point(0,1));
-        n10 = new NodeBlock(Point(1,0));
-        n11 = new NodeBlock(Point(1,1));
     }
 
     virtual void TearDown(){
@@ -22,7 +18,8 @@ protected:
     }
 
 public:
-    NodeBlockTest(){};
+    NodeBlockTest():n00 (new NodeBlock(Point(0,0))), n01(new NodeBlock(Point(0,1))), n10(new NodeBlock(Point(1,0))),
+                    n11(new NodeBlock(Point(1,1))){};
 };
 
 TEST_F(NodeBlockTest, VisitedTest) {
