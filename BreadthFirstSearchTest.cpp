@@ -28,7 +28,8 @@ TEST_F(BreadthFirstSearchTest, FastestRouteTest) {
     /*create a queue and insert it the actually route that supposed to been calculate */
     std::queue<Node *> fast1Test;
     for (int i = 0; i < 10; i++) {
-        fast1Test.push(new NodeBlock(Point(0, i)));
+        NodeBlock node(Point(0, i));
+        fast1Test.push(&node);
     }
     for (int i = 1; i < 10; i++) {
         fast1Test.push(new NodeBlock(Point(i, 9)));
