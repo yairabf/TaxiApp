@@ -6,7 +6,9 @@
 #define ADPROG1_1_TRIPINFO_H
 
 
+#include <stack>
 #include "Point.h"
+#include "Node.h"
 
 class TripInfo {
 private:
@@ -16,6 +18,7 @@ private:
     Point end;
     int numberOfPassengers;
     float tariff;
+    std::stack <Node*> route;
 public:
     int getId() const;
 
@@ -28,6 +31,8 @@ public:
     int getNumberOfPassengers() const;
 
     float getTarrif() const;
+
+    std::stack<Node *>* getRoute() const;
 };
 
 

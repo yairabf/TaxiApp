@@ -64,3 +64,7 @@ bool TaxiStation::doesTaxiExist(Taxi *taxi1) {
     }
     return false;
 }
+
+TaxiStation::~TaxiStation() {
+    delete map;
+}

@@ -6,18 +6,16 @@ using namespace std;
 class TaxiStationTest: public ::testing::Test {
 public:
     TaxiStation *taxiStation;
-    Map* map1;
 protected:
     virtual void SetUp() {
         cout<<"setting up for TaxiTest"<< endl;
         Map* map1 = new Map(10,10);
-        taxiStation = new TaxiStation(map1);
+        taxiStation = new TaxiStation(new Map(10,10));
     }
 
     virtual void TearDown () {
         cout<<"tearing down" << endl;
         delete(taxiStation);
-        delete(map1);
     }
 
 public:
@@ -45,7 +43,6 @@ TEST_F(TaxiStationTest, addTaxiTest) {
     taxiStation->addTaxi(taxi);
     ASSERT_TRUE(taxiStation->doesTaxiExist(taxi)) << "Driver wasn't added";
     delete(taxi);
-
 }
 
 TEST_F(TaxiStationTest, removeTaxiTest) {
@@ -54,5 +51,4 @@ TEST_F(TaxiStationTest, removeTaxiTest) {
     taxiStation->removeTaxi(taxi);
     ASSERT_FALSE(taxiStation->doesTaxiExist(taxi)) << "Driver wasn't removed";
     delete(taxi);
-
 }

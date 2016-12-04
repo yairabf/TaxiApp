@@ -27,3 +27,7 @@ int TripInfo::getNumberOfPassengers() const {
 float TripInfo::getTarrif() const {
     return tariff;
 }
+
+std::stack<Node *> * TripInfo::getRoute() const {
+    return &route;
+}

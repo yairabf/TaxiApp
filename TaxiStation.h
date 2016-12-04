@@ -22,6 +22,8 @@ private:
 public:
     TaxiStation(Map *map);
 
+    virtual ~TaxiStation();
+
     void answerCall(Point destination);
 
     void addDriver(Driver* driver);
