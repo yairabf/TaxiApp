@@ -1,5 +1,3 @@
-
-
 #include "gtest/gtest.h"
 #include "Driver.h"
 #include "NodeBlock.h"
@@ -64,4 +62,8 @@ TEST_F(DriverTest, LocationTest) {
     Node* loc = new NodeBlock(Point(5,4));
     driver.setLocation(loc);
     EXPECT_EQ(driver.getLocation(), loc) << " Driver location wasn't set well";
+}
+
+TEST_F(DriverTest, TaxiTest) {
+
 }

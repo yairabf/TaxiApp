@@ -27,6 +27,8 @@ public:
     int getSpeed() const;
 
     float getTariff() const;
+
+    float calculatePrice(int km) const;
 };
 
 
