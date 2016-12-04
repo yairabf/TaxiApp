@@ -124,7 +124,7 @@ TEST_F(TaxiStationTest, answerCallTest2) {
     //checks if the closeDriver has the correct route
     EXPECT_TRUE(areStacksEqual(&correctRoute, closeDriver->getTripInfo()->getRoute()))
                         << "the correct driver has the wrong route" << endl;
-    /*delete (closeDriver);
+    /*delete (closeDriver);/
     delete (passengerLocation);
     delete (destination);
     delete (bfs);*/
