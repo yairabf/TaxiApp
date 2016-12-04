@@ -13,6 +13,7 @@ protected:
     }
 
     virtual void TearDown () {
+        cout<<"tearing down";
         delete(taxi);
     }
 
