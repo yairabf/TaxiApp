@@ -33,7 +33,7 @@ TEST_F(BreadthFirstSearchTest, FastestRouteTest) {
         fast1Test.push(new NodeBlock(Point(i, 9)));
     }
 
-    /*creating the start and the end point of rhe second route*/
+    /*creating the start and the end point of the second route*/
     Node *route2Start = map.getBlock(Point(9, 9));
     Node *route2End = map.getBlock(Point(0, 0));
 

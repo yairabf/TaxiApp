@@ -18,7 +18,7 @@ private:
     Point end;
     int numberOfPassengers;
     float tariff;
-    std::stack <Node*> *route;
+    std::stack <Node*> *route = NULL;
 public:
     int getId() const;
 
