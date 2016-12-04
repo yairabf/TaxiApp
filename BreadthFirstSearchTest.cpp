@@ -20,6 +20,7 @@ public:
 
 TEST_F(BreadthFirstSearchTest, FastestRouteTest) {
     Map map = Map(10,10);
+
     /*creating the start and the end point of rhe first route*/
     Node* route1Start = map.getBlock(Point(0, 0));
     Node* route1End = map.getBlock(Point(9, 9));
@@ -83,4 +84,5 @@ TEST_F(BreadthFirstSearchTest, FastestRouteTest) {
         fast3.pop();
         fast3Test.pop();
     }
+
 }
