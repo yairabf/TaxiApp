@@ -18,6 +18,10 @@ protected:
     Node* father;
     int distance;
     Point point;
+public:
+    const Point &getPoint() const;
+
+protected:
     bool isObstacle = false;
 
 public:
@@ -109,5 +113,12 @@ public:
      * prints the value that the node holds.
      */
     std::string printValue();
+
+    /**
+     * overrides ==
+     */
+    bool operator==(const NodeBlock& nodeBlock)const;
 };
+
+
 #endif //ADPROG1_1_NODEBLOCK_H

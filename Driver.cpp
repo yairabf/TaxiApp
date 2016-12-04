@@ -1,5 +1,6 @@
 
 #include "Driver.h"
+#include "NodeBlock.h"
 
 Driver::Driver(int id, int age, int yearsExp, string status) : id(id), age(age), yearsExp(yearsExp),
                                                                       status(status) {}
@@ -66,4 +67,12 @@ Node *Driver::getLocation()  {
 
 void Driver::setLocation(Node *location) {
     Driver::location = location;
+}
+
+void Driver::setLocation(Point p) {
+    this->location = new NodeBlock(p);
+}
+
+TripInfo *Driver::getTripInfo() const {
+    return tripInfo;
 }

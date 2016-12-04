@@ -12,29 +12,33 @@ private:
     int y;
 public:
     /**
+    * getter.
+    * @return x value.
+    */
+    int getX() const;
+    /**
+    * getter.
+    * @return y value.
+    */
+    int getY() const;
+    /**
      * constructor
      * @param x the x value
      * @param y the y value
      */
     Point(int x, int y);
 
-    /**
-     * getter for the x value.
-     * @return
-     */
-    int getX();
-
-    /**
-     * getter for the y value.
-     * @return
-     */
-    int getY();
 
     /**
      * returns a string of the point in the form of "(x,y)"
      * @return string that represent the value of the point
      */
     std::string toString();
-
+    /**
+     * overrides ==.
+     * @param point is the point we are comparing to.
+     * @return if they are eqaul.
+     */
+    bool operator==(const Point &point) const;
 };
 #endif //ADPROG1_1_POINT_H

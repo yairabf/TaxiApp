@@ -23,7 +23,8 @@ TEST_F(MapTest, CreatTest) {
         for (int j=0; j< 10; j++) {
             EXPECT_TRUE(map.getBlock(Point(i,j)) != NULL);
             Point ij (i,j);
-            EXPECT_EQ(ij.toString(), map.getBlock(ij)->printValue()) << "uncorrected value of initialized block";
+            EXPECT_EQ(ij.toString(), map.getBlock(ij)->printValue())
+                                << "uncorrected value of initialized block";
         }
     }
 }
@@ -33,17 +34,17 @@ TEST_F(MapTest, Neighbors) {
         for (int j = 0; j < 10; j++) {
             for(int k = 0; k< map.getBlock(Point(i,j))->getChildren()->size(); k++) {
                 if(i - 1 >= 0)
-                    EXPECT_TRUE(map.getBlock(Point(i,j))->getChildren()->at(k) = map.getBlock(Point(i - 1, j)))
-                                        << "neighbor isn't correct";
+                    EXPECT_TRUE(map.getBlock(Point(i,j))->getChildren()->at(k) =
+                                        map.getBlock(Point(i - 1, j)))<< "neighbor isn't correct";
                 else if(j + 1 < 10)
-                    EXPECT_TRUE(map.getBlock(Point(i, j))->getChildren()->at(k) = map.getBlock(Point(i, j + 1)))
-                                        << "neighbor isn't correct";
+                    EXPECT_TRUE(map.getBlock(Point(i, j))->getChildren()->at(k) =
+                                        map.getBlock(Point(i, j + 1)))<< "neighbor isn't correct";
                 else if(i + 1 > 10)
-                    EXPECT_TRUE(map.getBlock(Point(i, j))->getChildren()->at(k) = map.getBlock(Point(i + 1, j)))
-                                        << "neighbor isn't correct";
+                    EXPECT_TRUE(map.getBlock(Point(i, j))->getChildren()->at(k) =
+                                        map.getBlock(Point(i + 1, j)))<< "neighbor isn't correct";
                 else if(j - 1 >= 0)
-                    EXPECT_TRUE(map.getBlock(Point(i, j))->getChildren()->at(k) = map.getBlock(Point(i, j - 1)))
-                                        << "neighbor isn't correct";
+                    EXPECT_TRUE(map.getBlock(Point(i, j))->getChildren()->at(k) =
+                                        map.getBlock(Point(i, j - 1)))<< "neighbor isn't correct";
             }
         }
     }

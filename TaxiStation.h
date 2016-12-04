@@ -7,6 +7,8 @@
 #include "Driver.h"
 #include "TripInfo.h"
 #include "Map.h"
+#include "BreadthFirstSearch.h"
+#include "Passenger.h"
 
 using namespace std;
 
@@ -16,6 +18,7 @@ private:
     list<Taxi* > taxis;
     list<TripInfo* > trips;
     Map* map;
+    BreadthFirstSearch* bfs;
     void assignDrivers();
     void sendTaxi(Point);
     Driver* calculateClosestDriver(Point destination);
@@ -24,7 +27,7 @@ public:
 
     virtual ~TaxiStation();
 
-    void answerCall(Point destination);
+    void answerCall(Point destination, Passenger passenger);
 
     void addDriver(Driver* driver);
 

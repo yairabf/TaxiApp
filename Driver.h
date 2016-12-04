@@ -21,6 +21,9 @@ private:
     Taxi* taxi = NULL;
     float avgSatisfaction = 0;
     Node* location = NULL;
+    TripInfo* tripInfo;
+public:
+    TripInfo *getTripInfo() const;
 
 public:
     Driver(int id, int age, int yearsExp, string status);
@@ -56,6 +59,8 @@ public:
     Node *getLocation();
 
     void setLocation(Node *location);
+
+    void setLocation(Point p);
 };
 
 

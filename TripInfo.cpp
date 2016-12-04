@@ -28,6 +28,6 @@ float TripInfo::getTarrif() const {
     return tariff;
 }
 
-std::stack<Node *> * TripInfo::getRoute() const {
-    return &route;
+std::stack<Node *> *TripInfo::getRoute() const {
+    return route;
 }

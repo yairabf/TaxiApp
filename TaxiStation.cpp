@@ -16,11 +16,12 @@ void TaxiStation::assignDrivers() {
 
 }
 
-void TaxiStation::answerCall(Point destination) {
+void TaxiStation::answerCall(Point destination, Passenger passenger) {
 
 }
 
 TaxiStation::TaxiStation(Map *map) : map(map) {
+    bfs = new BreadthFirstSearch(map);
     assignDrivers();
 }
 

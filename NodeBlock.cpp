@@ -66,6 +66,10 @@ void NodeBlock::setIsObstacle(bool isObstacle) {
     NodeBlock::isObstacle = isObstacle;
 }
 
+const Point &NodeBlock::getPoint() const {
+    return point;
+}
+
 /**
  * overloading the operator "<<" of an out stream.
  * @param out
@@ -75,5 +79,9 @@ void NodeBlock::setIsObstacle(bool isObstacle) {
 std::ostream& operator<<(std::ostream& out, Node& node) {
     out << node.printValue();
     return out;
+};
+
+bool NodeBlock::operator==(const NodeBlock& nodeBlock)const{
+    return(point == nodeBlock.point);
 };
 
