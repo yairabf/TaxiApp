@@ -37,6 +37,6 @@ int Point::getY() const {
  * @param point is the point we are comparing to.
  * @return if they are eqaul.
 */
-bool Point::operator==(const Point& point)const {
-    return x == point.x && y == point.y;
+bool operator==(const Point& point, const Point &point1) {
+    return point.getX() == point1.getX() && point.getY() == point1.getY();
 }

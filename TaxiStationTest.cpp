@@ -89,7 +89,6 @@ TEST_F(TaxiStationTest, answerCallTest) {
      * however, since we have only one driver in the list of "taxi station" then once we run this
      * method this driver will definitely be assigned and therefore this test should work once we
      * receive the correct parameters.*/
-
     stack<Node *> *driversRoute = driver->getTripInfo()->getRoute();
     EXPECT_TRUE(areStacksEqual(&correctRoute, driversRoute))<<"stacks are not eqaul"<<endl;
     /*checks if the driver drove to the passenger, meaning if he got to the location

@@ -9,18 +9,6 @@ int Driver::getId() {
     return id;
 }
 
-void Driver::setId(int id) {
-    Driver::id = id;
-}
-
-int Driver::getAge() {
-    return age;
-}
-
-void Driver::setAge(int age) {
-    Driver::age = age;
-}
-
 int Driver::getYearsExp()  {
     return yearsExp;
 }
@@ -37,20 +25,9 @@ void Driver::setOccupied(bool occupied) {
     Driver::occupied = occupied;
 }
 
-const string &Driver::getStatus()  {
-    return status;
-}
 
-void Driver::setStatus(string status) {
-    Driver::status = status;
-}
-
-Taxi *Driver::getTaxi() {
+Taxi* Driver::getTaxi() {
     return taxi;
-}
-
-void Driver::setTaxi(Taxi *taxi) {
-    Driver::taxi = taxi;
 }
 
 float Driver::getAvgSatisfaction()  {
@@ -75,4 +52,36 @@ void Driver::setLocation(Point p) {
 
 TripInfo *Driver::getTripInfo() const {
     return tripInfo;
+}
+
+void Driver::assignTaxi(Taxi *taxi) {
+    Driver::taxi = taxi;
+}
+
+void Driver::addPassenger(Passenger* passenger) {
+    passengers.push_back(passenger);
+}
+
+void Driver::drive(stack<Node *>* route) {
+    while(route->size() > 0){
+        setLocation(route->top());
+        route->pop();
+    }
+}
+
+float Driver::calculatePrice(int km) {
+    float price = taxi->getTariff() * km;
+    return price;
+}
+
+bool Driver::passengerIsExist(Passenger *passenger) {
+    if(passengers.size() > 0) {
+        for (std::list<Passenger *>::iterator it = passengers.begin(); it != passengers.end(); it++) {
+            if (it.operator*()->getSource() == passenger->getSource() &&
+                    it.operator*()->getDestination() == passenger->getDestination()) {
+                return true;
+            }
+        }
+    }
+    return false;
 }

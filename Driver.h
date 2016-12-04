@@ -6,8 +6,10 @@
 #define ADPROG1_1_DRIVER_H
 
 #include <string>
+#include <list>
 #include "Node.h"
 #include "Taxi.h"
+#include "Passenger.h"
 
 using namespace std;
 
@@ -22,19 +24,12 @@ private:
     float avgSatisfaction = 0;
     Node* location = NULL;
     TripInfo* tripInfo;
-public:
-    TripInfo *getTripInfo() const;
+    list<Passenger*> passengers;
 
 public:
     Driver(int id, int age, int yearsExp, string status);
 
     int getId();
-
-    void setId(int id);
-
-    int getAge();
-
-    void setAge(int age);
 
     int getYearsExp();
 
@@ -44,13 +39,11 @@ public:
 
     void setOccupied(bool occupied);
 
-    const string &getStatus();
-
-    void setStatus(string status);
+    TripInfo *getTripInfo() const;
 
     Taxi *getTaxi();
 
-    void setTaxi(Taxi *taxi);
+    void assignTaxi(Taxi *taxi);
 
     float getAvgSatisfaction();
 
@@ -61,6 +54,15 @@ public:
     void setLocation(Node *location);
 
     void setLocation(Point p);
+
+    void addPassenger(Passenger* passenger);
+
+    bool passengerIsExist(Passenger* passenger);
+
+    void drive(stack<Node*>* route);
+
+    float calculatePrice(int km);
+
 };
 
 

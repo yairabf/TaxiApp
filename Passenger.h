@@ -17,6 +17,11 @@ public:
     Passenger(const Point &source, const Point &destination);
 
     int randomScore();
+
+    Point* getSource();
+
+    Point* getDestination();
+
 };
 
 

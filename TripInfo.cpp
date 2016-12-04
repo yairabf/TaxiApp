@@ -1,6 +1,4 @@
-//
-// Created by hanani on 02/12/16.
-//
+
 
 #include "TripInfo.h"
 

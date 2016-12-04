@@ -1,6 +1,8 @@
 #include "gtest/gtest.h"
 #include "Driver.h"
 #include "NodeBlock.h"
+#include "BreadthFirstSearch.h"
+#include "Map.h"
 
 using namespace std;
 
@@ -19,19 +21,6 @@ public:
     DriverTest():driver(305263501, 26, 5, "married"){};
 };
 
-TEST_F(DriverTest, AgeTest) {
-    ASSERT_TRUE(driver.getAge() > 17) << "Driver's age isn't valid";
-    ASSERT_EQ(driver.getAge(), 26) << "The driver age wasn't construct well";
-    driver.setAge(34);
-    ASSERT_EQ(driver.getAge(), 34) << "The driver age wasn't set well";
-}
-
-TEST_F(DriverTest, IdTest) {
-    ASSERT_TRUE(driver.getId() >= 0) << "id is negative";
-    ASSERT_EQ(driver.getId(), 305263501) << "id wasn't construct well";
-    driver.setId(111111111);
-    ASSERT_EQ(driver.getId(), 111111111) << "id wasn't set well";
-}
 
 TEST_F(DriverTest, YearsOfExpTest) {
     ASSERT_TRUE(driver.getYearsExp() >= 0) << "experience is negative";
@@ -46,11 +35,6 @@ TEST_F(DriverTest, OccupiedTest) {
     ASSERT_TRUE(driver.isOccupied()) << "occupation wasn't set well";
 }
 
-TEST_F(DriverTest, StatusTest) {
-    ASSERT_EQ(driver.getStatus(), "married") << "status wasn't construct well";
-    driver.setStatus("divorce");
-    ASSERT_EQ(driver.getStatus(), "divorce") << "status wasn't set well";
-}
 
 TEST_F(DriverTest, AvgSatisfactionTest) {
     ASSERT_EQ(driver.getAvgSatisfaction(),0) << "Average satisfaction wasn't construct well";
@@ -62,8 +46,38 @@ TEST_F(DriverTest, LocationTest) {
     Node* loc = new NodeBlock(Point(5,4));
     driver.setLocation(loc);
     EXPECT_EQ(driver.getLocation(), loc) << " Driver location wasn't set well";
+    delete (loc);
 }
 
 TEST_F(DriverTest, TaxiTest) {
-
+    Taxi taxi(1111,50,"fiat","black",1,5.00);
+    driver.assignTaxi(&taxi);
+    ASSERT_EQ(driver.getTaxi(), &taxi) << "Taxi wasn't set right";
 }
+
+TEST_F(DriverTest, AddPassengerTest){
+    Passenger passenger1(Point(0,0),Point(5,5));
+    Passenger passenger2(Point(5,6),Point(1,2));
+    driver.addPassenger(&passenger1);
+    driver.addPassenger(&passenger2);
+    ASSERT_TRUE(driver.passengerIsExist(&passenger1)) << "passenger isn't exist";
+    ASSERT_TRUE(driver.passengerIsExist(&passenger2)) << "passenger isn't exist";
+}
+
+TEST_F(DriverTest, DriveTest) {
+    Map map(10,10);
+    BreadthFirstSearch bfs(&map);
+    NodeBlock* start = map.getBlock(Point(2,2));
+    NodeBlock* end = map.getBlock(Point(5,6));
+    stack<Node*> route = bfs.breadthFirstSearch(start, end);
+    driver.drive(&route);
+    ASSERT_EQ(driver.getLocation(),end) << "driver wasn't drive to correct location";
+}
+
+TEST_F(DriverTest, CalculatePriceTest) {
+    Taxi taxi(1111,50,"fiat","black",1,5.00);
+    driver.assignTaxi(&taxi);
+    float price = driver.calculatePrice(10);
+    ASSERT_EQ(price, 50.0) << "Price wan't calculated correctly";
+}
+
