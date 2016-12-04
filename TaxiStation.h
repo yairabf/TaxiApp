@@ -27,7 +27,7 @@ public:
 
     virtual ~TaxiStation();
 
-    void answerCall(Point destination, Passenger passenger);
+    void answerCall(Point destination, Passenger *passenger);
 
     void addDriver(Driver* driver);
 

@@ -16,7 +16,7 @@ void TaxiStation::assignDrivers() {
 
 }
 
-void TaxiStation::answerCall(Point destination, Passenger passenger) {
+void TaxiStation::answerCall(Point destination, Passenger *passenger) {
 
 }
 
