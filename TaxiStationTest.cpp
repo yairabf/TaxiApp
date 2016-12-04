@@ -102,7 +102,7 @@ TEST_F(TaxiStationTest, answerCallTest1) {
     delete (destination);
     delete (bfs);
 }
-
+//
 TEST_F(TaxiStationTest, answerCallTest2) {
     NodeBlock *passengerLocation = map1->getBlock(Point(0,0));
     NodeBlock *destination = map1->getBlock(Point(5,5));
