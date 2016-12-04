@@ -4,6 +4,8 @@
 
 #include <cstdlib>
 #include <string>
+#include "TripInfo.h"
+
 using namespace std;
 class Taxi {
 private:
@@ -13,6 +15,7 @@ private:
     string color;
     int speed;
     float tariff;
+    TripInfo* tripInfo;
 public:
     Taxi(int id, int km, string carMan, string color, int speed, float tariff);
 
@@ -29,6 +32,8 @@ public:
     float getTariff() const;
 
     float calculatePrice(int km) const;
+
+    TripInfo *getTripInfo() const;
 };
 
 

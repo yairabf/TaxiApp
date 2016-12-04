@@ -1,8 +1,7 @@
-//
-// Created by hanani on 02/12/16.
-//
 
 #include "Taxi.h"
+#include <stdexcept>
+
 Taxi::Taxi(int id, int km, string carMan, string color, int speed, float tariff) {
     this->id = id;
     this->numOfKmPassed = km;
@@ -34,4 +33,15 @@ int Taxi::getSpeed() const {
 
 float Taxi::getTariff() const {
     return tariff;
+}
+
+float Taxi::calculatePrice(int km) const {
+    if(km < 0) {
+        throw std::invalid_argument("Received negative value.");
+    }
+    return km * tariff;
+}
+
+TripInfo *Taxi::getTripInfo() const {
+    return tripInfo;
 }

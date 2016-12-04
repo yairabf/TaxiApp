@@ -8,12 +8,12 @@ public:
     Taxi *taxi;
 protected:
     virtual void SetUp() {
-        cout<<"setting up for TaxiTest"<<endl;
+        cout<<"setting up for TaxiTest"<< endl;
         taxi = new Taxi(203990924, 120, "Fiat", "Black", 2, 5.00);
     }
 
     virtual void TearDown () {
-        cout<<"tearing down";
+        cout<<"tearing down" << endl;
         delete(taxi);
     }
 
@@ -38,4 +38,9 @@ TEST_F(TaxiTest, GetSpeedTest) {
 }
 TEST_F(TaxiTest, GetTariffTest) {
     ASSERT_EQ(taxi->getTariff(), 5.00)<<"didn't manage to update tariff";
+}
+TEST_F(TaxiTest, CalculatePriceTest) {
+    ASSERT_EQ(taxi->calculatePrice(10), 50) << "didn't calculate correctly";
+    ASSERT_ANY_THROW(taxi->calculatePrice(-10)) << "Km value isn't valid";
+
 }

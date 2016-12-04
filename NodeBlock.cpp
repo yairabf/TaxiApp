@@ -15,11 +15,11 @@ void NodeBlock::setLeft(Node *left) {
 }
 
 void NodeBlock::setRight(Node *right) {
-    children .push_back(right);
+    children.push_back(right);
 }
 
 void NodeBlock::setUp(Node *up) {
-    children .push_back(up);
+    children.push_back(up);
 }
 
 void NodeBlock::setDown(Node *down) {

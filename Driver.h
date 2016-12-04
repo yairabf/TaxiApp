@@ -18,9 +18,9 @@ private:
     int yearsExp;
     bool occupied;
     string status;
-    Taxi* taxi;
+    Taxi* taxi = NULL;
     float avgSatisfaction = 0;
-    Node* location;
+    Node* location = NULL;
 
 public:
     Driver(int id, int age, int yearsExp, string status);
