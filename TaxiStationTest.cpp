@@ -97,10 +97,11 @@ TEST_F(TaxiStationTest, answerCallTest1) {
      * of the passenger*/
     EXPECT_EQ(passengerLocation, driver->getLocation())
                         << "the driver hasnt reached the passenger" << endl;
-    delete (driversRoute);
-    delete (passengerLocation);
-    delete (destination);
+   // delete (driversRoute);
+   // delete (passengerLocation);
+   // delete (destination);
     delete (bfs);
+    delete(passenger);
 }
 //
 TEST_F(TaxiStationTest, answerCallTest2) {
@@ -123,9 +124,12 @@ TEST_F(TaxiStationTest, answerCallTest2) {
     //checks if the closeDriver has the correct route
     EXPECT_TRUE(areStacksEqual(&correctRoute, closeDriver->getTripInfo()->getRoute()))
                         << "the correct driver has the wrong route" << endl;
-    delete (closeDriver);
+    /*delete (closeDriver);
     delete (passengerLocation);
     delete (destination);
+    delete (bfs);*/
     delete (bfs);
+    delete(passenger);
+    delete (closeDriver);
 }
 

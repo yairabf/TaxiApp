@@ -11,3 +11,11 @@ int Passenger::randomScore() {
     return score;
 }
 
+const Point &Passenger::getSource() const {
+    return source;
+}
+
+const Point &Passenger::getDestination() const {
+    return destination;
+}
+
