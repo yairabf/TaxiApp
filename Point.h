@@ -34,11 +34,13 @@ public:
      * @return string that represent the value of the point
      */
     std::string toString();
-    /**
-     * overrides ==.
-     * @param point is the point we are comparing to.
-     * @return if they are eqaul.
-     */
-    bool operator==(const Point &point) const;
+
 };
+
+/**
+ * overrides ==.
+ * @param point is the point we are comparing to.
+ * @return if they are eqaul.
+ */
+bool operator==(const Point &point, const Point &point1);
 #endif //ADPROG1_1_POINT_H
