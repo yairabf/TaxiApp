@@ -8,6 +8,7 @@ using namespace std;
 NodeBlock::NodeBlock(Point point) : point(point) {
     distance = 0;
     father = NULL;
+    visited = false;
 }
 
 NodeBlock::~NodeBlock() {

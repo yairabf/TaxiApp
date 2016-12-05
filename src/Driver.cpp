@@ -3,7 +3,11 @@
 #include "NodeBlock.h"
 
 Driver::Driver(int id, int age, int yearsExp, string status) : id(id), age(age), yearsExp(yearsExp),
-                                                                      status(status) {}
+                                                                      status(status) {
+    taxi = NULL;
+    location = NULL;
+    tripInfo = NULL;
+}
 
 int Driver::getId() {
     return id;

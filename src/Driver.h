@@ -20,10 +20,10 @@ private:
     int yearsExp;
     bool occupied;
     string status;
-    Taxi* taxi = NULL;
+    Taxi* taxi;
     float avgSatisfaction = 0;
-    Node* location = NULL;
-    TripInfo* tripInfo = NULL;
+    Node* location;
+    TripInfo* tripInfo;
     list<Passenger*> passengers;
 
 public:

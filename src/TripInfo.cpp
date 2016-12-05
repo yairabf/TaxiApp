@@ -2,6 +2,9 @@
 
 #include "TripInfo.h"
 
+TripInfo::TripInfo(Point s, Point e) : start(s), end(e) {
+    route = NULL;
+}
 int TripInfo::getId() const {
     return id;
 }

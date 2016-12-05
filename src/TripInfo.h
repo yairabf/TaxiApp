@@ -18,8 +18,10 @@ private:
     Point end;
     int numberOfPassengers;
     float tariff;
-    std::stack <Node*> *route = NULL;
+    std::stack <Node*> *route;
 public:
+    TripInfo(Point s, Point e);
+
     int getId() const;
 
     int getMetersPassed() const;
