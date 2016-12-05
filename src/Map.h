@@ -52,9 +52,9 @@ public:
     void setObstacle(Point point);
 
     /**
-     *
-     * @param point
-     * @return
+     * getter.
+     * @param point is the point we need.
+     * @return a node at the point.
      */
     NodeBlock* getBlock(Point point);
 };

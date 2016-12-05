@@ -23,21 +23,21 @@ public:
     const Point &getSource() const;
 
     /**
-     *
-     * @return
+     * getter.
+     * @return the destination of the passenger.
      */
     const Point &getDestination() const;
 
     /**
-     *
-     * @param source
-     * @param destination
+     * constructor.
+     * @param source is where the passenger starts.
+     * @param destination where the passenger wants to drive to.
      */
     Passenger(const Point &source, const Point &destination);
 
     /**
-     *
-     * @return
+     * provides a random score for the satisfaction of the passenger between 1 to 5.
+     * @return the satisfaction level.
      */
     int randomScore();
 };
