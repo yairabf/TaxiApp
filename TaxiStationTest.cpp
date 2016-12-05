@@ -9,16 +9,17 @@ public:
     Taxi* taxi;
     Driver* driver;
     Map* map1;
+    Node* farLocation;
 protected:
     virtual void SetUp() {
         cout<<"setting up for TaxiTest"<< endl;
         map1 = new Map(10,10);
-        taxiStation = new TaxiStation(new Map(10,10));
+        taxiStation = new TaxiStation(map1);
         taxi = new Taxi(1111,50,"fiat","black",1,5.00);
         taxiStation->addTaxi(taxi);
         driver = new Driver(1111,23,5,"married");
         //setting the location like this for the answerCallTest
-        Point farLocation(3,3);
+        farLocation = map1->getBlock(Point(3,3));
         driver->setLocation(farLocation);
         taxiStation->addDriver(driver);
     }
@@ -119,7 +120,7 @@ TEST_F(TaxiStationTest, answerCallTest2) {
     taxiStation->addDriver(closeDriver);
     EXPECT_EQ(passengerLocation, closeDriver->getLocation())
                         << "the incorrect driver has been assigned" << endl;
-//checks if the closeDriver has the correct route
+    //checks if the closeDriver received any trip info. if not we cant continue with the test
     ASSERT_FALSE(closeDriver->getTripInfo() == NULL) << "the close driver has no trip info" << endl;
     //checks if the closeDriver has the correct route
     EXPECT_TRUE(areStacksEqual(&correctRoute, closeDriver->getTripInfo()->getRoute()))
