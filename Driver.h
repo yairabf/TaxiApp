@@ -23,7 +23,7 @@ private:
     Taxi* taxi = NULL;
     float avgSatisfaction = 0;
     Node* location = NULL;
-    TripInfo* tripInfo;
+    TripInfo* tripInfo = NULL;
     list<Passenger*> passengers;
 
 public:
