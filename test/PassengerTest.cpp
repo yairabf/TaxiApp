@@ -3,6 +3,10 @@
 #include "../src/Passenger.h"
 
 using namespace std;
+
+/**
+ * the class test passenger's functions
+ */
 class PassengerTest: public ::testing::Test {
 public:
     Passenger *passenger;
@@ -21,6 +25,10 @@ public:
     PassengerTest(){};
 };
 
+/**
+ * test if the method that charge of score the driver works.
+ * we check if the method return a random number between 1 to 5.
+ */
 TEST_F(PassengerTest, RandomScoreTest) {
     ASSERT_TRUE(passenger->randomScore()>=0 && passenger->randomScore() <= 5 ) << "wrong value";
 }

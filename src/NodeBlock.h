@@ -22,7 +22,7 @@ public:
     const Point &getPoint() const;
 
 protected:
-    bool isObstacle = false;
+    bool isObstacle;
 
 public:
     /**

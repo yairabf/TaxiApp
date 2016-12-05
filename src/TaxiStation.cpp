@@ -1,11 +1,8 @@
-//
-// Created by yair on 04/12/16.
-//
 
 #include "TaxiStation.h"
 
 Driver* TaxiStation::calculateClosestDriver(Point destination) {
-    return nullptr;
+    return NULL;
 }
 
 void TaxiStation::sendTaxi(Point) {

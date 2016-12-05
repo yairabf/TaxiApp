@@ -6,6 +6,9 @@
 
 using namespace std;
 
+/**
+ * A driver test that check all the functionality of the driver works.
+ */
 class DriverTest: public ::testing::Test{
 protected:
     Driver driver;
@@ -22,27 +25,10 @@ public:
     DriverTest():driver(305263501, 26, 5, "married"){};
 };
 
-
-TEST_F(DriverTest, YearsOfExpTest) {
-    ASSERT_TRUE(driver.getYearsExp() >= 0) << "experience is negative";
-    ASSERT_EQ(driver.getYearsExp(), 5) << "experience wasn't construct well";
-    driver.setYearsExp(10);
-    ASSERT_EQ(driver.getYearsExp(), 10) << "experience wasn't set well";
-}
-
-TEST_F(DriverTest, OccupiedTest) {
-    ASSERT_FALSE(driver.isOccupied()) << "occupation wasn't construct well";
-    driver.setOccupied(true);
-    ASSERT_TRUE(driver.isOccupied()) << "occupation wasn't set well";
-}
-
-
-TEST_F(DriverTest, AvgSatisfactionTest) {
-    ASSERT_EQ(driver.getAvgSatisfaction(),0) << "Average satisfaction wasn't construct well";
-    driver.setAvgSatisfaction(4.4);
-    ASSERT_TRUE(driver.getAvgSatisfaction() - 4.4 < 0.00001 ) << "Average satisfaction wasn't set well";
-}
-
+/**
+ * the test check if the setter of the location of the driver by receiving a node
+ * object is working.
+ */
 TEST_F(DriverTest, LocationTest) {
     Node* loc = new NodeBlock(Point(5,4));
     driver.setLocation(loc);
@@ -50,12 +36,19 @@ TEST_F(DriverTest, LocationTest) {
     delete (loc);
 }
 
+/**
+ * the test check if the assignTaxi which assigns taxi for the driver works.
+ */
 TEST_F(DriverTest, TaxiTest) {
     Taxi taxi(1111,50,"fiat","black",1,5.00);
     driver.assignTaxi(&taxi);
     ASSERT_EQ(driver.getTaxi(), &taxi) << "Taxi wasn't set right";
 }
 
+/**
+ * the test checks if the method addPassenger witch adds passengers to the
+ * list of passengers that the driver holds, works,
+ */
 TEST_F(DriverTest, AddPassengerTest){
     Passenger passenger1(Point(0,0),Point(5,5));
     Passenger passenger2(Point(5,6),Point(1,2));
@@ -65,6 +58,12 @@ TEST_F(DriverTest, AddPassengerTest){
     ASSERT_TRUE(driver.passengerIsExist(&passenger2)) << "passenger isn't exist";
 }
 
+/**
+ * the test check if the method drive works.
+ * the test create a route by using the bfs and the send it to the driver.
+ * if the driver location will be at the destination point at the end of the drive it means that
+ * the test passed
+ */
 TEST_F(DriverTest, DriveTest) {
     Map map(10,10);
     BreadthFirstSearch bfs(&map);
@@ -75,6 +74,10 @@ TEST_F(DriverTest, DriveTest) {
     ASSERT_EQ(driver.getLocation(),end) << "driver wasn't drive to correct location";
 }
 
+/**
+ * the test check if the method that responsible for calculating the price after
+ * a drive is working.
+ */
 TEST_F(DriverTest, CalculatePriceTest) {
     Taxi taxi(1111,50,"fiat","black",1,5.00);
     driver.assignTaxi(&taxi);

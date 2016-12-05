@@ -21,7 +21,7 @@ private:
     bool occupied;
     string status;
     Taxi* taxi;
-    float avgSatisfaction = 0;
+    float avgSatisfaction;
     Node* location;
     TripInfo* tripInfo;
     list<Passenger*> passengers;

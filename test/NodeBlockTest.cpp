@@ -3,6 +3,9 @@
 
 using namespace std;
 
+/**
+ * class that tests all the NodeBlock calls's functionality.
+ */
 class NodeBlockTest: public ::testing::Test{
 protected:
     NodeBlock* n00;
@@ -15,31 +18,21 @@ protected:
 
     virtual void TearDown(){
         cout << "Tearing Down" << endl;
-    }
-
-public:
-    NodeBlockTest():n00 (new NodeBlock(Point(0,0))), n01(new NodeBlock(Point(0,1))), n10(new NodeBlock(Point(1,0))),
-                    n11(new NodeBlock(Point(1,1))){};
-
-    virtual ~NodeBlockTest() {
         delete n00;
         delete n01;
         delete n10;
         delete n11;
     }
+
+public:
+    NodeBlockTest():n00 (new NodeBlock(Point(0,0))), n01(new NodeBlock(Point(0,1))),
+                    n10(new NodeBlock(Point(1,0))),
+                    n11(new NodeBlock(Point(1,1))){};
 };
 
-TEST_F(NodeBlockTest, VisitedTest) {
-    n00->setVisited(false);
-    n01->setVisited(true);
-    n10->setVisited(true);
-    n11->setVisited(false);
-    ASSERT_FALSE(n00->isVisited()) << "wrong boolean value returned";
-    ASSERT_FALSE(n11->isVisited()) << "wrong boolean value returned";
-    ASSERT_TRUE(n01->isVisited()) << "wrong boolean value returned";
-    ASSERT_TRUE(n10->isVisited()) << "wrong boolean value returned";
-}
-
+/**
+ * checks if the father parameter is been sets well and we we can receives it well.
+ */
 TEST_F(NodeBlockTest, FatherTest) {
     n11->setFather(n01);
     n01->setFather(n00);
@@ -49,6 +42,9 @@ TEST_F(NodeBlockTest, FatherTest) {
     ASSERT_EQ(n01->getFather(), n00) << "wrong father was set";
 }
 
+/**
+ * checks if the neighbors sets correctly
+ */
 TEST_F(NodeBlockTest, ChildrenTest) {
     NodeBlock* n12 = new NodeBlock(Point(1,2));
     NodeBlock* n21 = new NodeBlock(Point(2,1));
@@ -69,6 +65,11 @@ TEST_F(NodeBlockTest, ChildrenTest) {
     delete n21;
 }
 
+/**
+ * checks if the distance parameter works well.
+ * first checks it's setter and getter. the by connecting bunch of nodes
+ * checks if their's distance parameter is been updated while scanning
+ */
 TEST_F(NodeBlockTest, DistancTest) {
     n00->setDistance(3);
     ASSERT_EQ(3, n00->getDistance()) << "Wrong value returned";
@@ -91,6 +92,9 @@ TEST_F(NodeBlockTest, DistancTest) {
 
 }
 
+/**
+ * checks if print value prints the correct values.
+ */
 TEST_F(NodeBlockTest, printValueTest) {
     EXPECT_EQ("(0,0)", n00->printValue()) << "printed the wrong value";
     ASSERT_EQ("(0,1)", n01->printValue()) << "printed the wrong value";

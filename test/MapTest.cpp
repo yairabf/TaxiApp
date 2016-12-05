@@ -3,6 +3,9 @@
 
 using namespace std;
 
+/**
+ * this class tests all the fonctions of the Map class.
+ */
 class MapTest: public ::testing::Test{
 protected:
     Map map;
@@ -18,6 +21,11 @@ public:
     MapTest():map(10,10){};
 };
 
+/**
+ * the tests check if the creation of the maps works well.
+ * first we runs through all the cells of the maps and check that they ar't null
+ * then we check in each cell that it hold the correct value.
+ */
 TEST_F(MapTest, CreatTest) {
     for(int i = 0; i < 10; i++) {
         for (int j=0; j< 10; j++) {
@@ -29,6 +37,10 @@ TEST_F(MapTest, CreatTest) {
     }
 }
 
+/**
+ * the test check a private method that charge of setting each node it's neighbors
+ * the method runs through all the cells and checks they points to their correct neighbors.
+ */
 TEST_F(MapTest, Neighbors) {
     for(int i = 0; i < 10; i++) {
         for (int j = 0; j < 10; j++) {
@@ -50,6 +62,9 @@ TEST_F(MapTest, Neighbors) {
     }
 }
 
+/**
+ * the test make sure the the method the charge of reset all the nodes to be unvisited works well
+ */
 TEST_F(MapTest, UpdateChildrenTest) {
     for(int i = 0; i < 10; i++) {
         for (int j=0; j< 10; j++) {
@@ -65,7 +80,12 @@ TEST_F(MapTest, UpdateChildrenTest) {
     }
 }
 
+/**
+ * the test checks if the method set obstacle that set a specific node to be
+ * an fit to been drove on, works.
+ */
 TEST_F(MapTest, ObstacleTest) {
+    /*creates and set all the nodes we want to set as obstacles*/
     Point p45(4,5);
     Point p12(1,2);
     Point p75(7,5);
