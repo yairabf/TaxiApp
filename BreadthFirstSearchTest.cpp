@@ -18,6 +18,12 @@ public:
     BreadthFirstSearchTest(){}
 };
 
+/**
+ * Test the BFS algorithm, the test creates 3 routs and the and then send to the BFS to
+ * start and te end points of these three routes after the calculation, the test check if
+ * the routes that been calculated by the BFS algorithm are identical to the three routes the
+ * test create in the beginning.
+ */
 TEST_F(BreadthFirstSearchTest, FastestRouteTest) {
     Map map = Map(10,10);
 
@@ -27,7 +33,7 @@ TEST_F(BreadthFirstSearchTest, FastestRouteTest) {
 
     /*create a queue and insert it the actually route that supposed to been calculate */
     vector<Node *> fast1Test;
-    vector<Node*> memoryRelease;
+
     for (int i = 0; i < 10; i++) {
         fast1Test.push_back(new NodeBlock(Point(0, i)));
     }
@@ -65,6 +71,7 @@ TEST_F(BreadthFirstSearchTest, FastestRouteTest) {
     BreadthFirstSearch bfs = BreadthFirstSearch(&map);
     std::stack<Node *> fast1 = bfs.breadthFirstSearch(route1Start, route1End);
     int i= 0;
+    /*compare the two routes*/
     while (!fast1.empty()) {
         EXPECT_EQ(fast1.top()->printValue(), fast1Test.at(i)->printValue());
         i++;
@@ -75,6 +82,7 @@ TEST_F(BreadthFirstSearchTest, FastestRouteTest) {
     /*calculate the fastest route and checks if it the correct one.*/
     std::stack<Node *> fast2 = bfs.breadthFirstSearch(route2Start, route2End);
     i = 0;
+    /*compare the two routes*/
     while (!fast2.size()<0) {
         EXPECT_EQ(fast2.top()->printValue(), fast2Test.at(i)->printValue());
         fast2.pop();
@@ -84,18 +92,17 @@ TEST_F(BreadthFirstSearchTest, FastestRouteTest) {
     /*calculate the fastest route and checks if it the correct one.*/
     std::stack<Node *> fast3 = bfs.breadthFirstSearch(route3Start, route3End);
     i = 0;
+    /*compare the two routes*/
     while (!fast3.size()<0) {
         EXPECT_EQ(fast3.top()->printValue(), fast3Test.at(i)->printValue());
         fast3.pop();
         i++;
     }
-    int size = (int)memoryRelease.size();
-    for(int i = 0; i<size; i++) {
-        delete(memoryRelease.at((unsigned long) i));
-    }
+
+    /*handling the memory release*/
     for(int j = 0; j < fast1Test.size(); j++){
-        delete(fast1Test.at(j));
-        delete(fast2Test.at(j));
-        delete(fast3Test.at(j));
+        delete(fast1Test.at((unsigned long) j));
+        delete(fast2Test.at((unsigned long) j));
+        delete(fast3Test.at((unsigned long) j));
     }
 }
