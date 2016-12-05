@@ -46,10 +46,6 @@ void Driver::setLocation(Node *location) {
     Driver::location = location;
 }
 
-void Driver::setLocation(Point p) {
-    this->location = new NodeBlock(p);
-}
-
 TripInfo *Driver::getTripInfo() const {
     return tripInfo;
 }

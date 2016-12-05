@@ -4,6 +4,9 @@
 
 using namespace std;
 
+/**
+ * class that test the BreadthFirstSearch and checks if  all it functionality works.
+ */
 class BreadthFirstSearchTest: public ::testing::Test{
 protected:
     virtual void SetUp() {

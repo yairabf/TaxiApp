@@ -9,23 +9,28 @@ public:
     Taxi* taxi;
     Driver* driver;
     Map* map1;
+    NodeBlock* node;
 protected:
     virtual void SetUp() {
         cout<<"setting up for TaxiTest"<< endl;
         map1 = new Map(10,10);
-        taxiStation = new TaxiStation(new Map(10,10));
+        taxiStation = new TaxiStation(map1);
         taxi = new Taxi(1111,50,"fiat","black",1,5.00);
         taxiStation->addTaxi(taxi);
         driver = new Driver(1111,23,5,"married");
         //setting the location like this for the answerCallTest
-        Point farLocation(3,3);
-        driver->setLocation(farLocation);
+        node = new NodeBlock(Point(3,3));
+        driver->setLocation(node);
         taxiStation->addDriver(driver);
     }
 
     virtual void TearDown () {
         cout<<"tearing down" << endl;
         delete(taxiStation);
+        delete (taxi);
+        delete(driver);
+        delete(map1);
+        delete(node);
     }
 
 public:
@@ -46,26 +51,22 @@ public:
 
 TEST_F(TaxiStationTest, addDriverTest) {
     ASSERT_TRUE(taxiStation->doesDriverExist(driver)) << "Driver wasn't added";
-    delete(driver);
 }
 
 TEST_F(TaxiStationTest, removeDriverTest) {
     taxiStation->removeDriver(driver);
     ASSERT_FALSE(taxiStation->doesDriverExist(driver)) << "Driver wasn't removed";
-    delete(driver);
-
 }
 
 TEST_F(TaxiStationTest, addTaxiTest) {
     ASSERT_TRUE(taxiStation->doesTaxiExist(taxi)) << "Driver wasn't added";
-    delete(taxi);
 }
 
 TEST_F(TaxiStationTest, removeTaxiTest) {
     taxiStation->removeTaxi(taxi);
     ASSERT_FALSE(taxiStation->doesTaxiExist(taxi)) << "Driver wasn't removed";
-    delete(taxi);
 }
+
 /**
  * these following tests check a method that operates this way:
  * it receives a passenger and a point of the passengers place.
@@ -100,6 +101,8 @@ TEST_F(TaxiStationTest, answerCallTest1) {
    // delete (driversRoute);
    // delete (passengerLocation);
    // delete (destination);
+    delete(passengerLocation);
+    delete(destination);
     delete (bfs);
     delete(passenger);
 }
