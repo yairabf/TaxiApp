@@ -27,6 +27,9 @@ protected:
     virtual void TearDown () {
         cout<<"tearing down" << endl;
         delete(taxiStation);
+        delete(map1);
+        delete(driver);
+        delete(taxi);
     }
 
 public:
