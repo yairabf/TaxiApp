@@ -10,6 +10,9 @@ NodeBlock::NodeBlock(Point point) : point(point) {
     father = NULL;
 }
 
+NodeBlock::~NodeBlock() {
+}
+
 void NodeBlock::setLeft(Node *left) {
     children.push_back(left);
 }

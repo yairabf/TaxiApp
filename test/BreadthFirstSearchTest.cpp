@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
-#include "BreadthFirstSearch.h"
-#include "Map.h"
+#include "../src/BreadthFirstSearch.h"
+#include "../src/Map.h"
 
 using namespace std;
 

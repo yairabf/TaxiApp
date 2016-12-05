@@ -28,6 +28,8 @@ public:
     std::stack<Node*> breadthFirstSearch(Node* start, Node* goal);
 
     BreadthFirstSearch(Graph* graph);
+
+    ~BreadthFirstSearch();
 };
 
 #endif //ADPROG1_1_BREADTHFIRSTSEARCH_H

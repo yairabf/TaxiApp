@@ -32,6 +32,11 @@ public:
     NodeBlock(Point point);
 
     /**
+     * destructor
+     */
+    ~NodeBlock();
+
+    /**
      * tells if the node been visited while searching
      * @return true or false.
      */

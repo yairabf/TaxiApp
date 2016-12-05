@@ -44,3 +44,7 @@ stack<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
 BreadthFirstSearch::BreadthFirstSearch(Graph* graph1) {
 graph = graph1;
 }
+
+BreadthFirstSearch::~BreadthFirstSearch() {
+    //delete(graph);
+}

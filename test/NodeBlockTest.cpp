@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "NodeBlock.h"
+#include "../src/NodeBlock.h"
 
 using namespace std;
 

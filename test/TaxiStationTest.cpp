@@ -1,6 +1,6 @@
 
 #include <gtest/gtest.h>
-#include "TaxiStation.h"
+#include "../src/TaxiStation.h"
 
 using namespace std;
 class TaxiStationTest: public ::testing::Test {
@@ -27,9 +27,9 @@ protected:
     virtual void TearDown () {
         cout<<"tearing down" << endl;
         delete(taxiStation);
-        delete(map1);
-        delete(driver);
-        delete(taxi);
+        //delete(map1);
+        //delete(driver);
+        //delete(taxi);
     }
 
 public:
@@ -50,25 +50,20 @@ public:
 
 TEST_F(TaxiStationTest, addDriverTest) {
     ASSERT_TRUE(taxiStation->doesDriverExist(driver)) << "Driver wasn't added";
-    delete(driver);
 }
 
 TEST_F(TaxiStationTest, removeDriverTest) {
     taxiStation->removeDriver(driver);
     ASSERT_FALSE(taxiStation->doesDriverExist(driver)) << "Driver wasn't removed";
-    delete(driver);
-
 }
 
 TEST_F(TaxiStationTest, addTaxiTest) {
     ASSERT_TRUE(taxiStation->doesTaxiExist(taxi)) << "Driver wasn't added";
-    delete(taxi);
 }
 
 TEST_F(TaxiStationTest, removeTaxiTest) {
     taxiStation->removeTaxi(taxi);
     ASSERT_FALSE(taxiStation->doesTaxiExist(taxi)) << "Driver wasn't removed";
-    delete(taxi);
 }
 /**
  * these following tests check a method that operates this way:
@@ -128,7 +123,7 @@ TEST_F(TaxiStationTest, answerCallTest2) {
     //checks if the closeDriver has the correct route
     EXPECT_TRUE(areStacksEqual(&correctRoute, closeDriver->getTripInfo()->getRoute()))
                         << "the correct driver has the wrong route" << endl;
-    /*delete (closeDriver);/
+    /*
     delete (passengerLocation);
     delete (destination);
     delete (bfs);*/

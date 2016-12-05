@@ -1,7 +1,7 @@
 
 
 #include "gtest/gtest.h"
-#include "TripInfo.h"
+#include "../src/TripInfo.h"
 //Point start(0, 0);
 //Point end(5, 5);
 //TripInfo tripInfo(203990924, 50, start, end, 4, 20.00);

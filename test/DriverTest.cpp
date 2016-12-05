@@ -1,8 +1,8 @@
 #include "gtest/gtest.h"
-#include "Driver.h"
-#include "NodeBlock.h"
-#include "BreadthFirstSearch.h"
-#include "Map.h"
+#include "../src/Driver.h"
+#include "../src/NodeBlock.h"
+#include "../src/BreadthFirstSearch.h"
+#include "../src/Map.h"
 
 using namespace std;
 

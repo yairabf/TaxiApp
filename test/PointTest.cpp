@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "Point.h"
+#include "../src/Point.h"
 //here doesnt work
 using namespace std;
 

@@ -1,7 +1,7 @@
 #include <iostream>
 #include "gtest/gtest.h"
-#include "Map.h"
-#include "BreadthFirstSearch.h"
+#include "src/Map.h"
+#include "src/BreadthFirstSearch.h"
 /**
  * The main method that runs the program, the method receives form the user the size of the grid
  * and the location of the start point and the goal and the method prints the the fastest route.

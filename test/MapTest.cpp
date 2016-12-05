@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "Map.h"
+#include "../src/Map.h"
 
 using namespace std;
 

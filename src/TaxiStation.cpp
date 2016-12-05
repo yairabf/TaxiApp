@@ -67,5 +67,21 @@ bool TaxiStation::doesTaxiExist(Taxi *taxi1) {
 }
 
 TaxiStation::~TaxiStation() {
-    delete map;
+    delete(bfs);
+    delete(map);
+    std::list<Taxi*>::iterator iteratorTaxis;
+    std::list<Driver*>::iterator iteratorDrivers;
+    std::list<TripInfo*>::iterator iteratorTrips;
+    for (iteratorTaxis = taxis.begin(); iteratorTaxis != taxis.end(); ++iteratorTaxis) {
+        Taxi *tempTaxi = *iteratorTaxis;
+        delete(tempTaxi);
+    }
+    for (iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end(); ++iteratorDrivers) {
+        Driver *tempDriver = *iteratorDrivers;
+        delete(tempDriver);
+    }
+    for (iteratorTrips = trips.begin(); iteratorTrips != trips.end(); ++iteratorTrips) {
+        TripInfo *tempTripInfo = *iteratorTrips;
+        delete(tempTripInfo);
+    }
 }

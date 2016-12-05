@@ -1,6 +1,6 @@
 
 #include <gtest/gtest.h>
-#include "Passenger.h"
+#include "../src/Passenger.h"
 
 using namespace std;
 class PassengerTest: public ::testing::Test {
