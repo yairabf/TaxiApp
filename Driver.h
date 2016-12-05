@@ -1,6 +1,3 @@
-//
-// Created by yair on 04/12/16.
-//
 
 #ifndef ADPROG1_1_DRIVER_H
 #define ADPROG1_1_DRIVER_H
@@ -13,6 +10,9 @@
 
 using namespace std;
 
+/**
+ * Class that represent a taxi driver. the driver can receives a tripInfo
+ */
 class Driver {
 private:
     int id;
@@ -52,8 +52,6 @@ public:
     Node *getLocation();
 
     void setLocation(Node *location);
-
-    void setLocation(Point p);
 
     void addPassenger(Passenger* passenger);
 
