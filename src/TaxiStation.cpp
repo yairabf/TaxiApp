@@ -19,7 +19,7 @@ void TaxiStation::answerCall(Point destination, Passenger *passenger) {
 
 TaxiStation::TaxiStation(Map *map) : map(map) {
     bfs = new BreadthFirstSearch(map);
-    assignDrivers();
+    //assignDrivers();
 }
 
 void TaxiStation::addDriver(Driver *driver) {
@@ -65,7 +65,6 @@ bool TaxiStation::doesTaxiExist(Taxi *taxi1) {
 
 TaxiStation::~TaxiStation() {
     delete(bfs);
-    delete(map);
     std::list<Taxi*>::iterator iteratorTaxis;
     std::list<Driver*>::iterator iteratorDrivers;
     std::list<TripInfo*>::iterator iteratorTrips;
@@ -81,4 +80,8 @@ TaxiStation::~TaxiStation() {
         TripInfo *tempTripInfo = *iteratorTrips;
         delete(tempTripInfo);
     }
+}
+
+void TaxiStation::addTrip(TripInfo *tripInfo) {
+    trips.push_back(tripInfo);
 }

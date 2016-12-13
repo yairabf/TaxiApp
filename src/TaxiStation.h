@@ -54,6 +54,8 @@ public:
      */
     void addTaxi(Taxi* taxi);
 
+    void addTrip(TripInfo* tripInfo);
+
     /**
      * removes a driver form the driver list.
      * @param driver is to be deleted.

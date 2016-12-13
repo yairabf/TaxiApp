@@ -2,15 +2,12 @@
 #include "Taxi.h"
 #include <stdexcept>
 
-Taxi::Taxi(int id, int km, string carMan, string color, int speed, float tariff) {
-    this->id = id;
-    this->numOfKmPassed = km;
-    this->CarManufacturer = carMan;
-    this->color = color;
-    this->speed = speed;
-    this->tariff = tariff;
-}
+Taxi::Taxi(int id, char CarManufacturer, char color, int speed) : id(id), CarManufacturer(CarManufacturer),
+                                                                  color(color), speed(speed) {
+    tripInfo = NULL;
+    numOfKmPassed = 0;
 
+}
 int Taxi::getId() const {
     return id;
 }
@@ -19,11 +16,11 @@ int Taxi::getNumOfKmPassed() const {
     return numOfKmPassed;
 }
 
-const string &Taxi::getCarManufacturer() const {
+const char &Taxi::getCarManufacturer() const {
     return CarManufacturer;
 }
 
-const string &Taxi::getColor() const {
+const char &Taxi::getColor() const {
     return color;
 }
 
@@ -31,17 +28,19 @@ int Taxi::getSpeed() const {
     return speed;
 }
 
-float Taxi::getTariff() const {
-    return tariff;
-}
-
-float Taxi::calculatePrice(int km) const {
+double Taxi::calculatePrice(int km) const {
     if(km < 0) {
         throw std::invalid_argument("Received negative value.");
     }
-    return km * tariff;
+    return km * tripInfo->getTarrif();
 }
 
 TripInfo *Taxi::getTripInfo() const {
     return tripInfo;
 }
+
+void Taxi::setTripInfo(TripInfo *tripInfo) {
+    Taxi::tripInfo = tripInfo;
+}
+
+

@@ -2,9 +2,14 @@
 
 #include "TripInfo.h"
 
-TripInfo::TripInfo(Point s, Point e) : start(s), end(e) {
+TripInfo::TripInfo(int id, int x_start, int y_start, int x_end, int y_end, int num_of_passenger,
+                   double tariff) : id(id), numberOfPassengers(num_of_passenger),
+                                                                   tariff(tariff),
+                                    start(Point(x_start, y_start)), end(Point(x_end, y_end)) {
     route = NULL;
+
 }
+
 int TripInfo::getId() const {
     return id;
 }
@@ -25,10 +30,12 @@ int TripInfo::getNumberOfPassengers() const {
     return numberOfPassengers;
 }
 
-float TripInfo::getTarrif() const {
+double TripInfo::getTarrif() const {
     return tariff;
 }
 
 std::stack<Node *> *TripInfo::getRoute() const {
     return route;
 }
+
+

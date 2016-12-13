@@ -2,8 +2,11 @@
 #include "Driver.h"
 #include "NodeBlock.h"
 
-Driver::Driver(int id, int age, int yearsExp, string status) : id(id), age(age), yearsExp(yearsExp),
-                                                                      status(status) {
+Driver::Driver(int id, int age,char status, int yearsExp, int vehicle_id): id(id), age(age),
+                                                                             status(status),
+                                                                             yearsExp(yearsExp),
+                                                                             vehicle_id(vehicle_id)
+                                                                       {
     taxi = NULL;
     location = NULL;
     tripInfo = NULL;
@@ -69,8 +72,8 @@ void Driver::drive(stack<Node *>* route) {
     }
 }
 
-float Driver::calculatePrice(int km) {
-    float price = taxi->getTariff() * km;
+double Driver::calculatePrice(int km) {
+    double price = taxi->getTripInfo()->getTarrif() * km;
     return price;
 }
 
@@ -84,4 +87,8 @@ bool Driver::passengerIsExist(Passenger *passenger) {
         }
     }
     return false;
+}
+
+int Driver::getVehicle_id() const {
+    return vehicle_id;
 }

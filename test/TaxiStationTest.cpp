@@ -15,9 +15,9 @@ protected:
         cout<<"setting up for TaxiTest"<< endl;
         map1 = new Map(10,10);
         taxiStation = new TaxiStation(map1);
-        taxi = new Taxi(1111,50,"fiat","black",1,5.00);
+        taxi = new Taxi(1111,'F','B',1);
         taxiStation->addTaxi(taxi);
-        driver = new Driver(1111,23,5,"married");
+        driver = new Driver(1111, 23, 'M', 5, 1111);
         //setting the location like this for the answerCallTest
         farLocation = map1->getBlock(Point(3,3));
         driver->setLocation(farLocation);
@@ -110,7 +110,7 @@ TEST_F(TaxiStationTest, answerCallTest2) {
     taxiStation->answerCall(Point(5,5), passenger);
 /*checks if the correct driver drove to the passenger
      * this test is different since we have now two drivers*/
-    Driver *closeDriver = new Driver(20599, 25, 15, "single");
+    Driver *closeDriver = new Driver(20599, 25, 'S', 4, 123);
     closeDriver->setLocation(map1->getBlock(Point(0, 1)));
     taxiStation->addDriver(closeDriver);
     EXPECT_EQ(passengerLocation, closeDriver->getLocation())

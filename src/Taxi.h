@@ -11,10 +11,9 @@ class Taxi {
 private:
     int id;
     int numOfKmPassed;
-    string CarManufacturer;
-    string color;
+    char CarManufacturer;
+    char color;
     int speed;
-    float tariff;
     TripInfo* tripInfo;
 public:
 	
@@ -28,7 +27,7 @@ public:
      * @param tariff is the amount to be paid for the taxi.
      * @return a new taxi.
      */
-    Taxi(int id, int km, string carMan, string color, int speed, float tariff);
+    Taxi(int id, char CarManufacturer, char color, int speed);
 
     /**
      * getter.
@@ -46,32 +45,28 @@ public:
      * getter.
      * @return the car manufacturer.
      */
-    const string &getCarManufacturer() const;
+    const char &getCarManufacturer() const;
 
     /**
      * getter.
      * @return the color of the taxi.
      */
-    const string &getColor() const;
+    const char &getColor() const;
 
-	/**
+    void setTripInfo(TripInfo *tripInfo);
+
+    /**
      * getter.
      * @return the speed of the taxi.
      */
     int getSpeed() const;
 
     /**
-     * getter.
-     * @return the tariff of the taxi.
-     */
-    float getTariff() const;
-
-    /**
      * calculates the price for the drive.
      * @param km how many km the journet is.
      * @return the price.
      */
-    float calculatePrice(int km) const;
+    double calculatePrice(int km) const;
 
     /**
      * getter.

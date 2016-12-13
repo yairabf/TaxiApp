@@ -18,8 +18,9 @@ private:
     int id;
     int age;
     int yearsExp;
+    int vehicle_id;
     bool occupied;
-    string status;
+    char status;
     Taxi* taxi;
     float avgSatisfaction;
     Node* location;
@@ -27,72 +28,78 @@ private:
     list<Passenger*> passengers;
 
 public:
-	/**
-	* constructor
-	*/
-    Driver(int id, int age, int yearsExp, string status);
+    /**
+    * constructor
+    */
+    Driver(int id, int age, char status, int yearsExp, int vehicle_id);
 
-     /**
-     * getter.
-     * @return the id.
-     */
+    /**
+    * getter.
+    * @return the id.
+    */
     int getId();
 
-/**
+    /**
+     *
+     * @return
+     */
+    int getVehicle_id() const;
+
+    /**
      * getter.
      * @return yearsExp.
      */
     int getYearsExp();
 
-/**
+    /**
      * setter.
      * @param yearsExp is the years of experience.
      */
     void setYearsExp(int yearsExp);
 
-/**
+    /**
      * checks if the driver is occupied.
      * @return true id the driver is occupied.
      */
     bool isOccupied();
 
-/**
+    /**
      * setter.
      * @param occupied the state of the driver.
      */
     void setOccupied(bool occupied);
 
-/**
+    /**
      * getter.
      * @return the trip info.
      */
     TripInfo *getTripInfo() const;
 
-/**
+    /**
      * getter.
      * @return the taxi.
      */
     Taxi *getTaxi();
 
-/**
+    /**
      * assigns a taxi to the driver.
      * @param taxi is the taxi for the driver.
      */
     void assignTaxi(Taxi *taxi);
 
- /**
-     * getter.
-     * @return the average satisfaction of the driver.
-     */
+    /**
+        * getter.
+        * @return the average satisfaction of the driver.
+        */
     float getAvgSatisfaction();
 
- /**
+    /**
      * setter.
      * @param avgSatisfaction the satisfaction of the driver.
      */
     void setAvgSatisfaction(float avgSatisfaction);
 
-/**
+    /**
      * getter.
      * @return the location of the driver.
      */
@@ -123,12 +130,12 @@ public:
      */
     void drive(stack<Node*>* route);
 
- /**
-     * calculates the price to pay.
-     * @param km is how many km the drive is.
-     * @return the price.
-     */
-    float calculatePrice(int km);
+    /**
+        * calculates the price to pay.
+        * @param km is how many km the drive is.
+        * @return the price.
+        */
+    double calculatePrice(int km);
 
 };
 

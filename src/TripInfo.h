@@ -14,7 +14,7 @@ private:
     Point start;
     Point end;
     int numberOfPassengers;
-    float tariff;
+    double tariff;
     std::stack <Node*> *route;
 public:
 
@@ -24,7 +24,8 @@ public:
      * @param e end point.
      * @return a new trip info.
      */
-    TripInfo(Point s, Point e);
+    TripInfo(int id, int x_start, int y_start, int x_end, int y_end, int num_of_passenger,
+             double tariff);
 
     /**
      * getter.
@@ -60,7 +61,7 @@ public:
      * getter.
      * @return the tariff for the trip.
      */
-    float getTarrif() const;
+    double getTarrif() const;
 
     /**
      * getter.

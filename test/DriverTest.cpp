@@ -22,7 +22,7 @@ protected:
     }
 
 public:
-    DriverTest():driver(305263501, 26, 5, "married"){};
+    DriverTest():driver(305263501, 26, 'M', 4, 1243){};
 };
 
 /**
@@ -40,7 +40,7 @@ TEST_F(DriverTest, LocationTest) {
  * the test check if the assignTaxi which assigns taxi for the driver works.
  */
 TEST_F(DriverTest, TaxiTest) {
-    Taxi taxi(1111,50,"fiat","black",1,5.00);
+    Taxi taxi(1111,1,'F','B');
     driver.assignTaxi(&taxi);
     ASSERT_EQ(driver.getTaxi(), &taxi) << "Taxi wasn't set right";
 }
@@ -79,9 +79,9 @@ TEST_F(DriverTest, DriveTest) {
  * a drive is working.
  */
 TEST_F(DriverTest, CalculatePriceTest) {
-    Taxi taxi(1111,50,"fiat","black",1,5.00);
+    Taxi taxi(1111,1,'F','B');
     driver.assignTaxi(&taxi);
-    float price = driver.calculatePrice(10);
+    double price = driver.calculatePrice(10);
     ASSERT_EQ(price, 50.0) << "Price wan't calculated correctly";
 }
 
