@@ -3,7 +3,6 @@
 
 using namespace std;
 
-
 /**
  * class that checks the point class.
  */

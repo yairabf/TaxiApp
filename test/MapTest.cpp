@@ -3,9 +3,6 @@
 
 using namespace std;
 
-/**
- * this class tests all the fonctions of the Map class.
- */
 class MapTest: public ::testing::Test{
 protected:
     Map map;
@@ -85,7 +82,7 @@ TEST_F(MapTest, UpdateChildrenTest) {
  * an fit to been drove on, works.
  */
 TEST_F(MapTest, ObstacleTest) {
-    /*creates and set all the nodes we want to set as obstacles*/
+	 /*creates and set all the nodes we want to set as obstacles*/
     Point p45(4,5);
     Point p12(1,2);
     Point p75(7,5);

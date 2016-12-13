@@ -18,16 +18,18 @@ protected:
 
     virtual void TearDown(){
         cout << "Tearing Down" << endl;
+    }
+
+public:
+    NodeBlockTest():n00 (new NodeBlock(Point(0,0))), n01(new NodeBlock(Point(0,1))), n10(new NodeBlock(Point(1,0))),
+                    n11(new NodeBlock(Point(1,1))){};
+
+    virtual ~NodeBlockTest() {
         delete n00;
         delete n01;
         delete n10;
         delete n11;
     }
-
-public:
-    NodeBlockTest():n00 (new NodeBlock(Point(0,0))), n01(new NodeBlock(Point(0,1))),
-                    n10(new NodeBlock(Point(1,0))),
-                    n11(new NodeBlock(Point(1,1))){};
 };
 
 /**

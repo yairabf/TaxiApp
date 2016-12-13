@@ -43,14 +43,14 @@ public:
     bool isVisited();
 
     /**
-     * getter.
-     * @return if it is an obstacle.
+     *
+     * @return if the blocl is an obstacle
      */
     bool getIsObstacle();
 
     /**
-     * setter.
-     * @param isObstacle the state of the node block.
+     * set ablock to an obstacle
+     * @param isObstacle
      */
     void setIsObstacle(bool isObstacle);
 

@@ -85,7 +85,12 @@ std::ostream& operator<<(std::ostream& out, Node& node) {
     return out;
 };
 
+/**
+ * overloading the operator "==" of an out stream.
+ * @param out
+ * @param node
+ * @return
+ */
 bool NodeBlock::operator==(const NodeBlock& nodeBlock)const{
     return(point == nodeBlock.point);
 };
-

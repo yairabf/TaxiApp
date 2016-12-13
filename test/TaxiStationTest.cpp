@@ -2,9 +2,6 @@
 #include <gtest/gtest.h>
 #include "../src/TaxiStation.h"
 
-/**
- *
- */
 using namespace std;
 class TaxiStationTest: public ::testing::Test {
 public:
@@ -30,9 +27,6 @@ protected:
     virtual void TearDown () {
         cout<<"tearing down" << endl;
         delete(taxiStation);
-        delete(map1);
-        delete(driver);
-        delete(taxi);
     }
 
 public:
@@ -51,36 +45,23 @@ public:
     }
 };
 
-/**
- *
- */
 TEST_F(TaxiStationTest, addDriverTest) {
     ASSERT_TRUE(taxiStation->doesDriverExist(driver)) << "Driver wasn't added";
 }
 
-/**\
- *
- */
 TEST_F(TaxiStationTest, removeDriverTest) {
     taxiStation->removeDriver(driver);
     ASSERT_FALSE(taxiStation->doesDriverExist(driver)) << "Driver wasn't removed";
 }
 
-/*
- *
- */
 TEST_F(TaxiStationTest, addTaxiTest) {
     ASSERT_TRUE(taxiStation->doesTaxiExist(taxi)) << "Driver wasn't added";
 }
 
-/**
- *
- */
 TEST_F(TaxiStationTest, removeTaxiTest) {
     taxiStation->removeTaxi(taxi);
     ASSERT_FALSE(taxiStation->doesTaxiExist(taxi)) << "Driver wasn't removed";
 }
-
 /**
  * these following tests check a method that operates this way:
  * it receives a passenger and a point of the passengers place.
@@ -118,9 +99,7 @@ TEST_F(TaxiStationTest, answerCallTest1) {
     delete (bfs);
     delete(passenger);
 }
-/**
- * the second part of the answer calls test
- */
+//.
 TEST_F(TaxiStationTest, answerCallTest2) {
     NodeBlock *passengerLocation = map1->getBlock(Point(0,0));
     NodeBlock *destination = map1->getBlock(Point(5,5));

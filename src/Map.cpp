@@ -58,4 +58,3 @@ void Map::setChildren() {
 NodeBlock* Map::getBlock(Point point) {
     return nodes[point.getX()][point.getY()];
 }
-

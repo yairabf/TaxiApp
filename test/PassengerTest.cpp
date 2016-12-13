@@ -2,11 +2,10 @@
 #include <gtest/gtest.h>
 #include "../src/Passenger.h"
 
-using namespace std;
-
 /**
  * the class test passenger's functions
  */
+using namespace std;
 class PassengerTest: public ::testing::Test {
 public:
     Passenger *passenger;
