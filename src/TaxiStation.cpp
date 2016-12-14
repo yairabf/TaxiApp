@@ -39,16 +39,6 @@ void TaxiStation::addDriver(Driver *driver) {
 }
 
 void TaxiStation::addTaxi(Taxi *taxi) {
-    std::list<Driver*>::iterator driverIterator;
-    //assigns the correct driver to the taxi
-    for(driverIterator = drivers.begin(); driverIterator != drivers.end(); ++driverIterator) {
-        Driver *driver = *driverIterator;
-        //if their ids are matching ,assign
-        if (driver->getVehicle_id() == taxi->getId()) {
-            driver->assignTaxi(taxi);
-            break;
-        }
-    }
     taxis.push_back(taxi);
 }
 
@@ -117,6 +107,7 @@ void TaxiStation::addTrip(TripInfo* tripInfo) {
         Driver* driver = *iteratorDrivers;
         if((Point*)driver->getLocation() == tripInfo->getStart()) {
             driver->assignTripInfo(tripInfo);
+            break;
         }
     }
 }

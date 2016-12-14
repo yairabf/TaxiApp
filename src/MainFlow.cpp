@@ -8,13 +8,13 @@ MainFlow::MainFlow(const int columns, const int rows): map(Map(columns, rows)){
 
 void MainFlow::run() {
     cout <<"please insert number of obstacles" << endl;
-    int i, numberOfObstacles, x, y;
+    int numberOfObstacles, x, y;
     cin >> numberOfObstacles;
     if(numberOfObstacles > 0 ) {
         //waits for obstacles input
         cout << "please enter points" << endl;
         //need to add a test that checks if the obstacles have been inserted correctly.
-        for(i = 1; i <= numberOfObstacles; i++) {
+        for(int i = 1; i <= numberOfObstacles; i++) {
             cin >> x >> y;
             taxiStation.setObstacle(x, y);
         }
@@ -50,7 +50,7 @@ void MainFlow::createDriver() {
     char status , temp;
     cout << "Please insert a driver details" << endl;
 
-    //receiving driver detail
+    //receiving driver details
     cin >> id >> temp >> age >> temp >> status >> temp >> experience >> temp >> vehicle_id;
     Driver* driver = new Driver(id,age,status,experience,vehicle_id);
     taxiStation.addDriver(driver);

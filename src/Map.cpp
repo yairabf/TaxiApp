@@ -44,13 +44,13 @@ void Map::create() {
 void Map::setChildren() {
     for (int x = 0; x < columns; x++) {
         for (int y = 0; y < rows; y++) {
-            if((x - 1 >= 0) && (!nodes[x][y]->isObstacle()))
+            if(x - 1 >= 0)
                 nodes[x][y]->setLeft(nodes[x - 1][y]);
-            if((y + 1 < rows) && ((!nodes[x][y]->isObstacle())))
+            if(y + 1 < rows)
                 nodes[x][y]->setUp(nodes[x][y + 1]);
-            if((x + 1 < columns ) && (!nodes[x][y]->isObstacle()))
+            if(x + 1 < columns)
                 nodes[x][y]->setRight(nodes[x + 1][y]);
-            if((y - 1 >= 0) && (!nodes[x][y]->isObstacle()))
+            if(y - 1 >= 0)
                 nodes[x][y]->setDown(nodes[x][y - 1]);
         }
     }
