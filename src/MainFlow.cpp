@@ -50,7 +50,7 @@ void MainFlow::createDriver() {
     char status , temp;
     cout << "Please insert a driver details" << endl;
 
-    //receiving driver details
+    //receiving driver detail
     cin >> id >> temp >> age >> temp >> status >> temp >> experience >> temp >> vehicle_id;
     Driver* driver = new Driver(id,age,status,experience,vehicle_id);
     taxiStation.addDriver(driver);
