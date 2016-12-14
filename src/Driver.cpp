@@ -104,12 +104,12 @@ int Driver::getVehicle_id() const {
 }
 
 void Driver::getSatisfactionFromPassengers() {
-    int sum = 0;
+    /*int sum = 0;
     std::list<Passenger*>::iterator passengerIterator;
     for(passengerIterator = passengers.begin(); passengerIterator != passengers.end();
         ++passengerIterator) {
         Passenger* passenger = *passengerIterator;
         sum += passenger->randomScore();
     }
-    avgSatisfaction = sum / passengers.size();
+    avgSatisfaction = sum / passengers.size();*/
 }

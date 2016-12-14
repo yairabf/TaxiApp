@@ -99,8 +99,9 @@ void TaxiStation::addTrip(TripInfo* tripInfo) {
     Node* startLocation = map->getBlock(*tripInfo->getStart());
     Node* endLocation = map->getBlock(*tripInfo->getEnd());
     //creating the best route for the trip using bfs
-    std::stack<Node*> route = bfs->breadthFirstSearch(startLocation, endLocation);
-    tripInfo->setRoute(&route);
+    std::stack<Node*> tempRoute = bfs->breadthFirstSearch(startLocation, endLocation);
+    std::stack<Node*> *route = new stack<Node*>(tempRoute);
+    tripInfo->setRoute(route);
     //assigns the correct driver to the trip
     for(iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end(); ++iteratorDrivers) {
         if(iteratorDrivers.operator*()->getLocation()->printValue() ==
