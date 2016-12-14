@@ -1,4 +1,5 @@
 
+#include <iostream>
 #include "TaxiStation.h"
 
 Driver* TaxiStation::calculateClosestDriver(Point destination) {
@@ -23,7 +24,11 @@ TaxiStation::TaxiStation(Map *map) : map(map) {
 }
 
 void TaxiStation::addDriver(Driver *driver) {
-    drivers.push_back(driver);
+    if(!doesDriverExist(driver)) {
+        drivers.push_back(driver);
+    } else {
+        cout << "driver is already exist" << endl;
+    }
 }
 
 void TaxiStation::addTaxi(Taxi *taxi) {
@@ -64,7 +69,6 @@ bool TaxiStation::doesTaxiExist(Taxi *taxi1) {
 }
 
 TaxiStation::~TaxiStation() {
-    delete(bfs);
     std::list<Taxi*>::iterator iteratorTaxis;
     std::list<Driver*>::iterator iteratorDrivers;
     std::list<TripInfo*>::iterator iteratorTrips;

@@ -7,9 +7,9 @@ MainFlow::MainFlow(const int columns, const int rows): map(Map(columns, rows)){
 }
 
 void MainFlow::run() {
-    cout << "Please insert task number" << endl;
     int task;
    do {
+       cout << "Please insert task number" << endl;
        cin >> task;
         switch (task) {
             case 1:
@@ -31,6 +31,7 @@ void MainFlow::run() {
                 break;
         }
     }  while (task != 7);
+    return;
 }
 
 void MainFlow::createDriver() {
@@ -41,6 +42,7 @@ void MainFlow::createDriver() {
     //receiving driver details
     cin >> id >> temp >> age >> temp >> status >> temp >> experience >> temp >> vehicle_id;
     Driver* driver = new Driver(id,age,status,experience,vehicle_id);
+    driver->setLocation(map.getBlock(Point(0,0)));
     taxiStation.addDriver(driver);
 }
 
@@ -78,7 +80,7 @@ void MainFlow::requestDriverLocation() {
     list<Driver*>::iterator it = taxiStation.getDrivers()->begin();
     while(it != taxiStation.getDrivers()->end()) {
         if(it.operator*()->getId() == id) {
-            cout << it.operator*()->getLocation()->printValue();
+            cout << it.operator*()->getLocation()->printValue() << endl;
             break;
         }
         it++;
