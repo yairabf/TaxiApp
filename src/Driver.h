@@ -27,7 +27,7 @@ private:
     TripInfo* tripInfo;
     list<Passenger*> passengers;
     /**
-     * gets the satisfaction from all the passengers and sets the avg satisfaction accordingly.
+     * getter.
      */
     void getSatisfactionFromPassengers();
 

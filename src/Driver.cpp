@@ -62,7 +62,7 @@ void Driver::assignTaxi(Taxi *taxi) {
     Driver::taxi = taxi;
 }
 
-void Driver::assignTripInfo(TripInfo *tripInfo1) {
+void Driver::assignTripInfo(TripInfo* tripInfo1) {
     tripInfo = tripInfo1;
 }
 

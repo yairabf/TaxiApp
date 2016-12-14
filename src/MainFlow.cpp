@@ -67,8 +67,8 @@ void MainFlow::createTripInfo() {
     //receiving trip details
     cin >> id >> temp >> x_start >> temp >> y_start >> temp >> x_end >> temp >> y_end >> temp
         >> num_of_passenger >> temp >> tariff;
-    TripInfo tripInfo = TripInfo(id, x_start, y_start, x_end, y_end, num_of_passenger, tariff);
-    taxiStation.addTrip(&tripInfo);
+    TripInfo *tripInfo = new TripInfo(id, x_start, y_start, x_end, y_end, num_of_passenger, tariff);
+    taxiStation.addTrip(tripInfo);
 }
 
 void MainFlow::createVehicle() {
