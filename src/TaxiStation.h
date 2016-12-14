@@ -87,6 +87,18 @@ public:
      * @return true if the taxi exists.
      */
     bool doesTaxiExist(Taxi *taxi1);
+
+    /**
+     * all drivers drive to their end positions.
+     */
+    void driveAll();
+
+    /**
+     * sets an obstacle on the grid.
+     * @param x the x axis.
+     * @param y the y axis.
+     */
+    void setObstacle(int x, int y);
 };
 
 

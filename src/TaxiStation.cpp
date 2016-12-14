@@ -23,10 +23,32 @@ TaxiStation::TaxiStation(Map *map) : map(map) {
 }
 
 void TaxiStation::addDriver(Driver *driver) {
+    NodeBlock* startingLocation = map->getBlock(Point(0,0));
+    driver->setLocation(startingLocation);
+    std::list<Taxi*>::iterator taxiIterator;
+    //assigns the correct taxi to the driver.
+    for(taxiIterator = taxis.begin(); taxiIterator != taxis.end(); ++taxiIterator) {
+        Taxi* currentTaxi = *taxiIterator;
+        //if their ids are matching ,assign
+        if(driver->getVehicle_id() == currentTaxi->getId()) {
+            driver->assignTaxi(currentTaxi);
+            break;
+        }
+    }
     drivers.push_back(driver);
 }
 
 void TaxiStation::addTaxi(Taxi *taxi) {
+    std::list<Driver*>::iterator driverIterator;
+    //assigns the correct driver to the taxi
+    for(driverIterator = drivers.begin(); driverIterator != drivers.end(); ++driverIterator) {
+        Driver *driver = *driverIterator;
+        //if their ids are matching ,assign
+        if (driver->getVehicle_id() == taxi->getId()) {
+            driver->assignTaxi(taxi);
+            break;
+        }
+    }
     taxis.push_back(taxi);
 }
 
@@ -82,6 +104,31 @@ TaxiStation::~TaxiStation() {
     }
 }
 
-void TaxiStation::addTrip(TripInfo *tripInfo) {
+void TaxiStation::addTrip(TripInfo* tripInfo) {
+    std::list<Driver*>::iterator iteratorDrivers;
     trips.push_back(tripInfo);
+    Node* startLocation = map->getBlock(*tripInfo->getStart());
+    Node* endLocation = map->getBlock(*tripInfo->getEnd());
+    //creating the best route for the trip using bfs
+    std::stack<Node*> route = bfs->breadthFirstSearch(startLocation, endLocation);
+    tripInfo->setRoute(&route);
+    //assigns the correct driver to the trip
+    for(iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end(); ++iteratorDrivers) {
+        Driver* driver = *iteratorDrivers;
+        if((Point*)driver->getLocation() == tripInfo->getStart()) {
+            driver->assignTripInfo(tripInfo);
+        }
+    }
+}
+
+void TaxiStation::driveAll() {
+    std::list<Driver*>::iterator iteratorDrivers;
+    for(iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end(); ++iteratorDrivers) {
+        Driver* driver = *iteratorDrivers;
+        driver->drive();
+    }
+}
+
+void TaxiStation::setObstacle(int x, int y) {
+    map->setObstacle(Point(x, y));
 }

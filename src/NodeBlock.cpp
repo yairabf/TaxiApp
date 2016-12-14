@@ -62,12 +62,12 @@ string NodeBlock::printValue() {
     return point.toString();
 }
 
-bool NodeBlock::getIsObstacle() {
-    return isObstacle;
+bool NodeBlock::isObstacle() {
+    return obstacle;
 }
 
 void NodeBlock::setIsObstacle(bool isObstacle) {
-    NodeBlock::isObstacle = isObstacle;
+    NodeBlock::obstacle = isObstacle;
 }
 
 const Point &NodeBlock::getPoint() const {

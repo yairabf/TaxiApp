@@ -43,13 +43,13 @@ public:
      * getter.
      * @return the starting point.
      */
-    const Point &getStart() const;
+    Point* getStart();
 
     /**
      * getter.
      * @return the end point.
      */
-    const Point &getEnd() const;
+    Point* getEnd();
 
     /**
      * getter.
@@ -63,6 +63,11 @@ public:
      */
     double getTarrif() const;
 
+    /**
+     * sets a route to the trip info.
+     * @param route is the new route.
+     */
+    void setRoute(std::stack<Node*> *route);
     /**
      * getter.
      * @return the route for the trip as a stack.

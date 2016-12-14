@@ -22,7 +22,7 @@ public:
     const Point &getPoint() const;
 
 protected:
-    bool isObstacle;
+    bool obstacle;
 
 public:
     /**
@@ -46,7 +46,7 @@ public:
      *
      * @return if the blocl is an obstacle
      */
-    bool getIsObstacle();
+    bool isObstacle();
 
     /**
      * set ablock to an obstacle

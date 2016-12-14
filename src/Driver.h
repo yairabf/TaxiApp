@@ -26,6 +26,10 @@ private:
     Node* location;
     TripInfo* tripInfo;
     list<Passenger*> passengers;
+    /**
+     * gets the satisfaction from all the passengers and sets the avg satisfaction accordingly.
+     */
+    void getSatisfactionFromPassengers();
 
 public:
     /**
@@ -88,6 +92,12 @@ public:
     void assignTaxi(Taxi *taxi);
 
     /**
+     * assif-gnins a trip info to the driver.
+     * @param tripInfo it the trip
+     */
+    void assignTripInfo(TripInfo* tripInfo1);
+
+    /**
         * getter.
         * @return the average satisfaction of the driver.
         */
@@ -128,7 +138,7 @@ public:
      * makes the driver drive.
      * @param route is the route he should drive by.
      */
-    void drive(stack<Node*>* route);
+    void drive();
 
     /**
         * calculates the price to pay.

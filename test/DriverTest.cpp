@@ -70,7 +70,9 @@ TEST_F(DriverTest, DriveTest) {
     NodeBlock* start = map.getBlock(Point(2,2));
     NodeBlock* end = map.getBlock(Point(5,6));
     stack<Node*> route = bfs.breadthFirstSearch(start, end);
-    driver.drive(&route);
+    TripInfo tripInfo(0,0, 0, 5, 5, 1, 2.00);
+    tripInfo.setRoute(&route);
+    driver.drive();
     ASSERT_EQ(driver.getLocation(),end) << "driver wasn't drive to correct location";
 }
 

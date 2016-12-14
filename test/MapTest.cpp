@@ -95,10 +95,10 @@ TEST_F(MapTest, ObstacleTest) {
     map.setObstacle(p13);
     map.setObstacle(p36);
     map.setObstacle(p49);
-    EXPECT_TRUE(map.getBlock(p45)->getIsObstacle()) << "Obstacle wasn't set";
-    EXPECT_TRUE(map.getBlock(p12)->getIsObstacle()) << "Obstacle wasn't set";
-    EXPECT_TRUE(map.getBlock(p75)->getIsObstacle()) << "Obstacle wasn't set";
-    EXPECT_TRUE(map.getBlock(p13)->getIsObstacle()) << "Obstacle wasn't set";
-    EXPECT_TRUE(map.getBlock(p36)->getIsObstacle()) << "Obstacle wasn't set";
-    EXPECT_TRUE(map.getBlock(p49)->getIsObstacle()) << "Obstacle wasn't set";
+    EXPECT_TRUE(map.getBlock(p45)->isObstacle()) << "Obstacle wasn't set";
+    EXPECT_TRUE(map.getBlock(p12)->isObstacle()) << "Obstacle wasn't set";
+    EXPECT_TRUE(map.getBlock(p75)->isObstacle()) << "Obstacle wasn't set";
+    EXPECT_TRUE(map.getBlock(p13)->isObstacle()) << "Obstacle wasn't set";
+    EXPECT_TRUE(map.getBlock(p36)->isObstacle()) << "Obstacle wasn't set";
+    EXPECT_TRUE(map.getBlock(p49)->isObstacle()) << "Obstacle wasn't set";
 }

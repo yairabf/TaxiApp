@@ -7,9 +7,21 @@ MainFlow::MainFlow(const int columns, const int rows): map(Map(columns, rows)){
 }
 
 void MainFlow::run() {
+    cout <<"please insert number of obstacles" << endl;
+    int i, numberOfObstacles, x, y;
+    cin >> numberOfObstacles;
+    if(numberOfObstacles > 0 ) {
+        //waits for obstacles input
+        cout << "please enter points" << endl;
+        //need to add a test that checks if the obstacles have been inserted correctly.
+        for(i = 1; i <= numberOfObstacles; i++) {
+            cin >> x >> y;
+            taxiStation.setObstacle(x, y);
+        }
+    }
     cout << "Please insert task number" << endl;
     int task;
-   do {
+    do {
        cin >> task;
         switch (task) {
             case 1:
@@ -86,7 +98,7 @@ void MainFlow::requestDriverLocation() {
 }
 
 void MainFlow::startDriving() {
-
+    taxiStation.driveAll();
 }
 
 

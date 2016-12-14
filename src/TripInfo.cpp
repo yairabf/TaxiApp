@@ -18,12 +18,12 @@ int TripInfo::getMetersPassed() const {
     return metersPassed;
 }
 
-const Point &TripInfo::getStart() const {
-    return start;
+Point* TripInfo::getStart() {
+    return &start;
 }
 
-const Point &TripInfo::getEnd() const {
-    return end;
+Point* TripInfo::getEnd() {
+    return &end;
 }
 
 int TripInfo::getNumberOfPassengers() const {
@@ -32,6 +32,10 @@ int TripInfo::getNumberOfPassengers() const {
 
 double TripInfo::getTarrif() const {
     return tariff;
+}
+
+void TripInfo::setRoute(std::stack<Node*> *route1) {
+    route = route1;
 }
 
 std::stack<Node *> *TripInfo::getRoute() const {

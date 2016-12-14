@@ -15,6 +15,6 @@ int main(int argc, char** argv) {
     cin >> rows;
     MainFlow mainFlow = MainFlow(columns, rows);
     mainFlow.run();
-
+    return 1;
 }
 
