@@ -28,7 +28,7 @@ stack<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
          * update the child distance from the start point */
         for(int i=0;i< current->getChildren()->size(); i++) {
             Node* node = current->getChildren()->at((unsigned long)i);
-            if(!node->isVisited()) {
+            if(!node->isVisited() && !node->isObstacle()) {
                 node->setDistance(current->getDistance() + 1);
                 node->setVisited(true);
                 node->setFather(current);

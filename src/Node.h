@@ -60,6 +60,13 @@ public:
      */
     virtual std::string printValue() = 0;
 
+    /**
+     *
+     * @return if the blocl is an obstacle
+     */
+    virtual bool isObstacle() = 0;
+
+
 };
 
 /**
