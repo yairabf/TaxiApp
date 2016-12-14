@@ -19,9 +19,9 @@ void MainFlow::run() {
             taxiStation.setObstacle(x, y);
         }
     }
-    cout << "Please insert task number" << endl;
     int task;
     do {
+        cout << "Please insert task number" << endl;
        cin >> task;
         switch (task) {
             case 1:
@@ -49,7 +49,6 @@ void MainFlow::createDriver() {
     int id, age, experience, vehicle_id;
     char status , temp;
     cout << "Please insert a driver details" << endl;
-
     //receiving driver details
     cin >> id >> temp >> age >> temp >> status >> temp >> experience >> temp >> vehicle_id;
     Driver* driver = new Driver(id,age,status,experience,vehicle_id);
@@ -90,7 +89,7 @@ void MainFlow::requestDriverLocation() {
     list<Driver*>::iterator it = taxiStation.getDrivers()->begin();
     while(it != taxiStation.getDrivers()->end()) {
         if(it.operator*()->getId() == id) {
-            cout << it.operator*()->getLocation()->printValue();
+            cout << it.operator*()->getLocation()->printValue() << endl;
             break;
         }
         it++;

@@ -10,7 +10,7 @@
 class TripInfo {
 private:
     int id;
-    int metersPassed;
+    int metersPassed = 0;
     Point start;
     Point end;
     int numberOfPassengers;

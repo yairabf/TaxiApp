@@ -96,7 +96,6 @@ TaxiStation::~TaxiStation() {
 
 void TaxiStation::addTrip(TripInfo* tripInfo) {
     std::list<Driver*>::iterator iteratorDrivers;
-    trips.push_back(tripInfo);
     Node* startLocation = map->getBlock(*tripInfo->getStart());
     Node* endLocation = map->getBlock(*tripInfo->getEnd());
     //creating the best route for the trip using bfs
@@ -104,12 +103,13 @@ void TaxiStation::addTrip(TripInfo* tripInfo) {
     tripInfo->setRoute(&route);
     //assigns the correct driver to the trip
     for(iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end(); ++iteratorDrivers) {
-        Driver* driver = *iteratorDrivers;
-        if((Point*)driver->getLocation() == tripInfo->getStart()) {
-            driver->assignTripInfo(tripInfo);
+        if(iteratorDrivers.operator*()->getLocation()->printValue() ==
+                tripInfo->getStart()->toString()) {
+            iteratorDrivers.operator*()->assignTripInfo(tripInfo);
             break;
         }
     }
+    trips.push_back(tripInfo);
 }
 
 void TaxiStation::driveAll() {
