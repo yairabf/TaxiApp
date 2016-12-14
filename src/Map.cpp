@@ -59,3 +59,11 @@ void Map::setChildren() {
 NodeBlock* Map::getBlock(Point point) {
     return nodes[point.getX()][point.getY()];
 }
+
+void Map::resetVisited() {
+    for(int x = 0; x < columns; x++) {
+        for(int y = 0; y < rows; y++) {
+            nodes[x][y]->setVisited(false);
+        }
+    }
+}

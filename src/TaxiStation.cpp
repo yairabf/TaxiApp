@@ -118,6 +118,7 @@ void TaxiStation::driveAll() {
     for(iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end(); ++iteratorDrivers) {
         Driver* driver = *iteratorDrivers;
         driver->drive();
+        map->resetVisited();
     }
 }
 

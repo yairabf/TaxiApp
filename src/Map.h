@@ -57,6 +57,11 @@ public:
      * @return pointer to the block at that point
      */
     NodeBlock* getBlock(Point point);
+
+    /**
+     * resets all nodes to be not vivited.
+     */
+    void resetVisited();
 };
 
 #endif //ADPROG1_1_MAP_H
