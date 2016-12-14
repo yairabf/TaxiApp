@@ -43,6 +43,7 @@ void MainFlow::run() {
                 break;
         }
     }  while (task != 7);
+    exit(0);
 }
 
 void MainFlow::createDriver() {

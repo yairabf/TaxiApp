@@ -1,4 +1,5 @@
 
+#include <iostream>
 #include "Driver.h"
 #include "NodeBlock.h"
 
@@ -76,6 +77,7 @@ void Driver::drive() {
         stack<Node*> *route = tripInfo->getRoute();
         while(route->size() > 0){
             setLocation(route->top());
+            cout << route->top()->printValue() << endl;
             route->pop();
         }
         getSatisfactionFromPassengers();
