@@ -68,7 +68,7 @@ TEST_F(MapTest, UpdateChildrenTest) {
             map.getBlock(Point(i, j))->setVisited(true);
         }
     }
-    map.updateChildren();
+    map.resetVisited();
     for(int i = 0; i < 10; i++) {
         for (int j=0; j< 10; j++) {
             EXPECT_FALSE(map.getBlock(Point(i, j))->isVisited()) << "The block" << map.getBlock(Point(i, j))

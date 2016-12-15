@@ -8,14 +8,6 @@ void Map::setObstacle(Point point) {
     nodes[point.getX()][point.getY()]->setIsObstacle(true);
 }
 
-void Map::updateChildren() {
-    for(int i=0;i<nodes.size();i++){
-        for(int j=0;j<nodes[i].size();j++){
-            nodes[i][j]->setVisited(false);
-        }
-    }
-}
-
 Map::Map(int columns,int rows) {
     Map::columns = columns;
     Map::rows = rows;
@@ -64,6 +56,8 @@ void Map::resetVisited() {
     for(int x = 0; x < columns; x++) {
         for(int y = 0; y < rows; y++) {
             nodes[x][y]->setVisited(false);
+            nodes[x][y]->setDistance(0);
+            nodes[x][y]->setFather(NULL);
         }
     }
 }

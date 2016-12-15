@@ -10,8 +10,8 @@
 
 class MainFlow {
 private:
-    Map map;
-    TaxiStation taxiStation = NULL;
+    Map* map;
+    TaxiStation* taxiStation;
 
     /**
      *

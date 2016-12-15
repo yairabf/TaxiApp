@@ -10,7 +10,21 @@ void TaxiStation::sendTaxi(Point) {
 }
 
 void TaxiStation::assignDrivers() {
-
+    std::list<Driver*>::iterator iteratorDrivers;
+    std::list<TripInfo*>::iterator tripInfoIterator = trips.begin();
+    while (tripInfoIterator != trips.end()) {
+        //assigns the correct driver to the trip
+        for (iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end(); ++iteratorDrivers) {
+            if (iteratorDrivers.operator*()->getLocation()->printValue() ==
+                tripInfoIterator.operator*()->getStart()->toString()) {
+                iteratorDrivers.operator*()->assignTripInfo(*tripInfoIterator);
+                break;
+            }
+        }
+        TripInfo* tripInfo = *tripInfoIterator;
+        tripInfoIterator++;
+        trips.remove(tripInfo);
+    }
 }
 
 void TaxiStation::answerCall(Point destination, Passenger *passenger) {
@@ -95,30 +109,21 @@ TaxiStation::~TaxiStation() {
 }
 
 void TaxiStation::addTrip(TripInfo* tripInfo) {
-    std::list<Driver*>::iterator iteratorDrivers;
     Node* startLocation = map->getBlock(*tripInfo->getStart());
     Node* endLocation = map->getBlock(*tripInfo->getEnd());
     //creating the best route for the trip using bfs
     std::stack<Node*> tempRoute = bfs->breadthFirstSearch(startLocation, endLocation);
     std::stack<Node*> *route = new stack<Node*>(tempRoute);
     tripInfo->setRoute(route);
-    //assigns the correct driver to the trip
-    for(iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end(); ++iteratorDrivers) {
-        if(iteratorDrivers.operator*()->getLocation()->printValue() ==
-                tripInfo->getStart()->toString()) {
-            iteratorDrivers.operator*()->assignTripInfo(tripInfo);
-            break;
-        }
-    }
     trips.push_back(tripInfo);
 }
 
 void TaxiStation::driveAll() {
+    assignDrivers();
     std::list<Driver*>::iterator iteratorDrivers;
     for(iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end(); ++iteratorDrivers) {
         Driver* driver = *iteratorDrivers;
         driver->drive();
-        map->resetVisited();
     }
 }
 

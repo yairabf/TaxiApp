@@ -17,14 +17,6 @@ int Driver::getId() {
     return id;
 }
 
-int Driver::getYearsExp()  {
-    return yearsExp;
-}
-
-void Driver::setYearsExp(int yearsExp) {
-    Driver::yearsExp = yearsExp;
-}
-
 bool Driver::isOccupied()  {
     return occupied;
 }
@@ -81,6 +73,7 @@ void Driver::drive() {
             route->pop();
         }
         getSatisfactionFromPassengers();
+        delete(tripInfo->getRoute());
     }
 }
 

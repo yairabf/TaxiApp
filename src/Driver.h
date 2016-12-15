@@ -49,17 +49,6 @@ public:
      */
     int getVehicle_id() const;
 
-    /**
-     * getter.
-     * @return yearsExp.
-     */
-    int getYearsExp();
-
-    /**
-     * setter.
-     * @param yearsExp is the years of experience.
-     */
-    void setYearsExp(int yearsExp);
 
     /**
      * checks if the driver is occupied.
