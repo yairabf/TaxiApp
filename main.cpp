@@ -8,6 +8,7 @@
  */
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc,argv);
+    RUN_ALL_TESTS();
     int columns, rows;
     char temp;
     cout << "Please insert the size of the gird" << endl;

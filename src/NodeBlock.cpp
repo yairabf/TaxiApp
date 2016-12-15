@@ -70,10 +70,6 @@ void NodeBlock::setIsObstacle(bool isObstacle) {
     NodeBlock::obstacle = isObstacle;
 }
 
-const Point &NodeBlock::getPoint() const {
-    return point;
-}
-
 /**
  * overloading the operator "<<" of an out stream.
  * @param out

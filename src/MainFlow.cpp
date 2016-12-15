@@ -45,6 +45,9 @@ void MainFlow::run() {
                 break;
         }
     }  while (task != 7);
+    delete (taxiStation);
+    delete (map);
+
     exit(0);
 }
 
@@ -63,7 +66,8 @@ MainFlow::~MainFlow() {
 }
 
 void MainFlow::createTripInfo() {
-    int id, x_start, y_start, x_end, y_end, num_of_passenger, tariff;
+    int id, x_start, y_start, x_end, y_end, num_of_passenger;
+    double tariff;
     char temp;
     cout << "Please insert a trip details" << endl;
 

@@ -6,7 +6,6 @@ Taxi::Taxi(int id, char CarManufacturer, char color, int speed) : id(id), CarMan
                                                                   color(color), speed(speed) {
     tripInfo = NULL;
     numOfKmPassed = 0;
-
 }
 int Taxi::getId() const {
     return id;

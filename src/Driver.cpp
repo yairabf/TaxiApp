@@ -69,16 +69,16 @@ void Driver::drive() {
         stack<Node*> *route = tripInfo->getRoute();
         while(route->size() > 0){
             setLocation(route->top());
-            cout << route->top()->printValue() << endl;
+            //cout << route->top()->printValue() << endl;
             route->pop();
         }
         getSatisfactionFromPassengers();
-        delete(tripInfo->getRoute());
+        // delete(tripInfo->getRoute());
     }
 }
 
 double Driver::calculatePrice(int km) {
-    double price = taxi->getTripInfo()->getTarrif() * km;
+    double price = tripInfo->getTarrif() * km;
     return price;
 }
 

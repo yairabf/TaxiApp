@@ -65,13 +65,14 @@ TEST_F(DriverTest, AddPassengerTest){
  * the test passed
  */
 TEST_F(DriverTest, DriveTest) {
-    Map map(10,10);
+    Map map(5,5);
     BreadthFirstSearch bfs(&map);
-    NodeBlock* start = map.getBlock(Point(2,2));
-    NodeBlock* end = map.getBlock(Point(5,6));
+    NodeBlock* start = map.getBlock(Point(0,0));
+    NodeBlock* end = map.getBlock(Point(4,4));
     stack<Node*> route = bfs.breadthFirstSearch(start, end);
-    TripInfo tripInfo(0,0, 0, 5, 5, 1, 2.00);
+    TripInfo tripInfo(0, 0, 0, 4, 4, 1, 2.00);
     tripInfo.setRoute(&route);
+    driver.assignTripInfo(&tripInfo);
     driver.drive();
     ASSERT_EQ(driver.getLocation(),end) << "driver wasn't drive to correct location";
 }
@@ -81,9 +82,9 @@ TEST_F(DriverTest, DriveTest) {
  * a drive is working.
  */
 TEST_F(DriverTest, CalculatePriceTest) {
-    Taxi taxi(1111,1,'F','B');
-    driver.assignTaxi(&taxi);
-    double price = driver.calculatePrice(10);
-    ASSERT_EQ(price, 50.0) << "Price wan't calculated correctly";
+    driver.assignTripInfo(new TripInfo(0,0,0,5,5,2,2.0));
+    double price = driver.calculatePrice(9);
+    ASSERT_EQ(price, 18) << "Price wan't calculated correctly";
+    delete(driver.getTripInfo());
 }
 

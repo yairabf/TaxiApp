@@ -18,12 +18,7 @@ protected:
     Node* father;
     int distance;
     Point point;
-public:
-    const Point &getPoint() const;
-
-protected:
     bool obstacle;
-
 public:
     /**
      * Constructor that receives a point and set it as the value of the node.

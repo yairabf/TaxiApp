@@ -13,6 +13,7 @@ Map::Map(int columns,int rows) {
     Map::rows = rows;
     create();
     setChildren();
+    resstObstacles();
 }
 
 Map::~Map() {
@@ -58,6 +59,16 @@ void Map::resetVisited() {
             nodes[x][y]->setVisited(false);
             nodes[x][y]->setDistance(0);
             nodes[x][y]->setFather(NULL);
+        }
+    }
+}
+/**
+ *
+ */
+void Map::resstObstacles() {
+    for(int x = 0; x < columns; x++) {
+        for (int y = 0; y < rows; y++) {
+            nodes[x][y]->setIsObstacle(false);
         }
     }
 }

@@ -27,6 +27,11 @@ private:
      */
     void create();
 
+    /**
+     *
+     */
+    void resstObstacles();
+
 public:
     /**
      * Deconstructor.
@@ -57,6 +62,7 @@ public:
      * resets all nodes to be not visited and also reset their distance to 0.
      */
     void resetVisited();
+
 };
 
 #endif //ADPROG1_1_MAP_H

@@ -10,14 +10,17 @@ using namespace std;
 class BreadthFirstSearchTest: public ::testing::Test{
 protected:
     virtual void SetUp() {
+        map = new Map(10,10);
         cout << "Setting Up" << endl;
     }
 
     virtual void TearDown(){
+        delete(map);
         cout << "Tearing Down" << endl;
     }
 
 public:
+    Map* map;
     BreadthFirstSearchTest(){}
 };
 
@@ -28,11 +31,9 @@ public:
  * test create in the beginning.
  */
 TEST_F(BreadthFirstSearchTest, FastestRouteTest) {
-    Map map = Map(10,10);
-
     /*creating the start and the end point of rhe first route*/
-    Node* route1Start = map.getBlock(Point(0, 0));
-    Node* route1End = map.getBlock(Point(9, 9));
+    Node* route1Start = map->getBlock(Point(0, 0));
+    Node* route1End = map->getBlock(Point(9, 9));
 
     /*create a queue and insert it the actually route that supposed to been calculate */
     vector<Node *> fast1Test;
@@ -45,8 +46,8 @@ TEST_F(BreadthFirstSearchTest, FastestRouteTest) {
     }
 
     /*creating the start and the end point of the second route*/
-    Node *route2Start = map.getBlock(Point(9, 9));
-    Node *route2End = map.getBlock(Point(0, 0));
+    Node *route2Start = map->getBlock(Point(9, 9));
+    Node *route2End = map->getBlock(Point(0, 0));
 
     /*create a queue and insert it the actually route that supposed to been calculate */
     vector<Node *> fast2Test;
@@ -58,8 +59,8 @@ TEST_F(BreadthFirstSearchTest, FastestRouteTest) {
     }
 
     /*creating the start and the end point of rhe second route*/
-    Node *route3Start = map.getBlock(Point(9, 0));
-    Node *route3End = map.getBlock(Point(0, 9));
+    Node *route3Start = map->getBlock(Point(9, 0));
+    Node *route3End = map->getBlock(Point(0, 9));
 
     /*create a queue and insert it the actually route that supposed to been calculate */
     vector<Node *> fast3Test;
@@ -71,7 +72,7 @@ TEST_F(BreadthFirstSearchTest, FastestRouteTest) {
     }
 
     /*calculate the fastest route and checks if it the correct one.*/
-    BreadthFirstSearch bfs = BreadthFirstSearch(&map);
+    BreadthFirstSearch bfs = BreadthFirstSearch(map);
     std::stack<Node *> fast1 = bfs.breadthFirstSearch(route1Start, route1End);
     int i= 0;
     /*compare the two routes*/
@@ -81,7 +82,7 @@ TEST_F(BreadthFirstSearchTest, FastestRouteTest) {
         fast1.pop();
 
     }
-
+    map->resetVisited();
     /*calculate the fastest route and checks if it the correct one.*/
     std::stack<Node *> fast2 = bfs.breadthFirstSearch(route2Start, route2End);
     i = 0;
@@ -91,7 +92,7 @@ TEST_F(BreadthFirstSearchTest, FastestRouteTest) {
         fast2.pop();
         i++;
     }
-
+    map->resetVisited();
     /*calculate the fastest route and checks if it the correct one.*/
     std::stack<Node *> fast3 = bfs.breadthFirstSearch(route3Start, route3End);
     i = 0;

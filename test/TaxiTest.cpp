@@ -1,6 +1,6 @@
 
 #include <gtest/gtest.h>
-#include "Taxi.h"
+#include "../src/Taxi.h"
 
 using namespace std;
 class TaxiTest: public ::testing::Test {
@@ -9,7 +9,7 @@ public:
 protected:
     virtual void SetUp() {
         cout<<"setting up for TaxiTest"<< endl;
-        taxi = new Taxi(1111,1,'F','B');
+        taxi = new Taxi(1111,'F','B',2);
     }
 
     virtual void TearDown () {
@@ -22,16 +22,15 @@ public:
 };
 
 TEST_F(TaxiTest, GetIdTest) {
-    ASSERT_EQ(taxi->getId(), 203990924)<<"didn't manage to update id";
-}
-TEST_F(TaxiTest, GetNumOfKmPassedTest) {
-    ASSERT_EQ(taxi->getNumOfKmPassed(), 120)<<"didn't manage to update id numOfKm";
+    ASSERT_EQ(taxi->getId(), 1111)<<"didn't manage to update id";
 }
 TEST_F(TaxiTest, GetSpeedTest) {
     ASSERT_EQ(taxi->getSpeed(), 2)<<"didn't manage to update speed";
 }
 TEST_F(TaxiTest, CalculatePriceTest) {
-    ASSERT_EQ(taxi->calculatePrice(10), 50) << "didn't calculate correctly";
+    taxi->setTripInfo(new TripInfo(0,0,0,5,5,2,2.0));
+    ASSERT_EQ(taxi->calculatePrice(8), 16) << "didn't calculate correctly";
     ASSERT_ANY_THROW(taxi->calculatePrice(-10)) << "Km value isn't valid";
+    delete(taxi->getTripInfo());
 
 }
