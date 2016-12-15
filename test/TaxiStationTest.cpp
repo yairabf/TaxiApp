@@ -65,30 +65,29 @@ TEST_F(TaxiStationTest, removeTaxiTest) {
     taxiStation->removeTaxi(taxi);
     ASSERT_FALSE(taxiStation->doesTaxiExist(taxi)) << "Driver wasn't removed";
 }
-/*
 TEST_F(TaxiStationTest, assignTrips_and_Drive_Test) {
-    TripInfo tripInfo1 = TripInfo(0,0,0,5,5,2,2.5);
-    TripInfo tripInfo2 = TripInfo(0,5,5,9,9,2,2.5);
-    TripInfo tripInfo3 = TripInfo(0,9,9,5,5,2,2.5);
-    TripInfo tripInfo4 = TripInfo(0,5,5,0,0,2,2.5);
-    taxiStation->addTrip(&tripInfo1);
+    TripInfo* tripInfo1 = new TripInfo(0,0,0,5,5,2,2.5);
+    TripInfo* tripInfo2 = new TripInfo(0,5,5,9,9,2,2.5);
+    TripInfo* tripInfo3 = new TripInfo(0,9,9,5,5,2,2.5);
+    TripInfo* tripInfo4 = new TripInfo(0,5,5,0,0,2,2.5);
+    taxiStation->addTrip(tripInfo1);
     taxiStation->driveAll();
     EXPECT_EQ(map1->getBlock(Point(5,5)),driver->getLocation()) << "driver wasn't drive to correct"
                         " location";
-    taxiStation->addTrip(&tripInfo2);
+    taxiStation->addTrip(tripInfo2);
     taxiStation->driveAll();
     EXPECT_EQ(map1->getBlock(Point(9,9)),driver->getLocation()) << "driver wasn't drive to correct"
             " location";
-    taxiStation->addTrip(&tripInfo3);
+    taxiStation->addTrip(tripInfo3);
     taxiStation->driveAll();
     EXPECT_EQ(map1->getBlock(Point(5,5)),driver->getLocation()) << "driver wasn't drive to correct"
             " location";
-    taxiStation->addTrip(&tripInfo4);
+    taxiStation->addTrip(tripInfo4);
     taxiStation->driveAll();
     EXPECT_EQ(map1->getBlock(Point(0,0)),driver->getLocation()) << "driver wasn't drive to correct"
             " location";
 
-}*/
+}
 /*
 /**
  * these following tests check a method that operates this way:

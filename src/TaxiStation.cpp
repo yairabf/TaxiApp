@@ -112,6 +112,7 @@ void TaxiStation::addTrip(TripInfo* tripInfo) {
     Node* startLocation = map->getBlock(*tripInfo->getStart());
     Node* endLocation = map->getBlock(*tripInfo->getEnd());
     //creating the best route for the trip using bfs
+    map->resetVisited();
     std::stack<Node*> tempRoute = bfs->breadthFirstSearch(startLocation, endLocation);
     std::stack<Node*> *route = new stack<Node*>(tempRoute);
     tripInfo->setRoute(route);
