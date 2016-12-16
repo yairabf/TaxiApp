@@ -31,9 +31,7 @@ void TaxiStation::answerCall(Point destination, Passenger *passenger) {
 
 }
 
-TaxiStation::TaxiStation(Map *map) : map(map) {
-    bfs = new BreadthFirstSearch(map);
-    //assignDrivers();
+TaxiStation::TaxiStation(Map *map) : map(map), bfs(BreadthFirstSearch(map)) {
 }
 
 void TaxiStation::addDriver(Driver *driver) {
@@ -90,7 +88,6 @@ bool TaxiStation::doesTaxiExist(Taxi *taxi1) {
 }
 
 TaxiStation::~TaxiStation() {
-    delete(bfs);
     std::list<Taxi*>::iterator iteratorTaxis;
     std::list<Driver*>::iterator iteratorDrivers;
     std::list<TripInfo*>::iterator iteratorTrips;
@@ -115,7 +112,7 @@ void TaxiStation::addTrip(TripInfo* tripInfo) {
     Node* endLocation = map->getBlock(*tripInfo->getEnd());
     //creating the best route for the trip using bfs
     map->resetVisited();
-    std::stack<Node*> tempRoute = bfs->breadthFirstSearch(startLocation, endLocation);
+    std::stack<Node*> tempRoute = bfs.breadthFirstSearch(startLocation, endLocation);
     std::stack<Node*> *route = new stack<Node*>(tempRoute);
     tripInfo->setRoute(route);
     trips.push_back(tripInfo);

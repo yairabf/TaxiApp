@@ -18,7 +18,7 @@ private:
     list<Taxi* > taxis;
     list<TripInfo* > trips;
     Map* map;
-    BreadthFirstSearch* bfs;
+    BreadthFirstSearch bfs;
     void assignDrivers();
     void sendTaxi(Point);
     Driver* calculateClosestDriver(Point destination);
