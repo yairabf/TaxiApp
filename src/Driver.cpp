@@ -57,6 +57,7 @@ void Driver::assignTaxi(Taxi *taxi) {
 
 void Driver::assignTripInfo(TripInfo* tripInfo1) {
     tripInfo = tripInfo1;
+    setOccupied(true);
 }
 
 void Driver::addPassenger(Passenger* passenger) {
@@ -73,7 +74,8 @@ void Driver::drive() {
             route->pop();
         }
         getSatisfactionFromPassengers();
-        // delete(tripInfo->getRoute());
+        setOccupied(false);
+        //delete(tripInfo->getRoute());
     }
 }
 

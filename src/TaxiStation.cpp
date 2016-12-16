@@ -14,16 +14,16 @@ void TaxiStation::assignDrivers() {
     std::list<TripInfo*>::iterator tripInfoIterator = trips.begin();
     while (tripInfoIterator != trips.end()) {
         //assigns the correct driver to the trip
-        for (iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end(); ++iteratorDrivers) {
-            if (iteratorDrivers.operator*()->getLocation()->printValue() ==
-                tripInfoIterator.operator*()->getStart()->toString()) {
-                iteratorDrivers.operator*()->assignTripInfo(*tripInfoIterator);
+        for (iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end();
+             ++iteratorDrivers) {
+            if ((*iteratorDrivers)->getLocation()->printValue() ==
+                        (*tripInfoIterator)->getStart()->toString() &&
+                    !(*tripInfoIterator)->isDone() && !(*iteratorDrivers)->isOccupied()) {
+                (*iteratorDrivers)->assignTripInfo((*tripInfoIterator));
                 break;
             }
         }
-        TripInfo* tripInfo = *tripInfoIterator;
         tripInfoIterator++;
-        trips.remove(tripInfo);
     }
 }
 
@@ -94,17 +94,19 @@ TaxiStation::~TaxiStation() {
     std::list<Taxi*>::iterator iteratorTaxis;
     std::list<Driver*>::iterator iteratorDrivers;
     std::list<TripInfo*>::iterator iteratorTrips;
+    for (iteratorTrips = trips.begin(); iteratorTrips != trips.end(); ++iteratorTrips) {
+        TripInfo *tempTripInfo = *iteratorTrips;
+        delete(tempTripInfo);
+    }
     for (iteratorTaxis = taxis.begin(); iteratorTaxis != taxis.end(); ++iteratorTaxis) {
         Taxi *tempTaxi = *iteratorTaxis;
         delete(tempTaxi);
     }
     for (iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end(); ++iteratorDrivers) {
         Driver *tempDriver = *iteratorDrivers;
-        delete(tempDriver);
-    }
-    for (iteratorTrips = trips.begin(); iteratorTrips != trips.end(); ++iteratorTrips) {
-        TripInfo *tempTripInfo = *iteratorTrips;
-        delete(tempTripInfo);
+        if (tempDriver->getTripInfo() != NULL)
+            delete (tempDriver->getTripInfo());
+        delete (tempDriver);
     }
 }
 
@@ -125,7 +127,7 @@ void TaxiStation::driveAll() {
     for(iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end(); ++iteratorDrivers) {
         Driver* driver = *iteratorDrivers;
         driver->drive();
-        delete(driver->getTripInfo());
+        driver->getTripInfo()->setDone(true);
     }
 }
 

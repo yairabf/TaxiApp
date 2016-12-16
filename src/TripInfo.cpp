@@ -7,7 +7,7 @@ TripInfo::TripInfo(int id, int x_start, int y_start, int x_end, int y_end, int n
                                                                    tariff(tariff),
                                     start(Point(x_start, y_start)), end(Point(x_end, y_end)) {
     route = NULL;
-
+    done = false;
 }
 
 int TripInfo::getId() const {
@@ -40,6 +40,14 @@ void TripInfo::setRoute(std::stack<Node*> *route1) {
 
 std::stack<Node *> *TripInfo::getRoute() const {
     return route;
+}
+
+bool TripInfo::isDone() const {
+    return done;
+}
+
+void TripInfo::setDone(bool done) {
+    TripInfo::done = done;
 }
 
 

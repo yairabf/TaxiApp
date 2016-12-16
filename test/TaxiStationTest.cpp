@@ -10,6 +10,11 @@ public:
     Driver* driver;
     Map* map1;
     Node* farLocation;
+    TaxiStationTest::~TaxiStationTest() {
+        delete(map1);
+        delete(taxiStation);
+    }
+
 protected:
     virtual void SetUp() {
         cout<<"setting up for TaxiTest"<< endl;
@@ -26,10 +31,7 @@ protected:
 
     virtual void TearDown () {
         cout<<"tearing down" << endl;
-        delete(map1);
-        //delete (driver);
-        //delete(taxi);
-        delete(taxiStation);
+
     }
 
 public:
@@ -86,7 +88,10 @@ TEST_F(TaxiStationTest, assignTrips_and_Drive_Test) {
     taxiStation->driveAll();
     EXPECT_EQ(map1->getBlock(Point(0,0)),driver->getLocation()) << "driver wasn't drive to correct"
             " location";
-
+    free(tripInfo1);
+    delete(tripInfo2);
+    delete(tripInfo3);
+    delete(tripInfo4);
 }
 /*
 /**

@@ -10,6 +10,7 @@
 class TripInfo {
 private:
     int id;
+    bool done;
     int metersPassed = 0;
     Point start;
     Point end;
@@ -38,6 +39,10 @@ public:
      * @return amount of meters the trip has passed so far..
      */
     int getMetersPassed() const;
+
+    bool isDone() const;
+
+    void setDone(bool done);
 
     /**
      * getter.
