@@ -52,10 +52,12 @@ void TaxiStation::addDriver(Driver *driver) {
 
 void TaxiStation::addTaxi(Taxi *taxi) {
     taxis.push_back(taxi);
+    delete(taxi);
 }
 
 void TaxiStation::removeDriver(Driver *driver) {
     drivers.remove(driver);
+    delete(driver);
 }
 
 void TaxiStation::removeTaxi(Taxi *taxi) {
@@ -97,13 +99,11 @@ TaxiStation::~TaxiStation() {
     }
     for (iteratorTaxis = taxis.begin(); iteratorTaxis != taxis.end(); ++iteratorTaxis) {
         Taxi *tempTaxi = *iteratorTaxis;
-        delete(tempTaxi);
+        taxis.remove(tempTaxi);
     }
     for (iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end(); ++iteratorDrivers) {
         Driver *tempDriver = *iteratorDrivers;
-        if (tempDriver->getTripInfo() != NULL)
-            delete (tempDriver->getTripInfo());
-        delete (tempDriver);
+        drivers.remove(tempDriver);
     }
 }
 
