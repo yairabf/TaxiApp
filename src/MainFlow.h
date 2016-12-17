@@ -49,7 +49,6 @@ public:
      *
      */
     virtual ~MainFlow();
-
     /**
      *
      */

@@ -55,11 +55,13 @@ void TaxiStation::addTaxi(Taxi *taxi) {
 }
 
 void TaxiStation::removeDriver(Driver *driver) {
+    delete(driver);
     drivers.remove(driver);
 }
 
 void TaxiStation::removeTaxi(Taxi *taxi) {
-   taxis.remove(taxi);
+    delete(taxi);
+    taxis.remove(taxi);
 }
 
 list<Driver *> *TaxiStation::getDrivers() {
@@ -91,19 +93,19 @@ TaxiStation::~TaxiStation() {
     std::list<Taxi*>::iterator iteratorTaxis;
     std::list<Driver*>::iterator iteratorDrivers;
     std::list<TripInfo*>::iterator iteratorTrips;
-    for (iteratorTrips = trips.begin(); iteratorTrips != trips.end(); ++iteratorTrips) {
-        TripInfo *tempTripInfo = *iteratorTrips;
-        delete(tempTripInfo);
-    }
     for (iteratorTaxis = taxis.begin(); iteratorTaxis != taxis.end(); ++iteratorTaxis) {
         Taxi *tempTaxi = *iteratorTaxis;
         delete(tempTaxi);
     }
     for (iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end(); ++iteratorDrivers) {
         Driver *tempDriver = *iteratorDrivers;
-        if (tempDriver->getTripInfo() != NULL)
-            delete (tempDriver->getTripInfo());
+        //if (tempDriver->getTripInfo() != NULL)
+         //   delete (tempDriver->getTripInfo());
         delete (tempDriver);
+    }
+    for (iteratorTrips = trips.begin(); iteratorTrips != trips.end(); ++iteratorTrips) {
+        TripInfo *tempTripInfo = *iteratorTrips;
+        delete(tempTripInfo);
     }
 }
 

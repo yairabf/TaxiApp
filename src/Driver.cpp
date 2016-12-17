@@ -4,13 +4,15 @@
 #include "NodeBlock.h"
 
 Driver::Driver(int id, int age,char status, int yearsExp, int vehicle_id): id(id), age(age),
-                                                                             status(status),
-                                                                             yearsExp(yearsExp),
-                                                                             vehicle_id(vehicle_id)
-                                                                       {
+                                                                           status(status),
+                                                                           yearsExp(yearsExp),
+                                                                           vehicle_id(vehicle_id)
+{
     taxi = NULL;
     location = NULL;
     tripInfo = NULL;
+    occupied = false;
+
 }
 
 int Driver::getId() {
@@ -88,7 +90,7 @@ bool Driver::passengerIsExist(Passenger *passenger) {
     if(passengers.size() > 0) {
         for (std::list<Passenger *>::iterator it = passengers.begin(); it != passengers.end(); it++) {
             if (it.operator*()->getSource() == passenger->getSource() &&
-                    it.operator*()->getDestination() == passenger->getDestination()) {
+                it.operator*()->getDestination() == passenger->getDestination()) {
                 return true;
             }
         }
