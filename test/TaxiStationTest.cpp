@@ -5,14 +5,15 @@
 using namespace std;
 class TaxiStationTest: public ::testing::Test {
 public:
-    //trying working with real objects
-    TaxiStationTest() : map1(Map(10,10)), taxiStation(TaxiStation(&map1)) {}
+    TaxiStation *taxiStation;
+    Map* map1;
     Taxi* taxi;
     Driver* driver;
-    TripInfo* tripInfo1;
-    TripInfo* tripInfo2;
-    TripInfo* tripInfo3;
-    TripInfo* tripInfo4;
+    ~TaxiStationTest() {
+        delete(map1);
+        delete(taxiStation);
+    }
+
 
 protected:
     Map map1;
@@ -22,16 +23,8 @@ protected:
         taxi = new Taxi(1111,'F','B',1);
         taxiStation.addTaxi(taxi);
         driver = new Driver(1111, 23, 'M', 5, 1111);
-        tripInfo1 = new TripInfo(0,0,0,5,5,2,2.5);
-        tripInfo2 = new TripInfo(0,5,5,9,9,2,2.5);
-        tripInfo3 = new TripInfo(0,9,9,5,5,2,2.5);
-        tripInfo4 = new TripInfo(0,5,5,0,0,2,2.5);
-        taxiStation.addTrip(tripInfo1);
-        taxiStation.addTrip(tripInfo2);
-        taxiStation.addTrip(tripInfo3);
-        taxiStation.addTrip(tripInfo4);
+        taxiStation->addDriver(driver);
         //setting the location like this for the answerCallTest
-        taxiStation.addDriver(driver);
     }
 
     virtual void TearDown () {
@@ -72,18 +65,22 @@ TEST_F(TaxiStationTest, removeTaxiTest) {
     ASSERT_FALSE(taxiStation.doesTaxiExist(taxi)) << "Driver wasn't removed";
 }
 TEST_F(TaxiStationTest, assignTrips_and_Drive_Test) {
+    TripInfo* tripInfo1 = new TripInfo(0,0,0,5,5,2,2.5);
+    TripInfo* tripInfo2 = new TripInfo(0,5,5,9,9,2,2.5);
+    TripInfo* tripInfo3 = new TripInfo(0,9,9,5,5,2,2.5);
+    TripInfo* tripInfo4 = new TripInfo(0,5,5,0,0,2,2.5);
+    taxiStation->addTrip(tripInfo1);
+    taxiStation->driveAll();
+    EXPECT_EQ(map1->getBlock(Point(5,5)),driver->getLocation()) << "driver wasn't drive to correct location";
+    taxiStation->addTrip(tripInfo2);
+    taxiStation->driveAll();
+    EXPECT_EQ(map1->getBlock(Point(9,9)),driver->getLocation()) << "driver wasn't drive to correct location";
+    taxiStation->addTrip(tripInfo3);
     taxiStation.driveAll();
-    EXPECT_EQ(map1.getBlock(Point(5,5)),driver->getLocation()) << "driver wasn't drive to correct"
-                        " location";
+    EXPECT_EQ(map1.getBlock(Point(5,5)),driver->getLocation()) << "driver wasn't drive to correct location";
+    taxiStation->addTrip(tripInfo4);
     taxiStation.driveAll();
-    EXPECT_EQ(map1.getBlock(Point(9,9)),driver->getLocation()) << "driver wasn't drive to correct"
-            " location";
-    taxiStation.driveAll();
-    EXPECT_EQ(map1.getBlock(Point(5,5)),driver->getLocation()) << "driver wasn't drive to correct"
-            " location";
-    taxiStation.driveAll();
-    EXPECT_EQ(map1.getBlock(Point(0,0)),driver->getLocation()) << "driver wasn't drive to correct"
-            " location";
+    EXPECT_EQ(map1.getBlock(Point(0,0)),driver->getLocation()) << "driver wasn't drive to correct location";
 }
 /*
 /**
