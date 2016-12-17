@@ -46,10 +46,10 @@ void TaxiStation::addDriver(Driver *driver) {
     }
     drivers.push_back(driver);
 }
-
 void TaxiStation::removeDriver(Driver *driver) {
     delete(driver);
     drivers.remove(driver);
+    delete(driver);
 }
 
 void TaxiStation::addTrip(TripInfo* tripInfo) {
@@ -113,7 +113,6 @@ bool TaxiStation::doesDriverExist(Driver *driver1) {
                 return true;
             }
         }
-    }
     return false;
 }
 
