@@ -7,6 +7,8 @@ class TaxiStationTest: public ::testing::Test {
 public:
     TaxiStation *taxiStation;
     Map* map1;
+    Taxi* taxi;
+    Driver* driver;
     ~TaxiStationTest() {
         delete(map1);
         delete(taxiStation);
@@ -17,6 +19,10 @@ protected:
         cout<<"setting up for TaxiTest"<< endl;
         map1 = new Map(10,10);
         taxiStation = new TaxiStation(map1);
+        taxi = new Taxi(1111,'F','B',1);
+        taxiStation->addTaxi(taxi);
+        driver = new Driver(1111, 23, 'M', 5, 1111);
+        taxiStation->addDriver(driver);
         //setting the location like this for the answerCallTest
 
     }
@@ -42,49 +48,27 @@ public:
 };
 
 TEST_F(TaxiStationTest, addDriverTest) {
-    Driver* driver;
-    driver = new Driver(1111, 23, 'M', 5, 1111);
-    taxiStation->addDriver(driver);
     ASSERT_TRUE(taxiStation->doesDriverExist(driver)) << "Driver wasn't added";
 }
 
 TEST_F(TaxiStationTest, removeDriverTest) {
-
-    Driver* driver;
-    driver = new Driver(1111, 23, 'M', 5, 1111);
-    taxiStation->addDriver(driver);
     taxiStation->removeDriver(driver);
     ASSERT_FALSE(taxiStation->doesDriverExist(driver)) << "Driver wasn't removed";
 }
 
 TEST_F(TaxiStationTest, addTaxiTest) {
-    Taxi* taxi;
-    taxi = new Taxi(1111,'F','B',1);
-    taxiStation->addTaxi(taxi);
     ASSERT_TRUE(taxiStation->doesTaxiExist(taxi)) << "Driver wasn't added";
 }
 
 TEST_F(TaxiStationTest, removeTaxiTest) {
-    Taxi* taxi;
-    taxi = new Taxi(1111,'F','B',1);
     taxiStation->removeTaxi(taxi);
     ASSERT_FALSE(taxiStation->doesTaxiExist(taxi)) << "Driver wasn't removed";
 }
 TEST_F(TaxiStationTest, assignTrips_and_Drive_Test) {
-    Taxi* taxi;
-    Driver* driver;
-    TripInfo* tripInfo1;
-    TripInfo* tripInfo2;
-    TripInfo* tripInfo3;
-    TripInfo* tripInfo4;
-    taxi = new Taxi(1111,'F','B',1);
-    taxiStation->addTaxi(taxi);
-    driver = new Driver(1111, 23, 'M', 5, 1111);
-    taxiStation->addDriver(driver);
-    tripInfo1 = new TripInfo(0,0,0,5,5,2,2.5);
-    tripInfo2 = new TripInfo(0,5,5,9,9,2,2.5);
-    tripInfo3 = new TripInfo(0,9,9,5,5,2,2.5);
-    tripInfo4 = new TripInfo(0,5,5,0,0,2,2.5);
+    TripInfo* tripInfo1 = new TripInfo(0,0,0,5,5,2,2.5);
+    TripInfo* tripInfo2 = new TripInfo(0,5,5,9,9,2,2.5);
+    TripInfo* tripInfo3 = new TripInfo(0,9,9,5,5,2,2.5);
+    TripInfo* tripInfo4 = new TripInfo(0,5,5,0,0,2,2.5);
     taxiStation->addTrip(tripInfo1);
     taxiStation->driveAll();
     EXPECT_EQ(map1->getBlock(Point(5,5)),driver->getLocation()) << "driver wasn't drive to correct"" location";

@@ -77,7 +77,6 @@ void Driver::drive() {
         }
         getSatisfactionFromPassengers();
         setOccupied(false);
-        //delete(tripInfo->getRoute());
     }
 }
 
