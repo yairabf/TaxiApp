@@ -54,6 +54,7 @@ TripInfo *Driver::getTripInfo() const {
 }
 
 void Driver::assignTaxi(Taxi *taxi) {
+    //delete(taxi);
     Driver::taxi = taxi;
 }
 
@@ -75,7 +76,7 @@ void Driver::drive() {
             //cout << route->top()->printValue() << endl;
             route->pop();
         }
-        getSatisfactionFromPassengers();
+        //getSatisfactionFromPassengers();
         setOccupied(false);
     }
 }
@@ -99,6 +100,12 @@ bool Driver::passengerIsExist(Passenger *passenger) {
 
 int Driver::getVehicle_id() const {
     return vehicle_id;
+}
+
+Driver::~Driver() {
+    //delete(tripInfo);
+    //delete(taxi);
+    //delete(location);
 }
 
 void Driver::getSatisfactionFromPassengers() {

@@ -24,7 +24,6 @@ protected:
         taxiStation->addTaxi(taxi);
         driver = new Driver(1111, 23, 'M', 5, 1111);
         taxiStation->addDriver(driver);
-        //setting the location like this for the answerCallTest
     }
 
     virtual void TearDown () {

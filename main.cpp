@@ -11,11 +11,11 @@ int main(int argc, char** argv) {
     RUN_ALL_TESTS();
     int columns, rows;
     char temp;
-    cout << "Please insert the size of the gird" << endl;
+    /*cout << "Please insert the size of the gird" << endl;
     cin >> columns;
     cin >> rows;
     MainFlow mainFlow = MainFlow(columns, rows);
-    mainFlow.run();
+    mainFlow.run();*/
     return 1;
 }
 
