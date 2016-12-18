@@ -26,9 +26,16 @@ public:
  * @return stuck full of pointers to node that represent the fastest route.
  */
     std::stack<Node*> breadthFirstSearch(Node* start, Node* goal);
-
+    /**
+     * constructor.
+     * @param graph is the graph the bfs searches.
+     * @return a pointer to the class.
+     */
     BreadthFirstSearch(Graph* graph);
 
+    /**
+     * destructor.
+     */
     ~BreadthFirstSearch();
 };
 

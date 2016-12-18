@@ -80,6 +80,7 @@ public:
      * @return the route for the trip as a stack.
      */
     std::stack<Node *>* getRoute() const;
+
 };
 
 

@@ -28,9 +28,9 @@ private:
     void create();
 
     /**
-     *
+     * resets all the nodes ti not be obstacles.
      */
-    void resstObstacles();
+    void resetObstacles();
 
 public:
     /**

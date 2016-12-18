@@ -87,9 +87,9 @@ public:
     void assignTripInfo(TripInfo* tripInfo1);
 
     /**
-        * getter.
-        * @return the average satisfaction of the driver.
-        */
+     * getter.
+     * @return the average satisfaction of the driver.
+     */
     float getAvgSatisfaction();
 
     /**
@@ -104,26 +104,26 @@ public:
      */
     Node *getLocation();
 
-/**
+    /**
      * setter.
      * @param location the new location of the driver.
      */
     void setLocation(Node *location);
 
-/**
+    /**
      * adds a passenger to the passengers list.
      * @param passenger is the passenger to be added.
      */
     void addPassenger(Passenger* passenger);
 
-/**
+    /**
      * checks if the passenger is in the list.
      * @param passenger is the passenger to be added.
      * @return true if the passenger is on the list.
      */
     bool passengerIsExist(Passenger* passenger);
 
-/**
+    /**
      * makes the driver drive.
      * @param route is the route he should drive by.
      */
@@ -136,6 +136,10 @@ public:
         */
     double calculatePrice(int km);
 
+    /**
+     * destructor.
+     */
+    ~Driver();
 };
 
 
