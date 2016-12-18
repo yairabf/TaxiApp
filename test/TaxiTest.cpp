@@ -22,7 +22,7 @@ public:
 };
 
 /**
- * tests the calculate price function.
+ * tests the calculate price function
  */
 TEST_F(TaxiTest, CalculatePriceTest) {
     taxi->setTripInfo(new TripInfo(0,0,0,5,5,2,2.0));
