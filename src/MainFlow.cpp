@@ -10,13 +10,14 @@ MainFlow::MainFlow(const int columns, const int rows) {
 void MainFlow::run() {
     cout <<"please insert number of obstacles" << endl;
     int numberOfObstacles, x, y;
+    char temp;
     cin >> numberOfObstacles;
     if(numberOfObstacles > 0 ) {
         //waits for obstacles input
         cout << "please enter points" << endl;
         //need to add a test that checks if the obstacles have been inserted correctly.
         for(int i = 1; i <= numberOfObstacles; i++) {
-            cin >> x >> y;
+            cin >> x >> temp >> y;
             taxiStation->setObstacle(x, y);
         }
     }
