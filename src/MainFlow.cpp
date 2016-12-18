@@ -1,5 +1,4 @@
 
-
 #include "MainFlow.h"
 
 MainFlow::MainFlow(const int columns, const int rows) {
@@ -21,7 +20,7 @@ void MainFlow::run() {
     }
     int task;
     do {
-       cin >> task;
+        cin >> task;
         switch (task) {
             case 1:
                 createDriver();

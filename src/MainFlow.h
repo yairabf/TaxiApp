@@ -1,12 +1,11 @@
-
 #ifndef ADPROG1_1_MAINFLOW_H
 #define ADPROG1_1_MAINFLOW_H
 
 #include <iostream>
-#include "gtest/gtest.h"
 #include "Map.h"
 #include "BreadthFirstSearch.h"
 #include "TaxiStation.h"
+
 
 class MainFlow {
 private:
@@ -53,7 +52,6 @@ public:
      * rinf the program.
      */
     void run();
-
 };
 
 
