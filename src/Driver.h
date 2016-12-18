@@ -27,7 +27,7 @@ private:
     TripInfo* tripInfo;
     list<Passenger*> passengers;
     /**
-     * getter.
+     * updates the satisfaction of the passengers.
      */
     void getSatisfactionFromPassengers();
 
@@ -44,8 +44,8 @@ public:
     int getId();
 
     /**
-     *
-     * @return
+     * getter.
+     * @return the taxi id.
      */
     int getVehicle_id() const;
 

@@ -39,7 +39,7 @@ public:
 
     /**
      *
-     * @return if the blocl is an obstacle
+     * @return if the block is an obstacle
      */
     bool isObstacle();
 

@@ -8,6 +8,7 @@ TripInfo::TripInfo(int id, int x_start, int y_start, int x_end, int y_end, int n
                                     start(Point(x_start, y_start)), end(Point(x_end, y_end)) {
     route = NULL;
     done = false;
+    metersPassed = 0;
 }
 
 int TripInfo::getId() const {

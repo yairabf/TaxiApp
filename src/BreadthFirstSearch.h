@@ -27,8 +27,15 @@ public:
  */
     std::stack<Node*> breadthFirstSearch(Node* start, Node* goal);
 
+    /**
+     * constructor.
+     * @param graph is the graph the bfs searches.
+     */
     BreadthFirstSearch(Graph* graph);
 
+    /**
+     * destructor.
+     */
     ~BreadthFirstSearch();
 };
 

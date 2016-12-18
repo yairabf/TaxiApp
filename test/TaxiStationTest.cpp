@@ -46,24 +46,39 @@ public:
         return true;
     }
 };
-
+/**
+ * tests the add driver function.
+ */
 TEST_F(TaxiStationTest, addDriverTest) {
     ASSERT_TRUE(taxiStation->doesDriverExist(driver)) << "Driver wasn't added";
 }
-
+/**
+ * tests the remove driver test.
+ */
 TEST_F(TaxiStationTest, removeDriverTest) {
     taxiStation->removeDriver(driver);
     ASSERT_FALSE(taxiStation->doesDriverExist(driver)) << "Driver wasn't removed";
 }
 
+/**
+ * tests the add taxi function.
+ */
 TEST_F(TaxiStationTest, addTaxiTest) {
     ASSERT_TRUE(taxiStation->doesTaxiExist(taxi)) << "Driver wasn't added";
 }
 
+/**
+ * tests the remove taxi.
+ */
 TEST_F(TaxiStationTest, removeTaxiTest) {
     taxiStation->removeTaxi(taxi);
     ASSERT_FALSE(taxiStation->doesTaxiExist(taxi)) << "Driver wasn't removed";
 }
+
+/**
+ * assigns trip to the taxi station and to the drivers and requests the drivers to
+ * drive according to the trips.
+ */
 TEST_F(TaxiStationTest, assignTrips_and_Drive_Test) {
     TripInfo* tripInfo1 = new TripInfo(0,0,0,5,5,2,2.5);
     TripInfo* tripInfo2 = new TripInfo(0,5,5,9,9,2,2.5);

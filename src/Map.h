@@ -28,13 +28,13 @@ private:
     void create();
 
     /**
-     *
+     * resets all the nodes not to be obstacles.
      */
-    void resstObstacles();
+    void resetObstacles();
 
 public:
     /**
-     * Deconstructor.
+     * deconstructor.
      */
     ~Map();
 
@@ -52,7 +52,7 @@ public:
     void setObstacle(Point point);
 
     /**
-     *
+     * returns a block according to a point.
      * @param point
      * @return pointer to the block at that point
      */

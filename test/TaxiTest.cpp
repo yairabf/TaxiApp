@@ -21,12 +21,9 @@ public:
     TaxiTest(){};
 };
 
-TEST_F(TaxiTest, GetIdTest) {
-    ASSERT_EQ(taxi->getId(), 1111)<<"didn't manage to update id";
-}
-TEST_F(TaxiTest, GetSpeedTest) {
-    ASSERT_EQ(taxi->getSpeed(), 2)<<"didn't manage to update speed";
-}
+/**
+ * tests the calculate price function.
+ */
 TEST_F(TaxiTest, CalculatePriceTest) {
     taxi->setTripInfo(new TripInfo(0,0,0,5,5,2,2.0));
     ASSERT_EQ(taxi->calculatePrice(8), 16) << "didn't calculate correctly";

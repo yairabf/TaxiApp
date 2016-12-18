@@ -62,7 +62,7 @@ public:
 
     /**
      *
-     * @return if the blocl is an obstacle
+     * @return if the bloclk is an obstacle
      */
     virtual bool isObstacle() = 0;
 

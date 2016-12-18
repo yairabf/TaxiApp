@@ -11,23 +11,26 @@ class TripInfo {
 private:
     int id;
     bool done;
-    int metersPassed = 0;
+    int metersPassed;
     Point start;
     Point end;
     int numberOfPassengers;
     double tariff;
     std::stack <Node*> *route;
-public:
 
-	/**
+public:
+    /**
      * constructor.
-     * @param s dtart point.
-     * @param e end point.
-     * @return a new trip info.
+     * @param id  of the trip.
+     * @param x_start where the trip starts on x axis.
+     * @param y_start where the trip starts on the y axis.
+     * @param x_end where the trip ends on x axis.
+     * @param y_end where the trip ends on y axis.
+     * @param num_of_passenger number of passengers on the trip.
+     * @param tariff how much the trip costs.
      */
     TripInfo(int id, int x_start, int y_start, int x_end, int y_end, int num_of_passenger,
-             double tariff);
-
+                       double tariff);
     /**
      * getter.
      * @return the id of the trip info.
@@ -40,10 +43,20 @@ public:
      */
     int getMetersPassed() const;
 
+    /**
+     * destructor.
+     */
     virtual ~TripInfo();
 
+    /**
+     * has the trip finished
+     * @return true if it has finished, otherwise, false.
+     */
     bool isDone() const;
-
+    /**
+     * sets if the trip has ended.
+     * @param done
+     */
     void setDone(bool done);
 
     /**
