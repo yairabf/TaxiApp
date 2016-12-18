@@ -18,7 +18,6 @@ TaxiStation::~TaxiStation() {
     }
     for (iteratorTrips = trips.begin(); iteratorTrips != trips.end(); ++iteratorTrips) {
         TripInfo *tempTripInfo = *iteratorTrips;
-        //delete(tempTripInfo->getRoute());
         delete(tempTripInfo);
     }
 }
