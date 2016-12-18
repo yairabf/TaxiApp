@@ -40,6 +40,8 @@ public:
      */
     int getMetersPassed() const;
 
+    virtual ~TripInfo();
+
     bool isDone() const;
 
     void setDone(bool done);

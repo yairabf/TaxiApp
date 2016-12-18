@@ -18,7 +18,7 @@ TaxiStation::~TaxiStation() {
     }
     for (iteratorTrips = trips.begin(); iteratorTrips != trips.end(); ++iteratorTrips) {
         TripInfo *tempTripInfo = *iteratorTrips;
-        delete(tempTripInfo->getRoute());
+        //delete(tempTripInfo->getRoute());
         delete(tempTripInfo);
     }
 }
@@ -49,7 +49,6 @@ void TaxiStation::addDriver(Driver *driver) {
 void TaxiStation::removeDriver(Driver *driver) {
     delete(driver);
     drivers.remove(driver);
-    delete(driver);
 }
 
 void TaxiStation::addTrip(TripInfo* tripInfo) {
@@ -107,15 +106,15 @@ bool TaxiStation::doesTaxiExist(Taxi *taxi1) {
 }
 
 bool TaxiStation::doesDriverExist(Driver *driver1) {
-    if(drivers.size() > 0) {
+    if (drivers.size() > 0) {
         for (std::list<Driver *>::iterator it = drivers.begin(); it != drivers.end(); it++) {
             if (it.operator*()->getId() == driver1->getId()) {
                 return true;
             }
         }
-    return false;
+        return false;
+    }
 }
-
 void TaxiStation::setObstacle(int x, int y) {
     map->setObstacle(Point(x, y));
 }

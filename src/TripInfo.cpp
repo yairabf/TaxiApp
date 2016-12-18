@@ -50,4 +50,8 @@ void TripInfo::setDone(bool done) {
     TripInfo::done = done;
 }
 
+TripInfo::~TripInfo() {
+    delete(route);
+}
+
 

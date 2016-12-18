@@ -5,8 +5,8 @@
 using namespace std;
 class TaxiStationTest: public ::testing::Test {
 public:
-    TaxiStation *taxiStation;
     Map* map1;
+    TaxiStation* taxiStation;
     Taxi* taxi;
     Driver* driver;
     ~TaxiStationTest() {
@@ -16,12 +16,12 @@ public:
 
 
 protected:
-    Map map1;
-    TaxiStation taxiStation;
     virtual void SetUp() {
         cout<<"setting up for TaxiTest"<< endl;
+        map1 = new Map(10,10);
+        taxiStation = new TaxiStation(map1);
         taxi = new Taxi(1111,'F','B',1);
-        taxiStation.addTaxi(taxi);
+        taxiStation->addTaxi(taxi);
         driver = new Driver(1111, 23, 'M', 5, 1111);
         taxiStation->addDriver(driver);
         //setting the location like this for the answerCallTest
@@ -48,21 +48,21 @@ public:
 };
 
 TEST_F(TaxiStationTest, addDriverTest) {
-    ASSERT_TRUE(taxiStation.doesDriverExist(driver)) << "Driver wasn't added";
+    ASSERT_TRUE(taxiStation->doesDriverExist(driver)) << "Driver wasn't added";
 }
 
 TEST_F(TaxiStationTest, removeDriverTest) {
-    taxiStation.removeDriver(driver);
-    ASSERT_FALSE(taxiStation.doesDriverExist(driver)) << "Driver wasn't removed";
+    taxiStation->removeDriver(driver);
+    ASSERT_FALSE(taxiStation->doesDriverExist(driver)) << "Driver wasn't removed";
 }
 
 TEST_F(TaxiStationTest, addTaxiTest) {
-    ASSERT_TRUE(taxiStation.doesTaxiExist(taxi)) << "Driver wasn't added";
+    ASSERT_TRUE(taxiStation->doesTaxiExist(taxi)) << "Driver wasn't added";
 }
 
 TEST_F(TaxiStationTest, removeTaxiTest) {
-    taxiStation.removeTaxi(taxi);
-    ASSERT_FALSE(taxiStation.doesTaxiExist(taxi)) << "Driver wasn't removed";
+    taxiStation->removeTaxi(taxi);
+    ASSERT_FALSE(taxiStation->doesTaxiExist(taxi)) << "Driver wasn't removed";
 }
 TEST_F(TaxiStationTest, assignTrips_and_Drive_Test) {
     TripInfo* tripInfo1 = new TripInfo(0,0,0,5,5,2,2.5);
@@ -76,11 +76,11 @@ TEST_F(TaxiStationTest, assignTrips_and_Drive_Test) {
     taxiStation->driveAll();
     EXPECT_EQ(map1->getBlock(Point(9,9)),driver->getLocation()) << "driver wasn't drive to correct location";
     taxiStation->addTrip(tripInfo3);
-    taxiStation.driveAll();
-    EXPECT_EQ(map1.getBlock(Point(5,5)),driver->getLocation()) << "driver wasn't drive to correct location";
+    taxiStation->driveAll();
+    EXPECT_EQ(map1->getBlock(Point(5,5)),driver->getLocation()) << "driver wasn't drive to correct location";
     taxiStation->addTrip(tripInfo4);
-    taxiStation.driveAll();
-    EXPECT_EQ(map1.getBlock(Point(0,0)),driver->getLocation()) << "driver wasn't drive to correct location";
+    taxiStation->driveAll();
+    EXPECT_EQ(map1->getBlock(Point(0,0)),driver->getLocation()) << "driver wasn't drive to correct location";
 }
 /*
 /**
