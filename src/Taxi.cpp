@@ -42,4 +42,14 @@ void Taxi::setTripInfo(TripInfo *tripInfo) {
     Taxi::tripInfo = tripInfo;
 }
 
-
+using namespace std;
+using namespace boost::archive;
+template<class Archive>
+void Taxi::serialize(Archive & ar, const unsigned int version) {
+    ar & id;
+    ar & numOfKmPassed;
+    ar & carManufacturer;
+    ar & color;
+    ar & speed;
+    ar & tripInfo;
+}

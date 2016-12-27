@@ -3,11 +3,12 @@
 #include "Driver.h"
 #include "NodeBlock.h"
 
-Driver::Driver(int id, int age,char status, int yearsExp, int vehicle_id): id(id), age(age),
-                                                                           status(status),
-                                                                           yearsExp(yearsExp),
+
+Driver::Driver(int id, int age,char status1, int yearsExp1, int vehicle_id): id(id), age(age),
                                                                            vehicle_id(vehicle_id)
 {
+    yearsExp = yearsExp1;
+    status = status1;
     taxi = NULL;
     location = NULL;
     tripInfo = NULL;
@@ -118,3 +119,35 @@ void Driver::getSatisfactionFromPassengers() {
     }
     avgSatisfaction = sum / passengers.size();*/
 }
+
+using namespace std;
+using namespace boost::archive;
+template<class Archive>
+void Driver::serialize(Archive & ar, const unsigned int version) {
+    ar & id;
+    ar & age;
+    ar & yearsExp;
+    ar & vehicle_id;
+    ar & occupied;
+    ar & status;
+    ar & taxi;
+    ar & avgSatisfaction;
+    ar & location;//check if need to serialize node
+    ar & tripInfo;
+    ar & passengers;
+
+
+}
+/*
+ * int id;
+    int age;
+    int yearsExp;
+    int vehicle_id;
+    bool occupied;
+    char status;
+    Taxi* taxi;
+    float avgSatisfaction;
+    Node* location;
+    TripInfo* tripInfo;
+    list<Passenger*> passengers;
+ */

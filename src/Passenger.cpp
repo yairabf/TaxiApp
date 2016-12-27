@@ -19,3 +19,11 @@ const Point &Passenger::getDestination() const {
     return destination;
 }
 
+using namespace std;
+using namespace boost::archive;
+template<class Archive>
+void Passenger::serialize(Archive & ar, const unsigned int version) {
+    ar & source;
+    ar & destination;
+}
+

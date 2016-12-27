@@ -11,10 +11,19 @@ class Taxi {
 private:
     int id;
     int numOfKmPassed;
-    char CarManufacturer;
+    char carManufacturer;
     char color;
     int speed;
     TripInfo* tripInfo;
+
+    friend class boost::serialization::access;
+    /**
+     * serialization of the class
+     * @param ar is the serializing object.
+     * @param version is the version of serializing object.
+     */
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int version);
 public:
 	
 	/**

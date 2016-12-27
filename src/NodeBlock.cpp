@@ -70,6 +70,17 @@ void NodeBlock::setIsObstacle(bool isObstacle) {
     NodeBlock::obstacle = isObstacle;
 }
 
+using namespace std;
+using namespace boost::archive;
+template<class Archive>
+void NodeBlock::serialize(Archive & ar, const unsigned int version) {
+    ar& visited;
+    ar& father;//need to check if i need to serialize node
+    ar& distance;
+    ar& point;//need to serialize point
+    ar& obstacle;
+}
+
 /**
  * overloading the operator "<<" of an out stream.
  * @param out

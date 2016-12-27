@@ -1,6 +1,5 @@
-
-
 #include "MainFlow.h"
+#include "ClientDriver.h"
 
 MainFlow::MainFlow(const int columns, const int rows) {
     map = new Map(columns, rows);
@@ -21,7 +20,7 @@ void MainFlow::run() {
     }
     int task;
     do {
-       cin >> task;
+        cin >> task;
         switch (task) {
             case 1:
                 createDriver();
@@ -47,12 +46,15 @@ void MainFlow::run() {
 }
 
 void MainFlow::createDriver() {
-    int id, age, experience, vehicle_id;
+    /*int id, age, experience, vehicle_id;
     char status , temp;
     //receiving driver details
     cin >> id >> temp >> age >> temp >> status >> temp >> experience >> temp >> vehicle_id;
     Driver* driver = new Driver(id,age,status,experience,vehicle_id);
-    taxiStation->addDriver(driver);
+    taxiStation->addDriver(driver);*/
+
+    //need to create a port and send it to the ClientDriver
+    ClientDriver clientDriver(;//need to add a port number.
 }
 
 MainFlow::~MainFlow() {

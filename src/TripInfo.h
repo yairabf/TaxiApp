@@ -18,6 +18,15 @@ private:
     double tariff;
     std::stack <Node*> *route;
 
+    friend class boost::serialization::access;
+    /**
+     * serialization of the class
+     * @param ar is the serializing object.
+     * @param version is the version of serializing object.
+     */
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int version);
+
 public:
     /**
      * constructor.

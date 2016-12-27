@@ -111,9 +111,10 @@ bool TaxiStation::doesDriverExist(Driver *driver1) {
                 return true;
             }
         }
-        return false;
     }
+    return false;
 }
+
 void TaxiStation::setObstacle(int x, int y) {
     map->setObstacle(Point(x, y));
 }
