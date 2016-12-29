@@ -73,6 +73,9 @@ void Driver::drive() {
     if(tripInfo != NULL) {
         stack<Node*> *route = tripInfo->getRoute();
         while(route->size() > 0){
+            if(taxi->getSpeed() == 2 && route->size() > 1) {
+                route->pop();
+            }
             setLocation(route->top());
             //cout << route->top()->printValue() << endl;
             route->pop();

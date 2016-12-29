@@ -2,7 +2,10 @@
 #include "Taxi.h"
 #include <stdexcept>
 
-Taxi::Taxi(int id, char CarManufacturer, char color, int speed) : id(id), CarManufacturer(CarManufacturer),
+using namespace std;
+using namespace boost::archive;
+
+Taxi::Taxi(int id, char CarManufacturer, char color, int speed) : id(id), carManufacturer(CarManufacturer),
                                                                   color(color), speed(speed) {
     tripInfo = NULL;
     numOfKmPassed = 0;
@@ -16,7 +19,7 @@ int Taxi::getNumOfKmPassed() const {
 }
 
 const char &Taxi::getCarManufacturer() const {
-    return CarManufacturer;
+    return carManufacturer;
 }
 
 const char &Taxi::getColor() const {
@@ -42,8 +45,6 @@ void Taxi::setTripInfo(TripInfo *tripInfo) {
     Taxi::tripInfo = tripInfo;
 }
 
-using namespace std;
-using namespace boost::archive;
 template<class Archive>
 void Taxi::serialize(Archive & ar, const unsigned int version) {
     ar & id;
