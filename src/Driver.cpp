@@ -5,7 +5,7 @@
 
 
 Driver::Driver(int id, int age,char status1, int yearsExp1, int vehicle_id): id(id), age(age),
-                                                                           vehicle_id(vehicle_id)
+                                                                             vehicle_id(vehicle_id)
 {
     yearsExp = yearsExp1;
     status = status1;
@@ -72,36 +72,15 @@ void Driver::drive() {
     //checking if the driver has been assigned to a route
     if(tripInfo != NULL) {
         stack<Node*> *route = tripInfo->getRoute();
-        while(route->size() > 0){
-            if(taxi->getSpeed() == 2 && route->size() > 1) {
-                route->pop();
-            }
-            setLocation(route->top());
-            //cout << route->top()->printValue() << endl;
+        if(taxi->getSpeed() == 2 && route->size() > 1) {
             route->pop();
         }
-        //getSatisfactionFromPassengers();
-        setOccupied(false);
+        setLocation(route->top());
+        //cout << route->top()->printValue() << endl;
+        route->pop();
     }
-}
-
-void Driver::driveOneStep() {
-    //checking if the driver has been assigned to a route
-    if(tripInfo != NULL) {
-        stack<Node*> *route = tripInfo->getRoute();
-        if(route->size() > 0) {
-            //the driver moves according to his taxis speed
-            for (int i = 1; i <= taxi->getSpeed(); i++) {
-                setLocation(route->top());
-                //cout << route->top()->printValue() << endl;
-                route->pop();
-             }
-        }
-        if(route->empty()) {
-            setOccupied(false);
-            //getSatisfactionFromPassengers
-        }
-    }
+    //getSatisfactionFromPassengers();
+    setOccupied(false);
 }
 
 double Driver::calculatePrice(int km) {

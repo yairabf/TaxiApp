@@ -144,10 +144,6 @@ public:
      */
     void drive();
 
-    /**
-     * drives one step
-     */
-    void driveOneStep();
 
     /**
         * calculates the price to pay.
