@@ -5,6 +5,7 @@
 #include "Node.h"
 #include "Point.h"
 #include <string>
+#include <boost/serialization/base_object.hpp>
 #include <boost/archive/archive_exception.hpp>
 #include <boost/serialization/access.hpp>
 
@@ -22,6 +23,7 @@ private:
      */
     template<class Archive>
     void serialize(Archive & ar, const unsigned int version);
+
 protected:
     std::vector<Node*> children;
     bool visited;

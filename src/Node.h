@@ -5,14 +5,23 @@
 #include <vector>
 #include "Point.h"
 #include <string>
-
+#include <boost/serialization/assume_abstract.hpp>
+#include <boost/serialization/base_object.hpp>
 /**
  * An abstract class that represent Node/Vertex of a graph the node
  * has functionality that let use him for calculating route print the
  * value it holds. etc..
  */
 class Node {
-
+private:
+    friend class boost::serialization::access;
+    /**
+     * serialization of the class
+     * @param ar is the serializing object.
+     * @param version is the version of serializing object.
+     */
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int version);
 public:
     /**
      * a setter for the boolean variable that tells us if the node been visited while searching
@@ -77,5 +86,5 @@ public:
  */
 std::ostream&operator<<(std::ostream& out, Node& node);
 
-
+BOOST_SERIALIZATION_ASSUME_ABSTRACT(Node);
 #endif //ADPROG1_1_NODE_H

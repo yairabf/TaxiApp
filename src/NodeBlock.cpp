@@ -1,6 +1,8 @@
 
 #include "NodeBlock.h"
 #include <sstream>
+#include <boost/serialization/export.hpp>
+
 using namespace std;
 
 
@@ -72,8 +74,10 @@ void NodeBlock::setIsObstacle(bool isObstacle) {
 
 using namespace std;
 using namespace boost::archive;
+
 template<class Archive>
 void NodeBlock::serialize(Archive & ar, const unsigned int version) {
+    ar& boost::serialization::base_object<Node>(*this);
     ar& visited;
     ar& father;//need to check if i need to serialize node
     ar& distance;
@@ -101,3 +105,4 @@ std::ostream& operator<<(std::ostream& out, Node& node) {
 bool NodeBlock::operator==(const NodeBlock& nodeBlock)const{
     return(point == nodeBlock.point);
 };
+BOOST_CLASS_EXPORT(NodeBlock);

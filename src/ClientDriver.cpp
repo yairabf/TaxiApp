@@ -31,7 +31,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
     boost::iostreams::basic_array_source<char> device((char *) stringedBuffer.c_str(), stringedBuffer.size());
     boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
     boost::archive::binary_iarchive ia(s2);
-    ia >> taxi;
+    ia >> *taxi;
     driver->assignTaxi(taxi);
 
 
@@ -51,7 +51,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
             boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s3(inserter);
             boost::archive::binary_oarchive oa3(s);
             //sending the location
-            oa << (*driver->getLocation());
+            oa << *driver->getLocation();
             s.flush();
             udp.sendData(serial_str);
         }
@@ -60,7 +60,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
                                                                stringedBuffer2.size());
             boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s3(device);
             boost::archive::binary_iarchive ia2(s3);
-            ia2 >> tripInfo;
+            ia2 >> *tripInfo;
             driver->assignTripInfo(tripInfo);
             //check if it is ok to use buffer 2 again
             //drives as long as it receives go

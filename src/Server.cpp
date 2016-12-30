@@ -1,6 +1,6 @@
 #include "Server.h"
 
-Server::Server(const int columns, const int rows): udp(Udp(1, server_port)) {
+Server::Server(const int columns, const int rows):udp(Udp(1, server_port)) {
     map = new Map(columns, rows);
     taxiStation = new TaxiStation(map);
     clock = 0;
@@ -53,7 +53,6 @@ void Server::createDriver() {
     /*receiving all the drivers and insert them into taxiStation list of drivers*/
     int numOfDrivers;
     cin >> numOfDrivers;
-    char buffer[1024];
     for(int i=0; i < numOfDrivers; i++) {
         Driver* driver;
         char buffer[1024];
@@ -64,7 +63,7 @@ void Server::createDriver() {
         boost::iostreams::basic_array_source<char> device((char *) stringedBuffer.c_str(), stringedBuffer.size());
         boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
         boost::archive::binary_iarchive ia(s2);
-        ia >> driver;
+        ia >> *driver;
         taxiStation->addDriver(driver);
 
         /*serialize the taxi we wont to send the client*/
@@ -72,7 +71,7 @@ void Server::createDriver() {
         boost::iostreams::back_insert_device<std::string> inserter(serial_str);
         boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
         boost::archive::binary_oarchive oa(s);
-        oa << (*driver->getTaxi());
+        oa << *(driver->getTaxi());
         s.flush();
         udp.sendData(serial_str);
 

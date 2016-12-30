@@ -14,7 +14,7 @@ private:
     Map* map;
     TaxiStation* taxiStation;
     int clock;
-    Udp udp;//check if this is ok
+    Udp udp;
 
     /**
      * creeates a driver.
@@ -47,8 +47,6 @@ public:
      * @param rows of the graph.
      */
     Server(const int columns, const int rows);
-
-    Server(const Udp &udp);
 
     /**
      * destructor.
