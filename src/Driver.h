@@ -18,8 +18,10 @@
 #include <boost/iostreams/stream.hpp>
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
-#include <boost/serialization/list.hpp>
+#include <boost/serialization/vector.hpp>
+
 using namespace std;
+using namespace boost::archive;
 
 /**
  * Class that represent a taxi driver. the driver can receives a tripInfo
@@ -37,15 +39,27 @@ private:
     Node* location;
     TripInfo* tripInfo;
     list<Passenger*> passengers;
+
     /**
      * updates the satisfaction of the passengers.
      */
     void getSatisfactionFromPassengers();
 
     friend class boost::serialization::access;
-
     template<class Archive>
-    void serialize(Archive & ar, const unsigned int version);
+    void serialize(Archive & ar, const unsigned int version) {
+        ar & id;
+        ar & age;
+        ar & yearsExp;
+        ar & vehicle_id;
+        ar & occupied;
+        ar & status;
+        ar & *taxi;
+        ar & avgSatisfaction;
+        ar & location;//check if need to serialize node
+        ar & *tripInfo;
+        ar & passengers;
+    }
 
 public:
     /**

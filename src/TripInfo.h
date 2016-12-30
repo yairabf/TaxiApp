@@ -6,6 +6,7 @@
 #include <stack>
 #include "Point.h"
 #include "Node.h"
+using namespace boost::archive;
 
 class TripInfo {
 private:
@@ -18,14 +19,23 @@ private:
     double tariff;
     std::stack <Node*> *route;
 
-    friend class boost::serialization::access;
     /**
      * serialization of the class
      * @param ar is the serializing object.
      * @param version is the version of serializing object.
      */
+    friend class boost::serialization::access;
     template<class Archive>
-    void serialize(Archive & ar, const unsigned int version);
+    void serialize(Archive & ar, const unsigned int version){
+        ar & id;
+        ar & done;
+        ar & metersPassed;
+        ar & start;
+        ar & end;
+        ar & numberOfPassengers;
+        ar & tariff;
+        ar & route;
+    }
 
 public:
     /**

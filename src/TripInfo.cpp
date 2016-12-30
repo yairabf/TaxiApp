@@ -55,18 +55,6 @@ TripInfo::~TripInfo() {
     delete(route);
 }
 
-using namespace std;
-using namespace boost::archive;
-template<class Archive>
-void TripInfo::serialize(Archive & ar, const unsigned int version) {
-    ar & id;
-    ar & done;
-    ar & metersPassed;
-    ar & start;
-    ar & end;
-    ar & numberOfPassengers;
-    ar & tariff;
-    ar & route;
-}
+
 
 

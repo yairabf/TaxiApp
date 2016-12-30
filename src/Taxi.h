@@ -4,9 +4,12 @@
 
 #include <cstdlib>
 #include <string>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
 #include "TripInfo.h"
 
 using namespace std;
+using namespace boost::archive;
 class Taxi {
 private:
     int id;
@@ -16,14 +19,22 @@ private:
     int speed;
     TripInfo* tripInfo;
 
-    friend class boost::serialization::access;
+
     /**
      * serialization of the class
      * @param ar is the serializing object.
      * @param version is the version of serializing object.
      */
+    friend class boost::serialization::access;
     template<class Archive>
-    void serialize(Archive & ar, const unsigned int version);
+    void serialize(Archive & ar, const unsigned int version) {
+        ar & id;
+        ar & numOfKmPassed;
+        ar & carManufacturer;
+        ar & color;
+        ar & speed;
+        ar & *tripInfo;
+    }
 public:
 	
 	/**

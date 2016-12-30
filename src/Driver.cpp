@@ -120,24 +120,7 @@ void Driver::getSatisfactionFromPassengers() {
     avgSatisfaction = sum / passengers.size();*/
 }
 
-using namespace std;
-using namespace boost::archive;
-template<class Archive>
-void Driver::serialize(Archive & ar, const unsigned int version) {
-    ar & id;
-    ar & age;
-    ar & yearsExp;
-    ar & vehicle_id;
-    ar & occupied;
-    ar & status;
-    ar & taxi;
-    ar & avgSatisfaction;
-    ar & location;//check if need to serialize node
-    ar & tripInfo;
-    ar & passengers;
 
-
-}
 /*
  * int id;
     int age;

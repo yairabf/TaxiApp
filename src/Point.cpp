@@ -41,10 +41,4 @@ bool operator==(const Point& point, const Point &point1) {
     return point.getX() == point1.getX() && point.getY() == point1.getY();
 }
 
-using namespace std;
-using namespace boost::archive;
-template<class Archive>
-void Point::serialize(Archive & ar, const unsigned int version) {
-    ar & x;
-    ar & y;
-}
+

@@ -7,6 +7,10 @@
 #include "BreadthFirstSearch.h"
 #include "TaxiStation.h"
 #include "Udp.h"
+#include <boost/iostreams/stream.hpp>
+#include <boost/iostreams/device/back_inserter.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
 
 class Server {
 private:

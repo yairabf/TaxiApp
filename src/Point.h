@@ -4,6 +4,8 @@
 #include <string>
 #include <boost/serialization/access.hpp>
 
+using namespace std;
+using namespace boost::archive;
 /**
  * class that represent point with x value and y value.
  */
@@ -12,14 +14,17 @@ private:
     int x;
     int y;
 
-    friend class boost::serialization::access;
     /**
      * serialization of the class
      * @param ar is the serializing object.
      * @param version is the version of serializing object.
      */
+    friend class boost::serialization::access;
     template<class Archive>
-    void serialize(Archive & ar, const unsigned int version);
+    void serialize(Archive & ar, const unsigned int version) {
+        ar & x;
+        ar & y;
+    }
 public:
     /**
     * getter.

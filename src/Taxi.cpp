@@ -2,8 +2,6 @@
 #include "Taxi.h"
 #include <stdexcept>
 
-using namespace std;
-using namespace boost::archive;
 
 Taxi::Taxi(int id, char CarManufacturer, char color, int speed) : id(id), carManufacturer(CarManufacturer),
                                                                   color(color), speed(speed) {
@@ -45,12 +43,3 @@ void Taxi::setTripInfo(TripInfo *tripInfo) {
     Taxi::tripInfo = tripInfo;
 }
 
-template<class Archive>
-void Taxi::serialize(Archive & ar, const unsigned int version) {
-    ar & id;
-    ar & numOfKmPassed;
-    ar & carManufacturer;
-    ar & color;
-    ar & speed;
-    ar & tripInfo;
-}

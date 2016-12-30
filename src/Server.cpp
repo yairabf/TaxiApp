@@ -1,4 +1,5 @@
 #include "Server.h"
+#include <boost/serialization/list.hpp>
 
 Server::Server(const int columns, const int rows):udp(Udp(1, server_port)) {
     map = new Map(columns, rows);
