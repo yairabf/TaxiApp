@@ -18,6 +18,7 @@
 #include <boost/iostreams/stream.hpp>
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
+#include <boost/serialization/list.hpp>
 using namespace std;
 
 /**
@@ -43,8 +44,8 @@ private:
 
     friend class boost::serialization::access;
 
-    /*template<class Archive>
-    void serialize(Archive & ar, const unsigned int version);*/
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int version);
 
 public:
     /**
@@ -157,8 +158,6 @@ public:
      */
     ~Driver();
 
-    template<class Archive>
-    void serialize(Archive & ar, const unsigned int version);
 
 };
 

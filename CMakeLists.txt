@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5.1)
 project(adprog1_1)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
-set(BOOST_ROOT CACHE PATH "/usr/include/boost/ -pthread" )
+set(BOOST_ROOT CACHE PATH "/usr/include/boost/ -lboost_serialization" )
 find_package(Boost 1.58.0 COMPONENTS serialization system)
 include_directories(${Boost_INCLUDE_DIR})
 

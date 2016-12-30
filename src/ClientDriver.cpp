@@ -68,7 +68,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
                 udp.reciveData(buffer2, sizeof(buffer2));
                 string stringedBufferDrive(buffer2, sizeof(buffer2));
                 if (stringedBuffer2 == "go")
-                    driver->driveOneStep();
+                    driver->drive();
                 if (driver->getTripInfo()->getRoute()->empty()) {
                     break;
                 }
