@@ -1,5 +1,5 @@
 #include <iostream>
-#include "gtest/gtest.h"
+//#include "gtest/gtest.h"
 #include "src/MainFlow.h"
 #include "boost"
 
@@ -14,8 +14,6 @@ int main(int argc, char** argv) {
     int columns, rows;
     cin >> columns;
     cin >> rows;
-    MainFlow mainFlow = MainFlow(columns, rows);
-    mainFlow.run();
     return 1;
 }
 

@@ -3,15 +3,18 @@
 #define ADPROG1_1_MAINFLOW_H
 
 #include <iostream>
-//#include "gtest/gtest.h"
 #include "Map.h"
 #include "BreadthFirstSearch.h"
 #include "TaxiStation.h"
+#include "Udp.h"
 
-class MainFlow {
+class Server {
 private:
+    const int server_port = 4;
     Map* map;
     TaxiStation* taxiStation;
+    int clock;
+    Udp udp = NULL;//check if this is ok
 
     /**
      * creeates a driver.
@@ -43,12 +46,12 @@ public:
      * @param columns of the graph.
      * @param rows of the graph.
      */
-    MainFlow(const int columns, const int rows);
+    Server(const int columns, const int rows);
 
     /**
      * destructor.
      */
-    virtual ~MainFlow();
+    virtual ~Server();
     /**
      * rinf the program.
      */

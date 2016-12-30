@@ -1,12 +1,15 @@
-#include "MainFlow.h"
+#include "Server.h"
 #include "ClientDriver.h"
 
-MainFlow::MainFlow(const int columns, const int rows) {
+Server::Server(const int columns, const int rows) {
     map = new Map(columns, rows);
     taxiStation = new TaxiStation(map);
+    clock = 0;
+    udp = Udp(1, server_port);
+    udp.initialize();
 }
 
-void MainFlow::run() {
+void Server::run() {
     int numberOfObstacles, x, y;
     char temp;
     cin >> numberOfObstacles;
@@ -23,6 +26,7 @@ void MainFlow::run() {
         cin >> task;
         switch (task) {
             case 1:
+                if(udp.Socket().)
                 createDriver();
                 break;
             case 2:
@@ -45,7 +49,7 @@ void MainFlow::run() {
     exit(0);
 }
 
-void MainFlow::createDriver() {
+void Server::createDriver() {
     /*int id, age, experience, vehicle_id;
     char status , temp;
     //receiving driver details
@@ -57,12 +61,12 @@ void MainFlow::createDriver() {
     ClientDriver clientDriver(;//need to add a port number.
 }
 
-MainFlow::~MainFlow() {
+Server::~Server() {
     delete (taxiStation);
     delete (map);
 }
 
-void MainFlow::createTripInfo() {
+void Server::createTripInfo() {
     int id, x_start, y_start, x_end, y_end, num_of_passenger;
     double tariff;
     char temp;
@@ -73,7 +77,7 @@ void MainFlow::createTripInfo() {
     taxiStation->addTrip(tripInfo);
 }
 
-void MainFlow::createVehicle() {
+void Server::createVehicle() {
     int id, taxi_type;
     char manufacturer, color, temp;
     //receiving trip details
@@ -82,7 +86,7 @@ void MainFlow::createVehicle() {
     taxiStation->addTaxi(taxi);
 }
 
-void MainFlow::requestDriverLocation() {
+void Server::requestDriverLocation() {
     int id;
     cin >> id;
     list<Driver*>::iterator it = taxiStation->getDrivers()->begin();
@@ -95,9 +99,21 @@ void MainFlow::requestDriverLocation() {
     }
 }
 
-void MainFlow::startDriving() {
+void Server::startDriving() {
     taxiStation->driveAll();
 }
 
+/**
+ * The main method that runs the program, the method receives form the user the size of the grid
+ * and the location of the start point and the goal and the method prints the the fastest route.
+ */
+int main(int argc, char** argv) {
+    int columns, rows;
+    cin >> columns;
+    cin >> rows;
+    Server server = Server(columns, rows);
+    server.run();
+    return 1;
+}
 
 
