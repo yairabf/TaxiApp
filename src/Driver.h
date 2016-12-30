@@ -145,6 +145,11 @@ public:
     void drive();
 
     /**
+     * drives one step
+     */
+    void driveOneStep();
+
+    /**
         * calculates the price to pay.
         * @param km is how many km the drive is.
         * @return the price.

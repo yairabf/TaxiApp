@@ -82,6 +82,25 @@ void Driver::drive() {
     }
 }
 
+void Driver::driveOneStep() {
+    //checking if the driver has been assigned to a route
+    if(tripInfo != NULL) {
+        stack<Node*> *route = tripInfo->getRoute();
+        if(route->size() > 0) {
+            //the driver moves according to his taxis speed
+            for (int i = 1; i <= taxi->getSpeed(); i++) {
+                setLocation(route->top());
+                //cout << route->top()->printValue() << endl;
+                route->pop();
+             }
+        }
+        if(route->empty()) {
+            setOccupied(false);
+            //getSatisfactionFromPassengers
+        }
+    }
+}
+
 double Driver::calculatePrice(int km) {
     double price = tripInfo->getTarrif() * km;
     return price;

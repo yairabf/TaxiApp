@@ -31,6 +31,14 @@ public:
      */
     int createAndSendDriver(int id, int age, char status, int experience, int vehicle_id);
 
+    /**
+     * turning a char array in to a string.
+     * @param buffer is the name of the array.
+     * @param bufferSize is the size.
+     * @return a string.
+     */
+    string bufferToString(char* buffer, int bufferSize);
+
 
 };
 
