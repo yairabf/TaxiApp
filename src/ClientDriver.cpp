@@ -1,18 +1,13 @@
-//
-// Created by hanani on 26/12/16.
-//
+
 
 #include <fstream>
 #include "ClientDriver.h"
 #include "Driver.h"
-#include "boost"
-#include "boost/iostreams"
 #include <boost/serialization/shared_ptr.hpp>
 
 
 
-ClientDriver::ClientDriver(int portNumber) {
-    udp = Udp(0, portNumber);
+ClientDriver::ClientDriver(int portNumber) : udp(Udp(0, portNumber)) {
     udp.initialize();
 }
 
@@ -56,7 +51,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
             boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s3(inserter);
             boost::archive::binary_oarchive oa3(s);
             //sending the location
-            oa << driver->getLocation();
+            oa << (*driver->getLocation());
             s.flush();
             udp.sendData(serial_str);
         }

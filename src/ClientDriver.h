@@ -9,7 +9,7 @@
 
 class ClientDriver {
 private:
-    Udp udp = NULL;//check if this is ok
+    Udp udp;//check if this is ok
 
 
 public:
