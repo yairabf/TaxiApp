@@ -1,16 +1,23 @@
 
 
 #include <fstream>
-#include "ClientDriver.h"
+#include "Client.h"
 #include "Driver.h"
 #include <boost/serialization/shared_ptr.hpp>
 #include <boost/serialization/list.hpp>
 
-
+int main(){
+    int id,age,exp,vid;
+    char status,temp;
+    cin >> id >> temp >> age >> temp >> status >> temp >> exp >> vid;
+    ClientDriver clientDriver = ClientDriver(1111);
+    clientDriver.createAndSendDriver(id,age,status,exp,vid);
+}
 
 
 ClientDriver::ClientDriver(int portNumber) : udp(Udp(0, portNumber)) {
     udp.initialize();
+    cout << "hello from client";
 }
 
 int ClientDriver::createAndSendDriver(int id, int age, char status, int experience, int vehicle_id) {
@@ -62,7 +69,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
                                                                stringedBuffer2.size());
             boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s3(device);
             boost::archive::binary_iarchive ia2(s3);
-            ia2 >> *tripInfo;
+            ia2 >> tripInfo;
             driver->assignTripInfo(tripInfo);
             //check if it is ok to use buffer 2 again
             //drives as long as it receives go

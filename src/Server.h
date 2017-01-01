@@ -14,7 +14,7 @@
 
 class Server {
 private:
-    const int server_port = 4;
+    const int server_port = 1111;
     Map* map;
     TaxiStation* taxiStation;
     int clock;

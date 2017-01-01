@@ -64,7 +64,8 @@ void Server::createDriver() {
         boost::iostreams::basic_array_source<char> device((char *) stringedBuffer.c_str(), stringedBuffer.size());
         boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
         boost::archive::binary_iarchive ia(s2);
-        ia >> *driver;
+        ia >> driver;
+        cout << driver->getId();
         taxiStation->addDriver(driver);
 
         /*serialize the taxi we wont to send the client*/

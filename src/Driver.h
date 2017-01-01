@@ -54,10 +54,10 @@ private:
         ar & vehicle_id;
         ar & occupied;
         ar & status;
-        ar & *taxi;
+        ar & taxi;
         ar & avgSatisfaction;
         ar & location;//check if need to serialize node
-        ar & *tripInfo;
+        ar & tripInfo;
         ar & passengers;
     }
 

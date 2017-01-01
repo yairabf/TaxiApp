@@ -51,6 +51,7 @@ int Udp::initialize() {
 		//bind
 		if (bind(this->socketDescriptor,
 				(struct sockaddr *) &sin, sizeof(sin)) < 0) {
+			cout << "bind fail";
 			return ERROR_BIND;
 		}
 	}
