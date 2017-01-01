@@ -33,7 +33,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
     boost::iostreams::basic_array_source<char> device((char *) stringedBuffer.c_str(), stringedBuffer.size());
     boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
     boost::archive::binary_iarchive ia(s2);
-    ia >> (*taxi);
+    ia >> (taxi);
     driver->assignTaxi(taxi);
 
 

@@ -43,3 +43,5 @@ void Taxi::setTripInfo(TripInfo *tripInfo) {
     Taxi::tripInfo = tripInfo;
 }
 
+Taxi::Taxi() {}
+

@@ -43,6 +43,8 @@ public:
      */
     Point(int x, int y);
 
+    Point();
+
 
     /**
      * returns a string of the point in the form of "(x,y)"

@@ -5,10 +5,25 @@
 #include "Node.h"
 #include "Point.h"
 #include <string>
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/tokenizer.hpp>
+#include <boost/algorithm/string/predicate.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/assign/list_of.hpp>
+#include <boost/algorithm/string.hpp>
+#include <boost/iostreams/device/back_inserter.hpp>
+#include <boost/iostreams/stream.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/serialization/vector.hpp>
 #include <boost/serialization/base_object.hpp>
 #include <boost/archive/archive_exception.hpp>
 #include <boost/serialization/access.hpp>
 
+
+using namespace std;
+using namespace boost::archive;
 
 /**
  *
@@ -22,14 +37,21 @@ private:
      * @param version is the version of serializing object.
      */
     template<class Archive>
-    void serialize(Archive & ar, const unsigned int version);
+    void serialize(Archive & ar, const unsigned int version) {
+        //ar& boost::serialization::base_object<Node>(*this);
+        ar& visited;
+        ar& father;//need to check if i need to serialize node
+        ar& distance;
+        ar& point;//need to serialize point
+        ar& obstacle;
+    }
 
 protected:
     std::vector<Node*> children;
     bool visited;
     Node* father;
     int distance;
-    Point point;
+    Point* point;
     bool obstacle;
 public:
     /**
@@ -42,6 +64,8 @@ public:
      * destructor
      */
     ~NodeBlock();
+
+    NodeBlock();
 
     /**
      * tells if the node been visited while searching

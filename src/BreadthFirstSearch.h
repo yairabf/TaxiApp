@@ -2,7 +2,7 @@
 #ifndef ADPROG1_1_BREADTHFIRSTSEARCH_H
 #define ADPROG1_1_BREADTHFIRSTSEARCH_H
 
-#include <stack>
+#include <deque>
 #include <queue>
 #include "Node.h"
 #include "Graph.h"
@@ -25,7 +25,7 @@ public:
  * @param goal a pointer to to node that represent the goal point.
  * @return stuck full of pointers to node that represent the fastest route.
  */
-    std::stack<Node*> breadthFirstSearch(Node* start, Node* goal);
+    std::deque<Node*> breadthFirstSearch(Node* start, Node* goal);
 
     /**
      * constructor.

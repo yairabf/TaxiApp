@@ -5,7 +5,7 @@
 TripInfo::TripInfo(int id, int x_start, int y_start, int x_end, int y_end, int num_of_passenger,
                    double tariff) : id(id), numberOfPassengers(num_of_passenger),
                                                                    tariff(tariff),
-                                    start(Point(x_start, y_start)), end(Point(x_end, y_end)) {
+                                    start(new Point(x_start, y_start)), end(new Point(x_end, y_end)) {
     route = NULL;
     done = false;
     metersPassed = 0;
@@ -20,11 +20,11 @@ int TripInfo::getMetersPassed() const {
 }
 
 Point* TripInfo::getStart() {
-    return &start;
+    return start;
 }
 
 Point* TripInfo::getEnd() {
-    return &end;
+    return end;
 }
 
 int TripInfo::getNumberOfPassengers() const {
@@ -35,11 +35,11 @@ double TripInfo::getTarrif() const {
     return tariff;
 }
 
-void TripInfo::setRoute(std::stack<Node*> *route1) {
+void TripInfo::setRoute(std::deque<Node*> *route1) {
     route = route1;
 }
 
-std::stack<Node *> *TripInfo::getRoute() const {
+std::deque<Node *> *TripInfo::getRoute() const {
     return route;
 }
 
@@ -52,8 +52,12 @@ void TripInfo::setDone(bool done) {
 }
 
 TripInfo::~TripInfo() {
+    delete(start);
+    delete(end);
     delete(route);
 }
+
+TripInfo::TripInfo() {}
 
 
 

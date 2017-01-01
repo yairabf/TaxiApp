@@ -70,13 +70,13 @@ void Driver::addPassenger(Passenger* passenger) {
 void Driver::drive() {
     //checking if the driver has been assigned to a route
     if(tripInfo != NULL) {
-        stack<Node*> *route = tripInfo->getRoute();
+        deque<Node*> *route = tripInfo->getRoute();
         if(taxi->getSpeed() == 2 && route->size() > 1) {
-            route->pop();
+            route->pop_back();
         }
-        setLocation(route->top());
+        setLocation(route->back());
         //cout << route->top()->printValue() << endl;
-        route->pop();
+        route->pop_back();
     }
     //getSatisfactionFromPassengers();
     setOccupied(false);
@@ -119,6 +119,8 @@ void Driver::getSatisfactionFromPassengers() {
     }
     avgSatisfaction = sum / passengers.size();*/
 }
+
+Driver::Driver() {}
 
 
 /*

@@ -3,9 +3,12 @@
 #define ADPROG1_1_TRIPINFO_H
 
 
-#include <stack>
+#include <deque>
 #include "Point.h"
 #include "Node.h"
+#include <boost/serialization/map.hpp>
+#include <boost/serialization/deque.hpp>
+
 using namespace boost::archive;
 
 class TripInfo {
@@ -13,11 +16,11 @@ private:
     int id;
     bool done;
     int metersPassed;
-    Point start;
-    Point end;
+    Point* start;
+    Point* end;
     int numberOfPassengers;
     double tariff;
-    std::stack <Node*> *route;
+    std::deque <Node*> *route;
 
     /**
      * serialization of the class
@@ -56,6 +59,8 @@ public:
      */
     int getId() const;
 
+    TripInfo();
+
     /**
      * getter.
      * @return amount of meters the trip has passed so far..
@@ -86,7 +91,7 @@ public:
 
     /**
      * getter.
-     * @return the end point.
+     * @return tTripInfo.h:6he end point.
      */
     Point* getEnd();
 
@@ -106,12 +111,12 @@ public:
      * sets a route to the trip info.
      * @param route is the new route.
      */
-    void setRoute(std::stack<Node*> *route);
+    void setRoute(std::deque<Node*> *route);
     /**
      * getter.
      * @return the route for the trip as a stack.
      */
-    std::stack<Node *>* getRoute() const;
+    std::deque<Node *>* getRoute() const;
 
 };
 

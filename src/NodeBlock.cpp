@@ -7,13 +7,14 @@ using namespace std;
 
 
 
-NodeBlock::NodeBlock(Point point) : point(point) {
+NodeBlock::NodeBlock(Point point) : point(new Point(point)) {
     distance = 0;
     father = NULL;
     visited = false;
 }
 
 NodeBlock::~NodeBlock() {
+    delete(point);
 }
 
 void NodeBlock::setLeft(Node *left) {
@@ -61,7 +62,7 @@ bool NodeBlock::isVisited() {
 }
 
 string NodeBlock::printValue() {
-    return point.toString();
+    return point->toString();
 }
 
 bool NodeBlock::isObstacle() {
@@ -72,18 +73,7 @@ void NodeBlock::setIsObstacle(bool isObstacle) {
     NodeBlock::obstacle = isObstacle;
 }
 
-using namespace std;
-using namespace boost::archive;
 
-template<class Archive>
-void NodeBlock::serialize(Archive & ar, const unsigned int version) {
-    ar& boost::serialization::base_object<Node>(*this);
-    ar& visited;
-    ar& father;//need to check if i need to serialize node
-    ar& distance;
-    ar& point;//need to serialize point
-    ar& obstacle;
-}
 
 /**
  * overloading the operator "<<" of an out stream.
@@ -104,5 +94,7 @@ std::ostream& operator<<(std::ostream& out, Node& node) {
  */
 bool NodeBlock::operator==(const NodeBlock& nodeBlock)const{
     return(point == nodeBlock.point);
-};
+}
+
+NodeBlock::NodeBlock() {};
 BOOST_CLASS_EXPORT(NodeBlock);

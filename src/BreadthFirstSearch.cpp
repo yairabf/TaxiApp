@@ -3,7 +3,7 @@
 
 using namespace std;
 
-stack<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
+deque<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
     queue < Node* > route;
     start->setDistance(0);
     start->setVisited(true);
@@ -17,9 +17,9 @@ stack<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
 
             /* we create the stuck that will hold the fastest route and
              * push all the node from the goal to the start point*/
-            stack <Node*> fastestRoute;
+            deque <Node*> fastestRoute;
             while (current != NULL) {
-                fastestRoute.push(current);
+                fastestRoute.push_back(current);
                 current = current->getFather();
             }
             return fastestRoute;
@@ -37,7 +37,7 @@ stack<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
         }
 
     }
-    stack <Node*> empty;
+    deque <Node*> empty;
     return empty;
 }
 

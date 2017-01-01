@@ -73,6 +73,8 @@ public:
     */
     int getId();
 
+    Driver();
+
     /**
      * getter.
      * @return the taxi id.

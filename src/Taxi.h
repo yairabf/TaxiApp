@@ -19,7 +19,10 @@ private:
     int speed;
     TripInfo* tripInfo;
 
+public:
+    Taxi();
 
+private:
     /**
      * serialization of the class
      * @param ar is the serializing object.
@@ -33,7 +36,7 @@ private:
         ar & carManufacturer;
         ar & color;
         ar & speed;
-        ar & *tripInfo;
+        ar & tripInfo;
     }
 public:
 	

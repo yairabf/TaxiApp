@@ -55,8 +55,8 @@ void TaxiStation::addTrip(TripInfo* tripInfo) {
     Node* endLocation = map->getBlock(*tripInfo->getEnd());
     //creating the best route for the trip using bfs
     map->resetVisited();
-    std::stack<Node*> tempRoute = bfs.breadthFirstSearch(startLocation, endLocation);
-    std::stack<Node*> *route = new stack<Node*>(tempRoute);
+    deque<Node*> tempRoute = bfs.breadthFirstSearch(startLocation, endLocation);
+    std::deque<Node*>* route = new deque<Node*>(tempRoute);
     tripInfo->setRoute(route);
     trips.push_back(tripInfo);
 }

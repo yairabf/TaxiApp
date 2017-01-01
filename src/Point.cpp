@@ -17,6 +17,8 @@ std::string Point::toString() {
     std::string str = "(" + x.str() + "," + y.str() + ")";
     return str;
 }
+Point::Point() {}
+
 /**
  * getter.
  * @return x value.

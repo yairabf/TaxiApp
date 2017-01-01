@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include "Passenger.h"
 
-Passenger::Passenger(Point* source, Point* destination) : source( source), destination(destination) {}
+Passenger::Passenger(Point* source, Point* destination) : source(source), destination(destination) {}
 
 
 int Passenger::randomScore() {
@@ -17,6 +17,13 @@ const Point* Passenger::getSource() const {
 
 const Point* Passenger::getDestination() const {
     return destination;
+}
+
+Passenger::Passenger() {}
+
+Passenger::~Passenger() {
+    delete (source);
+    delete(destination);
 }
 
 

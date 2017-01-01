@@ -5,7 +5,18 @@
 #include <vector>
 #include "Point.h"
 #include <string>
-#include <boost/serialization/assume_abstract.hpp>
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/tokenizer.hpp>
+#include <boost/algorithm/string/predicate.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/assign/list_of.hpp>
+#include <boost/algorithm/string.hpp>
+#include <boost/iostreams/device/back_inserter.hpp>
+#include <boost/iostreams/stream.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/serialization/vector.hpp>#include <boost/serialization/assume_abstract.hpp>
 #include <boost/serialization/base_object.hpp>
 /**
  * An abstract class that represent Node/Vertex of a graph the node
@@ -21,7 +32,9 @@ private:
      * @param version is the version of serializing object.
      */
     template<class Archive>
-    void serialize(Archive & ar, const unsigned int version);
+    void serialize(Archive & ar, const unsigned int version){
+
+    }
 public:
     /**
      * a setter for the boolean variable that tells us if the node been visited while searching
