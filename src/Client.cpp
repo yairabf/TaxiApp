@@ -3,14 +3,13 @@
 #include <fstream>
 #include "Client.h"
 #include "Driver.h"
-#include <boost/serialization/shared_ptr.hpp>
-#include <boost/serialization/list.hpp>
+
 
 int main(){
     int id,age,exp,vid;
     char status,temp;
     cin >> id >> temp >> age >> temp >> status >> temp >> exp >> vid;
-    ClientDriver clientDriver = ClientDriver(1111);
+    ClientDriver clientDriver = ClientDriver(5555);
     clientDriver.createAndSendDriver(id,age,status,exp,vid);
 }
 
@@ -42,6 +41,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
     boost::archive::binary_iarchive ia(s2);
     ia >> (taxi);
     driver->assignTaxi(taxi);
+    cout << driver->getTaxi()->getId() << "," << driver->getTaxi()->getCarManufacturer();
 
 
     while (true) {

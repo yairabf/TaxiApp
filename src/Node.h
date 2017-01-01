@@ -16,7 +16,8 @@
 #include <boost/iostreams/stream.hpp>
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
-#include <boost/serialization/vector.hpp>#include <boost/serialization/assume_abstract.hpp>
+#include <boost/serialization/vector.hpp>
+#include <boost/serialization/assume_abstract.hpp>
 #include <boost/serialization/base_object.hpp>
 /**
  * An abstract class that represent Node/Vertex of a graph the node
@@ -32,10 +33,8 @@ private:
      * @param version is the version of serializing object.
      */
     template<class Archive>
-    void serialize(Archive & ar, const unsigned int version){
-
-    }
-public:
+    void serialize(Archive & ar, const unsigned int version){}
+    public:
     /**
      * a setter for the boolean variable that tells us if the node been visited while searching
      * @param visited the boolean variable.
@@ -97,7 +96,7 @@ public:
  * @param node the node that we want to output his vlaue
  * @return
  */
-std::ostream&operator<<(std::ostream& out, Node& node);
+//std::ostream&operator<<(std::ostream& out, Node& node);
 
 BOOST_SERIALIZATION_ASSUME_ABSTRACT(Node);
 #endif //ADPROG1_1_NODE_H

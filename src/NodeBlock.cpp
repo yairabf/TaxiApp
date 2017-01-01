@@ -1,6 +1,5 @@
 
 #include "NodeBlock.h"
-#include <sstream>
 #include <boost/serialization/export.hpp>
 
 using namespace std;
