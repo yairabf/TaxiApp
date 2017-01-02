@@ -19,7 +19,8 @@ ClientDriver::ClientDriver(int portNumber) : udp(Udp(0, portNumber)) {
     cout << "hello from client";
 }
 
-int ClientDriver::createAndSendDriver(int id, int age, char status, int experience, int vehicle_id) {
+int ClientDriver::createAndSendDriver(int id, int age, char status, int experience,
+                                      int vehicle_id) {
     Driver *driver = new Driver(id, age, status, experience, vehicle_id);
     //serializing the driver and sending it.
     std::string serial_str;
@@ -36,7 +37,8 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
     udp.reciveData(buffer, sizeof(buffer));
     //de serializing the taxi we have received.
     string stringedBuffer(buffer, sizeof(buffer));
-    boost::iostreams::basic_array_source<char> device((char *) stringedBuffer.c_str(), stringedBuffer.size());
+    boost::iostreams::basic_array_source<char> device((char *) stringedBuffer.c_str(),
+                                                      stringedBuffer.size());
     boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
     boost::archive::binary_iarchive ia(s2);
     ia >> taxi;
@@ -44,6 +46,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
     cout << driver->getTaxi()->getId() << "," << driver->getTaxi()->getCarManufacturer();
 
     while (true) {
+
         //receiving the trip info from the server and adding it to the driver
         TripInfo *tripInfo;
         char buffer2[1024];
@@ -56,7 +59,8 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
         else if (stringedBuffer2 == "location") {
             //udp.sendData(driver->getLocation()->printValue());
             boost::iostreams::back_insert_device<std::string> inserter1(serial_str);
-            boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s3(inserter);
+            boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> >
+                    s3(inserter);
             boost::archive::binary_oarchive oa3(s);
             //sending the location
             oa << *driver->getLocation();
