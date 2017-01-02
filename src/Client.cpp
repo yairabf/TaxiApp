@@ -44,7 +44,13 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
     ia >> taxi;
     driver->assignTaxi(taxi);
     cout << driver->getTaxi()->getId() << "," << driver->getTaxi()->getCarManufacturer();
-
+    if(driver->getTripInfo() != NULL) {
+        string stringedId;
+        ostringstream convert;
+        convert << driver->getId();
+        stringedId = convert.str();
+        udp.sendData(stringedId, stringedId.size());
+    }
     while (true) {
 
         //receiving the trip info from the server and adding it to the driver

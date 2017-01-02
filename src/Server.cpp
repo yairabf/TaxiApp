@@ -136,10 +136,11 @@ void Server::startDriving() {
     char buffer[1024];
     int id;
     taxiStation->driveAll();
-    //sending the driver a message to go
+    //sending the driver a message to drive
     udp.sendData("go", 3);
     taxiStation->assignDrivers(clock);
     udp.reciveData(buffer, sizeof(buffer));
+    if(buffer == "finished trip");
     string stringedBuffer(buffer, sizeof(buffer));
     boost::iostreams::basic_array_source<char> device((char *) stringedBuffer.c_str(), stringedBuffer.size());
     boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
