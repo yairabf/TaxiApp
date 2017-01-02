@@ -28,7 +28,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
     boost::archive::binary_oarchive oa(s);
     oa << driver;
     s.flush();
-    udp.sendData(serial_str);
+    udp.sendData(serial_str, serial_str.length());
 
     //receiving the taxi from server and adding it to the driver
     Taxi *taxi;
@@ -62,7 +62,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
             //sending the location
             oa << *driver->getLocation();
             s.flush();
-            udp.sendData(serial_str);
+            udp.sendData(serial_str, serial_str.length());
         }
         else {
             boost::iostreams::basic_array_source<char> device2((char *) stringedBuffer2.c_str(),

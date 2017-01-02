@@ -37,8 +37,8 @@ private:
      * @param version is the version of serializing object.
      */
     template<class Archive>
-    void serialize(Archive & ar, const unsigned int version) {
-        //ar& boost::serialization::base_object<Node>(*this);
+    void serialize(Archive & ar, const unsigned) {
+        ar& boost::serialization::base_object<Node>(*this);
         ar& visited;
         ar& father;//need to check if i need to serialize node
         ar& distance;

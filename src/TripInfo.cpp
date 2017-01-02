@@ -67,6 +67,10 @@ bool TripInfo::isAssigned() const {
     return assigned;
 }
 
+void TripInfo::setAssigned(bool assigned) {
+    TripInfo::assigned = assigned;
+}
+
 
 
 

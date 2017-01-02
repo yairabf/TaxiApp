@@ -66,7 +66,7 @@ int Udp::initialize() {
 * The Function operation: sending the input data to the socket         *
 * who connect to this socket. check if send successfully				   *
 ***********************************************************************/
-int Udp::sendData(string data) {
+int Udp::sendData(string data, int size) {
 	//initialize the struct
 	struct sockaddr_in sin;
 	memset(&sin, 0, sizeof(sin));
@@ -74,7 +74,7 @@ int Udp::sendData(string data) {
 	sin.sin_addr.s_addr = inet_addr(this->ip_address.c_str());
 	sin.sin_port = htons(this->port_number);
 	const char * datas = data.c_str();
-	int data_len = data.length() + 1;
+	int data_len = size + 1;
 	//send
 	int sent_bytes = sendto(this->socketDescriptor,
 			datas, data_len, 0, (struct sockaddr *) &sin, sizeof(sin));

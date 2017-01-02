@@ -4,7 +4,7 @@
 Server::Server(const int columns, const int rows):udp(Udp(1, server_port)) {
     map = new Map(columns, rows);
     taxiStation = new TaxiStation(map);
-    clock = -1;
+    clock = 0;
     udp.initialize();
 }
 
@@ -46,7 +46,7 @@ void Server::run() {
                 break;
         }
     }  while (task != 7);
-    udp.sendData("finish");
+    udp.sendData("finish", 7);
     exit(0);
 }
 
@@ -77,7 +77,7 @@ void Server::createDriver() {
         taxi = driver->getTaxi();
         oa << taxi;
         s.flush();
-        udp.sendData(serial_str);
+        udp.sendData(serial_str, serial_str.length());
 
     }
     /*int id, age, experience, vehicle_id;
@@ -130,9 +130,9 @@ void Server::requestDriverLocation() {
 }
 
 void Server::startDriving() {
-    taxiStation->assignDrivers(clock);
-    taxiStation->driveAll(clock,udp);
-    udp.sendData("go");
+    taxiStation->driveAll(clock);
+    taxiStation->assignDrivers(clock ,udp);
+    udp.sendData("go", 3);
     clock++;
 }
 

@@ -92,7 +92,7 @@ public:
     /**
      * all drivers drive to their end positions.
      */
-    void driveAll(int time, Udp udp);
+    void driveAll(int time);
 
     /**
      * sets an obstacle on the grid.
@@ -101,7 +101,9 @@ public:
      */
     void setObstacle(int x, int y);
 
-    void assignDrivers(int);
+    void assignDrivers(int, Udp);
+    
+    string tripInfoSerialize(TripInfo*);
 };
 
 

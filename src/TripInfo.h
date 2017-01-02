@@ -22,7 +22,7 @@ private:
     Point* end;
     int numberOfPassengers;
     double tariff;
-    std::deque <Node*> *route;
+    std::deque <Node*>* route;
 
     /**
      * serialization of the class
@@ -125,6 +125,8 @@ public:
      * @return the route for the trip as a stack.
      */
     std::deque<Node *>* getRoute() const;
+
+    void setAssigned(bool assigned);
 
 };
 
