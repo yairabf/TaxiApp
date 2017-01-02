@@ -47,7 +47,7 @@ void Server::run() {
         }
     }  while (task != 7);
     udp.sendData("finish", 7);
-    exit(0);
+    exit(0);//
 }
 
 void Server::createDriver() {
