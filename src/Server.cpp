@@ -50,7 +50,7 @@ void Server::run() {
     exit(0);//
 }
 
-void Server::createDriver() {string stringedBuffer2(buffer2, sizeof(buffer2));
+void Server::createDriver() {
     /*receiving all the drivers and insert them into taxiStation list of drivers*/
     int numOfDrivers;
     cin >> numOfDrivers;
@@ -130,12 +130,28 @@ void Server::requestDriverLocation() {
 }
 
 void Server::startDriving() {
+    char buffer[1024];
+    int id;
     taxiStation->driveAll();
     taxiStation->assignDrivers(clock);
-    char buffer[1024];
     udp.reciveData(buffer, sizeof(buffer));
-    string driverId(buffer, sizeof(buffer));
-    int id = stoi(driverId);
+    string stringedBuffer(buffer, sizeof(buffer));
+    boost::iostreams::basic_array_source<char> device((char *) stringedBuffer.c_str(), stringedBuffer.size());
+    boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
+    boost::archive::binary_iarchive ia(s2);
+    ia >> id;
+    //we have the correct trip info cos of assign drivers func
+    Driver* driver = taxiStation->getDriverById(id);
+    //sending trip info
+    TripInfo* tripInfo = driver->getTripInfo();
+    std::string serial_str;
+    boost::iostreams::back_insert_device<std::string> inserter(serial_str);
+    boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
+    boost::archive::binary_oarchive oa(s);
+    oa << tripInfo;
+    s.flush();
+    udp.sendData(serial_str, serial_str.length());
+    //sending the driver a message to go
     udp.sendData("go", 3);
     clock++;
 }

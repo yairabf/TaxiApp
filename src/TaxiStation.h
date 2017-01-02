@@ -101,8 +101,11 @@ public:
      */
     void setObstacle(int x, int y);
 
-    void assignDrivers(int);
+    void assignDrivers(int time);
+    
+    string tripInfoSerialize(TripInfo*);
 
+    Driver* getDriverById(int id);
 };
 
 

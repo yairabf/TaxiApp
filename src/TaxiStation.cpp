@@ -135,3 +135,24 @@ Driver* TaxiStation::calculateClosestDriver(Point destination) {
 void TaxiStation::sendTaxi(Point) {
 
 }
+
+string TaxiStation::tripInfoSerialize(TripInfo *tripInfo) {
+    string serial_str;
+    boost::iostreams::back_insert_device<std::string> inserter(serial_str);
+    boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
+    boost::archive::binary_oarchive oa(s);
+    TripInfo *tripInfo1;
+    tripInfo1 = tripInfo;
+    oa << tripInfo1;
+    s.flush();
+    return serial_str;
+}
+
+Driver* TaxiStation::getDriverById(int id) {
+    std::list<Driver*>::iterator iteratorDrivers;
+    for(iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end(); ++iteratorDrivers) {
+        Driver* driver = *iteratorDrivers;
+        if(driver->getId() == id)
+            return driver;
+    }
+}
