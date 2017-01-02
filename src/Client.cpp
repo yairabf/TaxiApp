@@ -43,7 +43,6 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
     driver->assignTaxi(taxi);
     cout << driver->getTaxi()->getId() << "," << driver->getTaxi()->getCarManufacturer();
 
-
     while (true) {
         //receiving the trip info from the server and adding it to the driver
         TripInfo *tripInfo;
@@ -64,13 +63,18 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
             s.flush();
             udp.sendData(serial_str, serial_str.length());
         }
-        else {
+        else if(stringedBuffer2 == "no trip")
+            continue;
+        else if(stringedBuffer2 == "sending trip") {
             boost::iostreams::basic_array_source<char> device2((char *) stringedBuffer2.c_str(),
                                                                stringedBuffer2.size());
             boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s3(device);
             boost::archive::binary_iarchive ia2(s3);
             ia2 >> tripInfo;
             driver->assignTripInfo(tripInfo);
+        }
+        else {
+
             //check if it is ok to use buffer 2 again
             //drives as long as it receives go
             while (true) {
@@ -79,6 +83,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
                 if (stringedBuffer2 == "go")
                     driver->drive();
                 if (driver->getTripInfo()->getRoute()->empty()) {
+                    udp.sendData("finished trip", 14);
                     break;
                 }
             }

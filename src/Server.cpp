@@ -12,6 +12,7 @@ Server::Server(const int columns, const int rows):udp(Udp(1, server_port)) {
 void Server::run() {
     int numberOfObstacles, x, y;
     char temp;
+    cout << "how many obstacles?" << endl;
     cin >> numberOfObstacles;
     if(numberOfObstacles > 0 ) {
         //waits for obstacles input
@@ -23,6 +24,7 @@ void Server::run() {
     }
     int task;
     do {
+        cout << "enter task" << endl;
         cin >> task;
         switch (task) {
             case 1:
@@ -53,6 +55,7 @@ void Server::run() {
 void Server::createDriver() {
     /*receiving all the drivers and insert them into taxiStation list of drivers*/
     int numOfDrivers;
+    cout << "enter num of drivers" << endl;
     cin >> numOfDrivers;
     for(int i=0; i < numOfDrivers; i++) {
         Driver* driver;
@@ -133,6 +136,8 @@ void Server::startDriving() {
     char buffer[1024];
     int id;
     taxiStation->driveAll();
+    //sending the driver a message to go
+    udp.sendData("go", 3);
     taxiStation->assignDrivers(clock);
     udp.reciveData(buffer, sizeof(buffer));
     string stringedBuffer(buffer, sizeof(buffer));
@@ -143,16 +148,18 @@ void Server::startDriving() {
     //we have the correct trip info cos of assign drivers func
     Driver* driver = taxiStation->getDriverById(id);
     //sending trip info
-    TripInfo* tripInfo = driver->getTripInfo();
-    std::string serial_str;
-    boost::iostreams::back_insert_device<std::string> inserter(serial_str);
-    boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
-    boost::archive::binary_oarchive oa(s);
-    oa << tripInfo;
-    s.flush();
-    udp.sendData(serial_str, serial_str.length());
-    //sending the driver a message to go
-    udp.sendData("go", 3);
+    if(driver->getTripInfo() != NULL) {
+        TripInfo *tripInfo = driver->getTripInfo();
+        std::string serial_str;
+        boost::iostreams::back_insert_device<std::string> inserter(serial_str);
+        boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
+        boost::archive::binary_oarchive oa(s);
+        oa << tripInfo;
+        s.flush();
+        udp.sendData(serial_str, serial_str.length());
+    } else {
+        udp.sendData("no trip", 8);
+    }
     clock++;
 }
 
@@ -162,6 +169,7 @@ void Server::startDriving() {
  */
 int main(int argc, char** argv) {
     int columns, rows;
+    cout << "enter size of grid" << endl;
     cin >> columns;
     cin >> rows;
     Server server = Server(columns, rows);
