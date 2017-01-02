@@ -50,7 +50,7 @@ void Server::run() {
     exit(0);//
 }
 
-void Server::createDriver() {
+void Server::createDriver() {string stringedBuffer2(buffer2, sizeof(buffer2));
     /*receiving all the drivers and insert them into taxiStation list of drivers*/
     int numOfDrivers;
     cin >> numOfDrivers;
@@ -130,8 +130,12 @@ void Server::requestDriverLocation() {
 }
 
 void Server::startDriving() {
-    taxiStation->driveAll(clock);
-    taxiStation->assignDrivers(clock ,udp);
+    taxiStation->driveAll();
+    taxiStation->assignDrivers(clock);
+    char buffer[1024];
+    udp.reciveData(buffer, sizeof(buffer));
+    string driverId(buffer, sizeof(buffer));
+    int id = stoi(driverId);
     udp.sendData("go", 3);
     clock++;
 }

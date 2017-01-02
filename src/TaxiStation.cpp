@@ -67,7 +67,7 @@ list<Driver *> *TaxiStation::getDrivers() {
     return &drivers;
 }
 
-void TaxiStation::assignDrivers(int time, Udp udp) {
+void TaxiStation::assignDrivers(int time) {
     std::list<Driver*>::iterator iteratorDrivers;
     std::list<TripInfo*>::iterator tripInfoIterator = trips.begin();
     while (tripInfoIterator != trips.end()) {
@@ -79,7 +79,6 @@ void TaxiStation::assignDrivers(int time, Udp udp) {
                     !(*tripInfoIterator)->isDone() && !(*iteratorDrivers)->isOccupied()) {
                     (*iteratorDrivers)->assignTripInfo((*tripInfoIterator));
                     (*tripInfoIterator)->setAssigned(true);
-                    udp.sendData(tripInfoSerialize((*tripInfoIterator)),tripInfoSerialize((*tripInfoIterator)).length());
                     break;
                 }
 
@@ -89,7 +88,7 @@ void TaxiStation::assignDrivers(int time, Udp udp) {
     }
 }
 
-void TaxiStation::driveAll(int time) {
+void TaxiStation::driveAll() {
     std::list<Driver*>::iterator iteratorDrivers;
     for(iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end(); ++iteratorDrivers) {
         Driver* driver = *iteratorDrivers;
@@ -135,16 +134,4 @@ Driver* TaxiStation::calculateClosestDriver(Point destination) {
 
 void TaxiStation::sendTaxi(Point) {
 
-}
-
-string TaxiStation::tripInfoSerialize(TripInfo *tripInfo) {
-    string serial_str;
-    boost::iostreams::back_insert_device<std::string> inserter(serial_str);
-    boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
-    boost::archive::binary_oarchive oa(s);
-    TripInfo *tripInfo1;
-    tripInfo1 = tripInfo;
-    oa << tripInfo1;
-    s.flush();
-    return serial_str;
 }
