@@ -67,7 +67,7 @@ list<Driver *> *TaxiStation::getDrivers() {
     return &drivers;
 }
 
-void TaxiStation::assignDrivers(int time, Udp udp) {
+void TaxiStation::assignDrivers(int time) {
     std::list<Driver*>::iterator iteratorDrivers;
     std::list<TripInfo*>::iterator tripInfoIterator = trips.begin();
     while (tripInfoIterator != trips.end()) {
@@ -79,7 +79,6 @@ void TaxiStation::assignDrivers(int time, Udp udp) {
                     !(*tripInfoIterator)->isDone() && !(*iteratorDrivers)->isOccupied()) {
                     (*iteratorDrivers)->assignTripInfo((*tripInfoIterator));
                     (*tripInfoIterator)->setAssigned(true);
-                    udp.sendData(tripInfoSerialize((*tripInfoIterator)),tripInfoSerialize((*tripInfoIterator)).length());
                     break;
                 }
 
@@ -89,7 +88,7 @@ void TaxiStation::assignDrivers(int time, Udp udp) {
     }
 }
 
-void TaxiStation::driveAll(int time) {
+void TaxiStation::driveAll() {
     std::list<Driver*>::iterator iteratorDrivers;
     for(iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end(); ++iteratorDrivers) {
         Driver* driver = *iteratorDrivers;
@@ -147,4 +146,13 @@ string TaxiStation::tripInfoSerialize(TripInfo *tripInfo) {
     oa << tripInfo1;
     s.flush();
     return serial_str;
+}
+
+Driver* TaxiStation::getDriverById(int id) {
+    std::list<Driver*>::iterator iteratorDrivers;
+    for(iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end(); ++iteratorDrivers) {
+        Driver* driver = *iteratorDrivers;
+        if(driver->getId() == id)
+            return driver;
+    }
 }

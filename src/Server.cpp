@@ -130,8 +130,8 @@ void Server::requestDriverLocation() {
 }
 
 void Server::startDriving() {
-    taxiStation->driveAll(clock);
-    taxiStation->assignDrivers(clock ,udp);
+    taxiStation->driveAll();
+    taxiStation->assignDrivers(clock);
     udp.sendData("go", 3);
     clock++;
 }
