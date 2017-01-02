@@ -86,6 +86,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
                 string stringedBufferDrive(buffer2, sizeof(buffer2));
                 if (stringedBuffer2 == "go")
                     driver->drive();
+                //if i have finished the trip
                 if (driver->getTripInfo()->getRoute()->empty()) {
                     udp.sendData("finished trip", 14);
                     break;
