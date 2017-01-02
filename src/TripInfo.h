@@ -14,6 +14,8 @@ using namespace boost::archive;
 class TripInfo {
 private:
     int id;
+    int start_time;
+    bool assigned;
     bool done;
     int metersPassed;
     Point* start;
@@ -31,6 +33,8 @@ private:
     template<class Archive>
     void serialize(Archive & ar, const unsigned int version){
         ar & id;
+        ar & start_time;
+        ar & assigned;
         ar & done;
         ar & metersPassed;
         ar & start;
@@ -52,12 +56,14 @@ public:
      * @param tariff how much the trip costs.
      */
     TripInfo(int id, int x_start, int y_start, int x_end, int y_end, int num_of_passenger,
-                       double tariff);
+                       double tariff, int start_time);
     /**
      * getter.
      * @return the id of the trip info.
      */
     int getId() const;
+
+    int getStart_time() const;
 
     TripInfo();
 
@@ -106,6 +112,8 @@ public:
      * @return the tariff for the trip.
      */
     double getTarrif() const;
+
+    bool isAssigned() const;
 
     /**
      * sets a route to the trip info.

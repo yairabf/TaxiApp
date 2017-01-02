@@ -3,9 +3,9 @@
 #include "TripInfo.h"
 
 TripInfo::TripInfo(int id, int x_start, int y_start, int x_end, int y_end, int num_of_passenger,
-                   double tariff) : id(id), numberOfPassengers(num_of_passenger),
-                                                                   tariff(tariff),
-                                    start(new Point(x_start, y_start)), end(new Point(x_end, y_end)) {
+                   double tariff, int start_time) : id(id), numberOfPassengers(num_of_passenger), tariff(tariff),
+                                    start(new Point(x_start, y_start)), end(new Point(x_end, y_end)),
+                                                    start_time(start_time) {
     route = NULL;
     done = false;
     metersPassed = 0;
@@ -58,6 +58,14 @@ TripInfo::~TripInfo() {
 }
 
 TripInfo::TripInfo() {}
+
+int TripInfo::getStart_time() const {
+    return start_time;
+}
+
+bool TripInfo::isAssigned() const {
+    return assigned;
+}
 
 
 

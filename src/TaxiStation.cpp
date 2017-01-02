@@ -1,5 +1,6 @@
 
 #include "TaxiStation.h"
+#include "Udp.h"
 
 TaxiStation::TaxiStation(Map *map) : map(map), bfs(BreadthFirstSearch(map)) {
 }
@@ -21,6 +22,7 @@ TaxiStation::~TaxiStation() {
         delete(tempTripInfo);
     }
 }
+
 void TaxiStation::addTaxi(Taxi *taxi) {
     taxis.push_back(taxi);
 }
@@ -65,31 +67,34 @@ list<Driver *> *TaxiStation::getDrivers() {
     return &drivers;
 }
 
-void TaxiStation::assignDrivers() {
+void TaxiStation::assignDrivers(int time) {
     std::list<Driver*>::iterator iteratorDrivers;
     std::list<TripInfo*>::iterator tripInfoIterator = trips.begin();
     while (tripInfoIterator != trips.end()) {
-        //assigns the correct driver to the trip
-        for (iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end();
-             ++iteratorDrivers) {
-            if ((*iteratorDrivers)->getLocation()->printValue() ==
-                (*tripInfoIterator)->getStart()->toString() &&
-                !(*tripInfoIterator)->isDone() && !(*iteratorDrivers)->isOccupied()) {
-                (*iteratorDrivers)->assignTripInfo((*tripInfoIterator));
-                break;
+        if((*tripInfoIterator)->getStart_time() == time) {
+            //assigns the correct driver to the trip
+            for (iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end();
+                 ++iteratorDrivers) {
+                if ((*iteratorDrivers)->getLocation()->printValue() ==
+                    (*tripInfoIterator)->getStart()->toString() &&
+                    !(*tripInfoIterator)->isDone() && !(*iteratorDrivers)->isOccupied()) {
+                    (*iteratorDrivers)->assignTripInfo((*tripInfoIterator));
+                    break;
+                }
+
             }
         }
         tripInfoIterator++;
     }
 }
 
-void TaxiStation::driveAll() {
-    assignDrivers();
+void TaxiStation::driveAll(int time, Udp udp) {
     std::list<Driver*>::iterator iteratorDrivers;
     for(iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end(); ++iteratorDrivers) {
         Driver* driver = *iteratorDrivers;
-        driver->drive();
-        driver->getTripInfo()->setDone(true);
+        if(driver->getTripInfo() != NULL) {
+            driver->drive();
+        }
     }
 }
 

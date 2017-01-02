@@ -4,7 +4,7 @@
 Server::Server(const int columns, const int rows):udp(Udp(1, server_port)) {
     map = new Map(columns, rows);
     taxiStation = new TaxiStation(map);
-    clock = 0;
+    clock = -1;
     udp.initialize();
 }
 
@@ -68,12 +68,14 @@ void Server::createDriver() {
         cout << driver->getId();
         taxiStation->addDriver(driver);
 
+        Taxi* taxi;
         /*serialize the taxi we wont to send the client*/
         std::string serial_str;
         boost::iostreams::back_insert_device<std::string> inserter(serial_str);
         boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
         boost::archive::binary_oarchive oa(s);
-        oa << *(driver->getTaxi());
+        taxi = driver->getTaxi();
+        oa << taxi;
         s.flush();
         udp.sendData(serial_str);
 
@@ -95,13 +97,13 @@ Server::~Server() {
 }
 
 void Server::createTripInfo() {
-    int id, x_start, y_start, x_end, y_end, num_of_passenger;
+    int id, x_start, y_start, x_end, y_end, num_of_passenger, start_time;
     double tariff;
     char temp;
     //receiving trip details
     cin >> id >> temp >> x_start >> temp >> y_start >> temp >> x_end >> temp >> y_end >> temp
-        >> num_of_passenger >> temp >> tariff;
-    TripInfo *tripInfo = new TripInfo(id, x_start, y_start, x_end, y_end, num_of_passenger, tariff);
+        >> num_of_passenger >> temp >> tariff >> temp >> start_time;
+    TripInfo *tripInfo = new TripInfo(id, x_start, y_start, x_end, y_end, num_of_passenger, tariff, start_time);
     taxiStation->addTrip(tripInfo);
 }
 
@@ -128,7 +130,10 @@ void Server::requestDriverLocation() {
 }
 
 void Server::startDriving() {
-    taxiStation->driveAll();
+    taxiStation->assignDrivers(clock);
+    taxiStation->driveAll(clock,udp);
+    udp.sendData("go");
+    clock++;
 }
 
 /**

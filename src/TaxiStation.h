@@ -9,6 +9,7 @@
 #include "Map.h"
 #include "BreadthFirstSearch.h"
 #include "Passenger.h"
+#include "Udp.h"
 
 using namespace std;
 
@@ -19,7 +20,7 @@ private:
     list<TripInfo* > trips;
     Map* map;
     BreadthFirstSearch bfs;
-    void assignDrivers();
+
     void sendTaxi(Point);
     Driver* calculateClosestDriver(Point destination);
 public:
@@ -91,7 +92,7 @@ public:
     /**
      * all drivers drive to their end positions.
      */
-    void driveAll();
+    void driveAll(int time, Udp udp);
 
     /**
      * sets an obstacle on the grid.
@@ -99,6 +100,8 @@ public:
      * @param y the y axis.
      */
     void setObstacle(int x, int y);
+
+    void assignDrivers(int);
 };
 
 

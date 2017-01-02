@@ -104,7 +104,7 @@ public:
      * getter.
      * @return the taxi.
      */
-    Taxi *getTaxi();
+    Taxi* getTaxi();
 
     /**
      * assigns a taxi to the driver.

@@ -78,8 +78,11 @@ void Driver::drive() {
         //cout << route->top()->printValue() << endl;
         route->pop_back();
     }
+    if(tripInfo->getRoute()->empty()){
+        setOccupied(false);
+    }
     //getSatisfactionFromPassengers();
-    setOccupied(false);
+
 }
 
 double Driver::calculatePrice(int km) {
