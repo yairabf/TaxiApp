@@ -34,6 +34,12 @@ int Point::getY() const {
     return y;
 }
 
+Point *Point::pointFromString(string string1) {
+    int x = string1.at(1);
+    int y = string1.at(3);
+    return new Point(x,y);
+}
+
 /**
  * overrides ==.
  * @param point is the point we are comparing to.

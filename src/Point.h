@@ -43,6 +43,8 @@ public:
      */
     Point(int x, int y);
 
+    Point* pointFromString(string string1);
+
     Point();
 
 
@@ -61,3 +63,4 @@ public:
  */
 bool operator==(const Point &point, const Point &point1);
 #endif //ADPROG1_1_POINT_H
+
