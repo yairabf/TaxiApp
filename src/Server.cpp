@@ -147,11 +147,19 @@ void Server::startDriving() {
     id = stoi(stringedBuffer);
     //we have the correct trip info cos of assign drivers func
     Driver *driver = taxiStation->getDriverById(id);
+    stack<Node*> *driversRoute = driver->getTripInfo()->getRoute();
+    //if this is not the first time we pressed 9 and the route is not empty and the time of the trip is now
     if((!isFirst9) &&
-            (!driver->getTripInfo()->getRoute()->empty()) &&
-            (driver->getTripInfo()->getStart_time() == clock)){
-        //*************************************here we need to receive a the next point and send to driver and send go
-    }
+            (!driversRoute->empty()) &&
+            (driver->getTripInfo()->getStart_time() <= clock)){
+        //driver->drive();
+        Node* node = driver->getLocation();
+        string driversLocation = node->printValue();
+        udp.sendData("go", 3);
+        udp.sendData(driversLocation, driversLocation.size());
+        //if first 9
+    } else
+        udp.sendData("none", 5);
     clock++;
     /*if(stringedBuffer.compare("id")) {
         udp.reciveData(buffer, sizeof(buffer));

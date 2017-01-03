@@ -1,9 +1,10 @@
 
+#include <stack>
 #include "BreadthFirstSearch.h"
 
 using namespace std;
 
-deque<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
+stack<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
     queue < Node* > route;
     start->setDistance(0);
     start->setVisited(true);
@@ -15,11 +16,11 @@ deque<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
         /*if we got to the wanted goal*/
         if(current == goal) {
 
-            /* we create the stuck that will hold the fastest route and
+            /* we create the stack that will hold the fastest route and
              * push all the node from the goal to the start point*/
-            deque <Node*> fastestRoute;
+            stack <Node*> fastestRoute;
             while (current != NULL) {
-                fastestRoute.push_back(current);
+                fastestRoute.push(current);
                 current = current->getFather();
             }
             return fastestRoute;
@@ -37,7 +38,7 @@ deque<Node*> BreadthFirstSearch::breadthFirstSearch(Node *start, Node *goal) {
         }
 
     }
-    deque <Node*> empty;
+    stack <Node*> empty;
     return empty;
 }
 

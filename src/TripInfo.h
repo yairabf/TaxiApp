@@ -8,6 +8,7 @@
 #include "Node.h"
 #include <boost/serialization/map.hpp>
 #include <boost/serialization/deque.hpp>
+#include <stack>
 
 using namespace boost::archive;
 
@@ -22,7 +23,7 @@ private:
     Point* end;
     int numberOfPassengers;
     double tariff;
-    std::deque <Node*>* route;
+    std::stack <Node*>* route;
 
     /**
      * serialization of the class
@@ -41,7 +42,7 @@ private:
         ar & end;
         ar & numberOfPassengers;
         ar & tariff;
-        ar & route;
+       // ar & route;
     }
 
 public:
@@ -119,12 +120,12 @@ public:
      * sets a route to the trip info.
      * @param route is the new route.
      */
-    void setRoute(std::deque<Node*> *route);
+    void setRoute(std::stack<Node*> *route);
     /**
      * getter.
      * @return the route for the trip as a stack.
      */
-    std::deque<Node *>* getRoute() const;
+    std::stack<Node *>* getRoute() const;
 
     void setAssigned(bool assigned);
 

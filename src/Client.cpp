@@ -3,13 +3,14 @@
 #include <fstream>
 #include "Client.h"
 #include "Driver.h"
+#include "NodeBlock.h"
 
 
 int main(){
     int id,age,exp,vid;
     char status,temp;
     cout << "enter driver" << endl;
-    cin >> id >> temp >> age >> temp >> status >> temp >> exp >> vid;
+    cin >> id >> temp >> age >> temp >> status >> temp >> exp >> temp>> vid;
     ClientDriver clientDriver = ClientDriver(5555);
     clientDriver.createAndSendDriver(id,age,status,exp,vid);
 }
@@ -17,7 +18,6 @@ int main(){
 
 ClientDriver::ClientDriver(int portNumber) : udp(Udp(0, portNumber)) {
     udp.initialize();
-    cout << "hello from client";
 }
 
 int ClientDriver::createAndSendDriver(int id, int age, char status, int experience,
@@ -48,11 +48,25 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
 
     while (true) {
         char buffer2[1024];
+        //sending the id of the driver
+        string stringedId;
+        ostringstream convert;
+        convert << driver->getId();
+        stringedId = convert.str();
+        udp.sendData(stringedId, stringedId.size());
+        //receiving go or finish
         udp.reciveData(buffer2, sizeof(buffer2));
         string goOrFinish = buffer2;
-        if (strcmp(goOrFinish, "go") == 0) {
-            //receive serialized point
-        }
+        if (strcmp(goOrFinish.data(), "go") == 0) {
+            //receiving a node as a string but is actually point.toString
+            udp.reciveData(buffer2, sizeof(buffer2));
+            string stringedPoint = buffer2;
+            Point pointLocation;
+            pointLocation.pointFromString(stringedPoint);
+            Node* location = new NodeBlock(pointLocation);
+            driver->setLocation(location);
+        } else if(strcmp(goOrFinish.data(), "none") == 0)
+            continue;
             //if we need to finish
         else
             break;

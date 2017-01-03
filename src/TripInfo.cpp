@@ -35,11 +35,11 @@ double TripInfo::getTarrif() const {
     return tariff;
 }
 
-void TripInfo::setRoute(std::deque<Node*> *route1) {
+void TripInfo::setRoute(std::stack<Node*> *route1) {
     route = route1;
 }
 
-std::deque<Node *> *TripInfo::getRoute() const {
+std::stack<Node *> *TripInfo::getRoute() const {
     return route;
 }
 

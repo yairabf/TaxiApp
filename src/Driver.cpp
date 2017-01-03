@@ -70,13 +70,16 @@ void Driver::addPassenger(Passenger* passenger) {
 void Driver::drive() {
     //checking if the driver has been assigned to a route
     if(tripInfo != NULL) {
-        deque<Node*> *route = tripInfo->getRoute();
+        stack<Node*> *route = tripInfo->getRoute();
         if(taxi->getSpeed() == 2 && route->size() > 1) {
-            route->pop_back();
+            route->pop();
         }
-        setLocation(route->back());
+        //i want to pop the first node that the driver is allready in
+        if(strcmp(location->printValue().data(), route->top()->printValue().data()) == 0)
+            route->pop();
+        setLocation(route->top());
         //cout << route->top()->printValue() << endl;
-        route->pop_back();
+        route->pop();
     }
     if(tripInfo->getRoute()->empty()){
         setOccupied(false);
@@ -126,16 +129,3 @@ void Driver::getSatisfactionFromPassengers() {
 Driver::Driver() {}
 
 
-/*
- * int id;
-    int age;
-    int yearsExp;
-    int vehicle_id;
-    bool occupied;
-    char status;
-    Taxi* taxi;
-    float avgSatisfaction;
-    Node* location;
-    TripInfo* tripInfo;
-    list<Passenger*> passengers;
- */
