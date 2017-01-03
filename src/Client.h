@@ -39,6 +39,7 @@ public:
      */
     string bufferToString(char* buffer, int bufferSize);
 
+    bool bufferComper(char* buffer, std::string string );
 
 };
 

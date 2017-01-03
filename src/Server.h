@@ -61,6 +61,8 @@ public:
      */
     void run();
 
+    bool bufferComper(char* buffer, std::string string );
+
 };
 
 

@@ -58,17 +58,13 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
             //or trip info or "no trip info"
             udp.reciveData(buffer2, sizeof(buffer2));
             string stringedBuffer2(buffer2, sizeof(buffer2));
+            if(stringedBuffer2.compare("yes")){
+                driver->setOccupied(true);
+            }
             /*if  (stringedBuffer2.compare("no trip")) {
                 continue;
             } else {*/
                 //receiving the trip info from the server and adding it to the driver
-                bool occupied;
-                boost::iostreams::basic_array_source<char> device2((char *) stringedBuffer2.c_str(),
-                                                                   stringedBuffer2.size());
-                boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s3(device);
-                boost::archive::binary_iarchive ia2(s3);
-                ia2 >> occupied;
-                driver->setOccupied(occupied);
             //}
         }
         else {
@@ -79,11 +75,11 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
             stringedId = convert.str();
             udp.reciveData(buffer2, sizeof(buffer2));
             string stringedBuffer2(buffer2, sizeof(buffer2));
-            if (stringedBuffer2.compare("finish")) {
+            if (bufferComper(buffer2,"finish")) {
                 break;
             }
                 //if the server wants to know our location
-            else if (stringedBuffer2.compare("location")) {
+            else if (bufferComper(buffer2,"location")) {
                 //udp.sendData(driver->getLocation()->printValue());
                 boost::iostreams::back_insert_device<std::string> inserter1(serial_str);
                 boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> >
@@ -96,8 +92,13 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
             } else {
                 //check if it is ok to use buffer 2 again
                 //drives as long as it receives go
-                if (stringedBuffer2.compare("go")) {
-                    driver->drive();
+                if (bufferComper(buffer2,"go")) {
+                    udp.sendData(stringedId, stringedId.size());
+                    udp.reciveData(buffer2, sizeof(buffer2));
+                    string stringedBuffer2(buffer2, sizeof(buffer2));
+                    ia >> location;
+                    driver->setLocation(location);
+
                 }
                 //if i have finished the trip
                 if (driver->getTripInfo()->getRoute()->empty()) {
@@ -108,4 +109,14 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
         }
     }
     udp.~Udp();
+}
+
+bool ClientDriver::bufferComper(char* buffer, std::string string ) {
+    bool equal = true;
+    for(int i=0; i<string.length(); i++){
+        if(buffer[i] != string.at((unsigned long) i)){
+            return false;
+        }
+    }
+    return equal;
 }

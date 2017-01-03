@@ -141,7 +141,7 @@ void Server::startDriving() {
     udp.reciveData(buffer, sizeof(buffer));
     string stringedBuffer(buffer, sizeof(buffer));
     //sending so that connection wont end
-    if(stringedBuffer.compare("id")) {
+    if(bufferComper(buffer,"id")) {
         udp.reciveData(buffer, sizeof(buffer));
         string stringedBuffer1(buffer, sizeof(buffer));
         id = stoi(stringedBuffer1);
@@ -149,21 +149,20 @@ void Server::startDriving() {
         Driver *driver = taxiStation->getDriverById(id);
         //sending trip info
         if (driver->getTripInfo() != NULL) {
-            bool occupied = driver->isOccupied();
-            std::string serial_str;
-            boost::iostreams::back_insert_device<std::string> inserter(serial_str);
-            boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(
-                    inserter);
-            boost::archive::binary_oarchive oa(s);
-            oa << occupied;
-            s.flush();
-            udp.sendData(serial_str, serial_str.length());
+
+            udp.sendData("yes", 4);
         } else {
             udp.sendData("no trip", 8);
         }
     }
-    else if (stringedBuffer.compare("ready to go")) {
+    else if (bufferComper(buffer,"ready to go")) {
         udp.sendData("go", 3);
+        udp.reciveData(buffer, sizeof(buffer));
+        string stringedBuffer1(buffer, sizeof(buffer));
+        id = stoi(stringedBuffer1);
+        //we have the correct trip info cos of assign drivers func
+        Driver *driver = taxiStation->getDriverById(id);
+        udp.sendData(driver->getLocation()->printValue(),driver->getLocation()->printValue().size());
     }
     clock++;
 }
@@ -183,3 +182,12 @@ int main(int argc, char** argv) {
 }
 
 
+bool Server::bufferComper(char* buffer, std::string string ) {
+    bool equal = true;
+    for(int i=0; i<string.length(); i++){
+        if(buffer[i] != string.at((unsigned long) i)){
+            return false;
+        }
+    }
+    return equal;
+}
