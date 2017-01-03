@@ -53,10 +53,14 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
             convert << driver->getId();
             stringedId = convert.str();
             udp.sendData("id", 3);
+            //only for connection
+            udp.reciveData(buffer2, sizeof(buffer2));
+            //sendin id
             udp.sendData(stringedId, stringedId.size());
+            //or trip info or "no trip info"
             udp.reciveData(buffer2, sizeof(buffer2));
             string stringedBuffer2(buffer2, sizeof(buffer2));
-            if  (stringedBuffer2 == "no trip") {
+            if  (stringedBuffer2.compare("no trip")) {
                 continue;
             } else {
                 //receiving the trip info from the server and adding it to the driver
@@ -69,16 +73,15 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
                 driver->assignTripInfo(tripInfo);
             }
         }
-            //if the server told us to finish
         else {
             udp.sendData("ready to go", 12);
             udp.reciveData(buffer2, sizeof(buffer2));
             string stringedBuffer2(buffer2, sizeof(buffer2));
-            if (stringedBuffer2 == "finish") {
+            if (stringedBuffer2.compare("finish")) {
                 break;
             }
                 //if the server wants to know our location
-            else if (stringedBuffer2 == "location") {
+            else if (stringedBuffer2.compare("location")) {
                 //udp.sendData(driver->getLocation()->printValue());
                 boost::iostreams::back_insert_device<std::string> inserter1(serial_str);
                 boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> >
@@ -91,7 +94,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
             } else {
                 //check if it is ok to use buffer 2 again
                 //drives as long as it receives go
-                if (stringedBuffer2 == "go") {
+                if (stringedBuffer2.compare("go")) {
                     driver->drive();
                 }
                 //if i have finished the trip

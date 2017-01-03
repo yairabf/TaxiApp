@@ -140,6 +140,8 @@ void Server::startDriving() {
     taxiStation->assignDrivers(clock);
     udp.reciveData(buffer, sizeof(buffer));
     string stringedBuffer(buffer, sizeof(buffer));
+    //sending so that connection wont end
+    udp.sendData("waiting for id", 15);
     if(stringedBuffer.compare("id")) {
         udp.reciveData(buffer, sizeof(buffer));
         string stringedBuffer(buffer, sizeof(buffer));
@@ -161,7 +163,7 @@ void Server::startDriving() {
             udp.sendData("no trip", 8);
         }
     }
-    else if (stringedBuffer == "ready to go") {
+    else if (stringedBuffer.compare("ready to go")) {
         udp.sendData("go", 3);
     }
     clock++;
