@@ -6,6 +6,7 @@ Server::Server(const int columns, const int rows):udp(Udp(1, server_port)) {
     taxiStation = new TaxiStation(map);
     clock = 0;
     udp.initialize();
+    isFirst9 = true;
 }
 
 
@@ -42,6 +43,7 @@ void Server::run() {
             case 9:
                 startDriving();
                 map->resetVisited();
+                isFirst9 = false;/////////this is the bool i meant
                 break;
 
             default:
@@ -103,6 +105,7 @@ void Server::createTripInfo() {
     int id, x_start, y_start, x_end, y_end, num_of_passenger, start_time;
     double tariff;
     char temp;
+    cout << "enter trip info: id, start,end,numof,tarrif,time" << endl;
     //receiving trip details
     cin >> id >> temp >> x_start >> temp >> y_start >> temp >> x_end >> temp >> y_end >> temp
         >> num_of_passenger >> temp >> tariff >> temp >> start_time;
@@ -113,6 +116,7 @@ void Server::createTripInfo() {
 void Server::createVehicle() {
     int id, taxi_type;
     char manufacturer, color, temp;
+    cout << "enter taxi" << endl;
     //receiving trip details
     cin >> id >> temp >> taxi_type >> temp >> manufacturer >> temp >> color;
     Taxi *taxi = new Taxi(id, manufacturer, color, taxi_type);
@@ -136,13 +140,20 @@ void Server::startDriving() {
     char buffer[1024];
     int id;
     taxiStation->driveAll();
-    //sending the driver a message to drive
     taxiStation->assignDrivers(clock);
+    //receiving the id
     udp.reciveData(buffer, sizeof(buffer));
     string stringedBuffer(buffer, sizeof(buffer));
-    //sending so that connection wont end
-    udp.sendData("waiting for id", 15);
-    if(stringedBuffer.compare("id")) {
+    id = stoi(stringedBuffer);
+    //we have the correct trip info cos of assign drivers func
+    Driver *driver = taxiStation->getDriverById(id);
+    if((!isFirst9) &&
+            (!driver->getTripInfo()->getRoute()->empty()) &&
+            (driver->getTripInfo()->getStart_time() == clock)){
+        //*************************************here we need to receive a the next point and send to driver and send go
+    }
+    clock++;
+    /*if(stringedBuffer.compare("id")) {
         udp.reciveData(buffer, sizeof(buffer));
         string stringedBuffer(buffer, sizeof(buffer));
         id = stoi(stringedBuffer);
@@ -165,8 +176,8 @@ void Server::startDriving() {
     }
     else if (stringedBuffer.compare("ready to go")) {
         udp.sendData("go", 3);
-    }
-    clock++;
+    }*/
+
 }
 
 /**

@@ -19,6 +19,7 @@ private:
     TaxiStation* taxiStation;
     int clock;
     Udp udp;
+    bool isFirst9;
 
     /**
      * creeates a driver.

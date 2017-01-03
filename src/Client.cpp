@@ -8,6 +8,7 @@
 int main(){
     int id,age,exp,vid;
     char status,temp;
+    cout << "enter driver" << endl;
     cin >> id >> temp >> age >> temp >> status >> temp >> exp >> vid;
     ClientDriver clientDriver = ClientDriver(5555);
     clientDriver.createAndSendDriver(id,age,status,exp,vid);
@@ -46,6 +47,19 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
     cout << driver->getTaxi()->getId() << "," << driver->getTaxi()->getCarManufacturer();
 
     while (true) {
+        char buffer2[1024];
+        udp.reciveData(buffer2, sizeof(buffer2));
+        string goOrFinish = buffer2;
+        if (strcmp(goOrFinish, "go") == 0) {
+            //receive serialized point
+        }
+            //if we need to finish
+        else
+            break;
+    }
+    udp.~Udp();
+}
+  /*  while (true) {
         char buffer2[1024];
         if (driver->getTripInfo() == NULL) {
             string stringedId;
@@ -105,5 +119,4 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
             }
         }
     }
-    udp.~Udp();
-}
+    udp.~Udp();*/
