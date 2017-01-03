@@ -139,31 +139,30 @@ void Server::startDriving() {
     //sending the driver a message to drive
     taxiStation->assignDrivers(clock);
     udp.reciveData(buffer, sizeof(buffer));
-    if(buffer == "id") {
-        udp.sendData("sending trip", 13);
+    string stringedBuffer(buffer, sizeof(buffer));
+    if(stringedBuffer.compare("id")) {
         udp.reciveData(buffer, sizeof(buffer));
         string stringedBuffer(buffer, sizeof(buffer));
-        boost::iostreams::basic_array_source<char> device((char *) stringedBuffer.c_str(), stringedBuffer.size());
-        boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
-        boost::archive::binary_iarchive ia(s2);
-        ia >> id;
+        id = stoi(stringedBuffer);
         //we have the correct trip info cos of assign drivers func
-        Driver* driver = taxiStation->getDriverById(id);
+        Driver *driver = taxiStation->getDriverById(id);
         //sending trip info
-        if(driver->getTripInfo() != NULL) {
+        if (driver->getTripInfo() != NULL) {
             TripInfo *tripInfo = driver->getTripInfo();
             std::string serial_str;
             boost::iostreams::back_insert_device<std::string> inserter(serial_str);
-            boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
+            boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(
+                    inserter);
             boost::archive::binary_oarchive oa(s);
             oa << tripInfo;
             s.flush();
             udp.sendData(serial_str, serial_str.length());
+        } else {
+            udp.sendData("no trip", 8);
+        }
     }
-    else if (buffer == "ready to go");
+    else if (stringedBuffer == "ready to go") {
         udp.sendData("go", 3);
-    } else {
-        udp.sendData("no trip", 8);
     }
     clock++;
 }
