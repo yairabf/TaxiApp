@@ -47,34 +47,36 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
 
     while (true) {
         char buffer2[1024];
-        if (driver->getTripInfo() == NULL) {
+        if (!driver->isOccupied()) {
             string stringedId;
             ostringstream convert;
             convert << driver->getId();
             stringedId = convert.str();
             udp.sendData("id", 3);
-            //only for connection
-            udp.reciveData(buffer2, sizeof(buffer2));
             //sendin id
             udp.sendData(stringedId, stringedId.size());
             //or trip info or "no trip info"
             udp.reciveData(buffer2, sizeof(buffer2));
             string stringedBuffer2(buffer2, sizeof(buffer2));
-            if  (stringedBuffer2.compare("no trip")) {
+            /*if  (stringedBuffer2.compare("no trip")) {
                 continue;
-            } else {
+            } else {*/
                 //receiving the trip info from the server and adding it to the driver
-                TripInfo *tripInfo;
+                bool occupied;
                 boost::iostreams::basic_array_source<char> device2((char *) stringedBuffer2.c_str(),
                                                                    stringedBuffer2.size());
                 boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s3(device);
                 boost::archive::binary_iarchive ia2(s3);
-                ia2 >> tripInfo;
-                driver->assignTripInfo(tripInfo);
-            }
+                ia2 >> occupied;
+                driver->setOccupied(occupied);
+            //}
         }
         else {
             udp.sendData("ready to go", 12);
+            string stringedId;
+            ostringstream convert;
+            convert << driver->getId();
+            stringedId = convert.str();
             udp.reciveData(buffer2, sizeof(buffer2));
             string stringedBuffer2(buffer2, sizeof(buffer2));
             if (stringedBuffer2.compare("finish")) {

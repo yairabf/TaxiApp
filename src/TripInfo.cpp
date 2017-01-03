@@ -7,7 +7,8 @@ TripInfo::TripInfo(int id, int x_start, int y_start, int x_end, int y_end, int n
                                     start(new Point(x_start, y_start)), end(new Point(x_end, y_end)),
                                                     start_time(start_time) {
     route = NULL;
-    done = false;
+    done = 0;
+    assigned = 0;
     metersPassed = 0;
 }
 
@@ -43,11 +44,11 @@ std::deque<Node *> *TripInfo::getRoute() const {
     return route;
 }
 
-bool TripInfo::isDone() const {
+int TripInfo::isDone() const {
     return done;
 }
 
-void TripInfo::setDone(bool done) {
+void TripInfo::setDone(int done) {
     TripInfo::done = done;
 }
 
@@ -63,11 +64,11 @@ int TripInfo::getStart_time() const {
     return start_time;
 }
 
-bool TripInfo::isAssigned() const {
+int TripInfo::isAssigned() const {
     return assigned;
 }
 
-void TripInfo::setAssigned(bool assigned) {
+void TripInfo::setAssigned(int assigned) {
     TripInfo::assigned = assigned;
 }
 

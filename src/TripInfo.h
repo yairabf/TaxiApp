@@ -6,6 +6,15 @@
 #include <deque>
 #include "Point.h"
 #include "Node.h"
+#include <boost/tokenizer.hpp>
+#include <boost/algorithm/string/predicate.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/assign/list_of.hpp>
+#include <boost/algorithm/string.hpp>
+#include <boost/iostreams/device/back_inserter.hpp>
+#include <boost/iostreams/stream.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
 #include <boost/serialization/map.hpp>
 #include <boost/serialization/deque.hpp>
 
@@ -15,8 +24,8 @@ class TripInfo {
 private:
     int id;
     int start_time;
-    bool assigned;
-    bool done;
+    int assigned;
+    int done;
     int metersPassed;
     Point* start;
     Point* end;
@@ -82,12 +91,12 @@ public:
      * has the trip finished
      * @return true if it has finished, otherwise, false.
      */
-    bool isDone() const;
+    int isDone() const;
     /**
      * sets if the trip has ended.
      * @param done
      */
-    void setDone(bool done);
+    void setDone(int done);
 
     /**
      * getter.
@@ -113,7 +122,7 @@ public:
      */
     double getTarrif() const;
 
-    bool isAssigned() const;
+    int isAssigned() const;
 
     /**
      * sets a route to the trip info.
@@ -126,7 +135,7 @@ public:
      */
     std::deque<Node *>* getRoute() const;
 
-    void setAssigned(bool assigned);
+    void setAssigned(int assigned);
 
 };
 

@@ -141,22 +141,21 @@ void Server::startDriving() {
     udp.reciveData(buffer, sizeof(buffer));
     string stringedBuffer(buffer, sizeof(buffer));
     //sending so that connection wont end
-    udp.sendData("waiting for id", 15);
     if(stringedBuffer.compare("id")) {
         udp.reciveData(buffer, sizeof(buffer));
-        string stringedBuffer(buffer, sizeof(buffer));
-        id = stoi(stringedBuffer);
+        string stringedBuffer1(buffer, sizeof(buffer));
+        id = stoi(stringedBuffer1);
         //we have the correct trip info cos of assign drivers func
         Driver *driver = taxiStation->getDriverById(id);
         //sending trip info
         if (driver->getTripInfo() != NULL) {
-            TripInfo *tripInfo = driver->getTripInfo();
+            bool occupied = driver->isOccupied();
             std::string serial_str;
             boost::iostreams::back_insert_device<std::string> inserter(serial_str);
             boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(
                     inserter);
             boost::archive::binary_oarchive oa(s);
-            oa << tripInfo;
+            oa << occupied;
             s.flush();
             udp.sendData(serial_str, serial_str.length());
         } else {
