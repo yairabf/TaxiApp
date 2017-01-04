@@ -20,7 +20,7 @@ public:
      * @param portNumber is the number of the port we need to connect to.
      * @return a pointer to clientDriver type.
      */
-    ClientDriver(int portNumber);
+    ClientDriver(int portNumber, string ip);
 
     /**
      * creates a new driver and sends it to the server.

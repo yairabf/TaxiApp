@@ -12,14 +12,15 @@ int main(int argc, char** argv){
     //cout << "enter driver" << endl;
     cin >> id >> temp >> age >> temp >> status >> temp >> exp >> temp>> vid;
     int portNumber = atoi(argv[2]);
-    ClientDriver clientDriver = ClientDriver(portNumber);
+    ClientDriver clientDriver = ClientDriver(portNumber, argv[1]);
     clientDriver.createAndSendDriver(id,age,status,exp,vid);
     return 0;
 }
 
 
-ClientDriver::ClientDriver(int portNumber) : udp(Udp(0, portNumber)) {
+ClientDriver::ClientDriver(int portNumber, string ip) : udp(Udp(0, portNumber)) {
     udp.initialize();
+    udp.setIp(ip);
 }
 
 int ClientDriver::createAndSendDriver(int id, int age, char status, int experience,
