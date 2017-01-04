@@ -6,12 +6,13 @@
 #include "NodeBlock.h"
 
 
-int main(){
+int main(int argc, char** argv){
     int id,age,exp,vid;
     char status,temp;
-    cout << "enter driver" << endl;
+    //cout << "enter driver" << endl;
     cin >> id >> temp >> age >> temp >> status >> temp >> exp >> temp>> vid;
-    ClientDriver clientDriver = ClientDriver(5555);
+    int portNumber = atoi(argv[2]);
+    ClientDriver clientDriver = ClientDriver(portNumber);
     clientDriver.createAndSendDriver(id,age,status,exp,vid);
     return 0;
 }
@@ -45,7 +46,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
     boost::archive::binary_iarchive ia(s2);
     ia >> taxi;
     driver->assignTaxi(taxi);
-    NodeBlock* driverLoc;
+    NodeBlock* driverLoc = NULL;
     Point* pointLocation = new Point(0,0);
     while (true) {
         char buffer2[1024];

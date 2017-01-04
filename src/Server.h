@@ -51,7 +51,7 @@ public:
      * @param columns of the graph.
      * @param rows of the graph.
      */
-    Server(const int columns, const int rows);
+    Server(const int columns, const int rows, int port_number);
 
     /**
      * destructor.

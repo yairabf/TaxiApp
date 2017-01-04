@@ -1,6 +1,6 @@
 #include "Server.h"
 
-Server::Server(const int columns, const int rows):udp(Udp(1,5555)) {
+Server::Server(const int columns, const int rows, int port_number):udp(Udp(1,port_number)) {
     map = new Map(columns, rows);
     taxiStation = new TaxiStation(map);
     clock = 0;
@@ -12,7 +12,7 @@ Server::Server(const int columns, const int rows):udp(Udp(1,5555)) {
 void Server::run() {
     int numberOfObstacles, x, y;
     char temp;
-    cout << "how many obstacles?" << endl;
+    //cout << "how many obstacles?" << endl;
     cin >> numberOfObstacles;
     if(numberOfObstacles > 0 ) {
         //waits for obstacles input
@@ -24,7 +24,7 @@ void Server::run() {
     }
     int task;
     do {
-        cout << "enter task" << endl;
+        //cout << "enter task" << endl;
         cin >> task;
         switch (task) {
             case 1:
@@ -58,7 +58,7 @@ void Server::run() {
 void Server::createDriver() {
     /*receiving all the drivers and insert them into taxiStation list of drivers*/
     int numOfDrivers;
-    cout << "enter num of drivers" << endl;
+    //cout << "enter num of drivers" << endl;
     cin >> numOfDrivers;
     for(int i=0; i < numOfDrivers; i++) {
         Driver* driver;
@@ -71,7 +71,7 @@ void Server::createDriver() {
         boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
         boost::archive::binary_iarchive ia(s2);
         ia >> driver;
-        cout << driver->getId();
+        //cout << driver->getId();
         taxiStation->addDriver(driver);
 
         Taxi* taxi;
@@ -106,7 +106,7 @@ void Server::createTripInfo() {
     int id, x_start, y_start, x_end, y_end, num_of_passenger, start_time;
     double tariff;
     char temp;
-    cout << "enter trip info: id, start,end,numof,tarrif,time" << endl;
+    //cout << "enter trip info: id, start,end,numof,tarrif,time" << endl;
     //receiving trip details
     cin >> id >> temp >> x_start >> temp >> y_start >> temp >> x_end >> temp >> y_end >> temp
         >> num_of_passenger >> temp >> tariff >> temp >> start_time;
@@ -117,7 +117,7 @@ void Server::createTripInfo() {
 void Server::createVehicle() {
     int id, taxi_type;
     char manufacturer, color, temp;
-    cout << "enter taxi" << endl;
+    //cout << "enter taxi" << endl;
     //receiving trip details
     cin >> id >> temp >> taxi_type >> temp >> manufacturer >> temp >> color;
     Taxi *taxi = new Taxi(id, manufacturer, color, taxi_type);
@@ -198,10 +198,11 @@ void Server::startDriving() {
  */
 int main(int argc, char** argv) {
     int columns, rows;
-    cout << "enter size of grid" << endl;
+    //cout << "enter size of grid" << endl;
     cin >> columns;
     cin >> rows;
-    Server server = Server(columns, rows);
+    int portNumber =  atoi(argv[1]);
+    Server server = Server(columns, rows, portNumber);
     server.run();
     return 1;
 }
