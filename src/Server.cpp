@@ -1,5 +1,4 @@
 #include "Server.h"
-#include <boost/serialization/list.hpp>
 
 Server::Server(const int columns, const int rows):udp(Udp(1,5555)) {
     map = new Map(columns, rows);
@@ -149,7 +148,7 @@ void Server::startDriving() {
     string stringedBuffer(buffer, sizeof(buffer));
     istringstream convert(stringedBuffer);
     //give the value to id using the characters in the stream
-    if ( !(convert >> stringedBuffer) )
+    if ( !(convert >> id) )
         id = 0;
     //id = stoi(stringedBuffer);
     //we have the correct trip info cos of assign drivers func

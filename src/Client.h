@@ -11,6 +11,8 @@ class ClientDriver {
 private:
     Udp udp;//check if this is ok
 
+public:
+    virtual ~ClientDriver();
 
 public:
     /**

@@ -113,7 +113,8 @@ int Driver::getVehicle_id() const {
 Driver::~Driver() {
     //delete(tripInfo);
     //delete(taxi);
-    //delete(location);
+    if(location != NULL)
+        delete(location);
 }
 
 void Driver::getSatisfactionFromPassengers() {
