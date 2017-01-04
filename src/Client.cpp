@@ -45,7 +45,8 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
     ia >> taxi;
     driver->assignTaxi(taxi);
     cout << driver->getTaxi()->getId() << "," << driver->getTaxi()->getCarManufacturer();
-
+    Node* driverLoc;
+    Point pointLocation;
     while (true) {
         char buffer2[1024];
         //sending the id of the driver
@@ -61,10 +62,10 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
             //receiving a node as a string but is actually point.toString
             udp.reciveData(buffer2, sizeof(buffer2));
             string stringedPoint = buffer2;
-            Point pointLocation;
             pointLocation.pointFromString(stringedPoint);
-            Node* location = new NodeBlock(pointLocation);
-            driver->setLocation(location);
+            driverLoc = new NodeBlock(pointLocation);
+            driver->setLocation(driverLoc);
+
         } else if(strcmp(goOrFinish.data(), "none") == 0)
             continue;
             //if we need to finish
@@ -72,6 +73,10 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
             break;
     }
     udp.~Udp();
+    //delete(pointLocation);
+    delete(driver->getLocation());
+    delete(driver->getTaxi());
+    delete(driver);
 }
   /*  while (true) {
         char buffer2[1024];

@@ -1,7 +1,7 @@
 #include "Server.h"
 #include <boost/serialization/list.hpp>
 
-Server::Server(const int columns, const int rows):udp(Udp(1, server_port)) {
+Server::Server(const int columns, const int rows):udp(Udp(1,5555)) {
     map = new Map(columns, rows);
     taxiStation = new TaxiStation(map);
     clock = 0;
@@ -43,16 +43,17 @@ void Server::run() {
             case 9:
                 startDriving();
                 map->resetVisited();
-                isFirst9 = false;/////////this is the bool i meant
+                isFirst9 = false;
                 break;
-
+            case 7:
+                udp.sendData("finish", 7);
+                udp.~Udp();
+                return;
             default:
                 break;
         }
-    }  while (task != 7);
-    udp.sendData("finish", 7);
-    udp.~Udp();
-    exit(0);//
+    }  while (true);
+
 }
 
 void Server::createDriver() {
@@ -140,18 +141,22 @@ void Server::requestDriverLocation() {
 void Server::startDriving() {
     char buffer[1024];
     int id;
+    clock++;
     taxiStation->driveAll();
     taxiStation->assignDrivers(clock);
     //receiving the id
     udp.reciveData(buffer, sizeof(buffer));
     string stringedBuffer(buffer, sizeof(buffer));
-    id = stoi(stringedBuffer);
+    istringstream convert(stringedBuffer);
+    //give the value to id using the characters in the stream
+    if ( !(convert >> stringedBuffer) )
+        id = 0;
+    //id = stoi(stringedBuffer);
     //we have the correct trip info cos of assign drivers func
     Driver *driver = taxiStation->getDriverById(id);
-    stack<Node*> *driversRoute = driver->getTripInfo()->getRoute();
     //if this is not the first time we pressed 9 and the route is not empty and the time of the trip is now
     if((!isFirst9) &&
-            (!driversRoute->empty()) &&
+            (!driver->getTripInfo()->getRoute()->empty()) &&
             (driver->getTripInfo()->getStart_time() <= clock)){
         //driver->drive();
         Node* node = driver->getLocation();
@@ -161,7 +166,6 @@ void Server::startDriving() {
         //if first 9
     } else
         udp.sendData("none", 5);
-    clock++;
     /*if(stringedBuffer.compare("id")) {
         udp.reciveData(buffer, sizeof(buffer));
         string stringedBuffer(buffer, sizeof(buffer));

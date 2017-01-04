@@ -5,7 +5,6 @@
 
 Taxi::Taxi(int id, char CarManufacturer, char color, int speed) : id(id), carManufacturer(CarManufacturer),
                                                                   color(color), speed(speed) {
-    tripInfo = NULL;
     numOfKmPassed = 0;
 }
 int Taxi::getId() const {
@@ -28,20 +27,6 @@ int Taxi::getSpeed() const {
     return speed;
 }
 
-double Taxi::calculatePrice(int km) const {
-    if(km < 0) {
-        throw std::invalid_argument("Received negative value.");
-    }
-    return km * tripInfo->getTarrif();
-}
-
-TripInfo *Taxi::getTripInfo() const {
-    return tripInfo;
-}
-
-void Taxi::setTripInfo(TripInfo *tripInfo) {
-    Taxi::tripInfo = tripInfo;
-}
 
 Taxi::Taxi() {}
 

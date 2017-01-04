@@ -45,7 +45,7 @@ Node* Driver::getLocation()  {
 }
 
 
-void Driver::setLocation(Node *location) {
+void Driver::setLocation(Node* location) {
     Driver::location = location;
 }
 
@@ -71,17 +71,17 @@ void Driver::drive() {
     //checking if the driver has been assigned to a route
     if((tripInfo != NULL) && (!tripInfo->isDone())) {
         stack<Node*> *route = tripInfo->getRoute();
+        route->pop();
         if(taxi->getSpeed() == 2 && route->size() > 1) {
             route->pop();
         }
         //i want to pop the first node that the driver is allready in
-        if(strcmp(location->printValue().data(), route->top()->printValue().data()) == 0)
-            route->pop();
+        //if(strcmp(location->printValue().data(), route->top()->printValue().data()) == 0)
+            //route->pop();
         setLocation(route->top());
         //cout << route->top()->printValue() << endl;
-        route->pop();
     }
-    if(tripInfo->getRoute()->empty()){
+    if(tripInfo->getRoute()->size()==1){
         tripInfo->setDone(true);
         setOccupied(false);
     }

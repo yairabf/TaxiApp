@@ -29,7 +29,6 @@ private:
     char carManufacturer;
     char color;
     int speed;
-    TripInfo* tripInfo;
 
 public:
     Taxi();
@@ -48,7 +47,6 @@ private:
         ar & carManufacturer;
         ar & color;
         ar & speed;
-        ar & tripInfo;
     }
 public:
 	
@@ -88,8 +86,6 @@ public:
      */
     const char &getColor() const;
 
-    void setTripInfo(TripInfo *tripInfo);
-
     /**
      * getter.
      * @return the speed of the taxi.
@@ -102,12 +98,6 @@ public:
      * @return the price.
      */
     double calculatePrice(int km) const;
-
-    /**
-     * getter.
-     * @return the trip info.
-     */
-    TripInfo *getTripInfo() const;
 };
 
 
