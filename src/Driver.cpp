@@ -69,7 +69,7 @@ void Driver::addPassenger(Passenger* passenger) {
 
 void Driver::drive() {
     //checking if the driver has been assigned to a route
-    if(tripInfo != NULL) {
+    if((tripInfo != NULL) && (!tripInfo->isDone())) {
         stack<Node*> *route = tripInfo->getRoute();
         if(taxi->getSpeed() == 2 && route->size() > 1) {
             route->pop();
@@ -82,6 +82,7 @@ void Driver::drive() {
         route->pop();
     }
     if(tripInfo->getRoute()->empty()){
+        tripInfo->setDone(true);
         setOccupied(false);
     }
     //getSatisfactionFromPassengers();

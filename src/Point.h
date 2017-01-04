@@ -43,7 +43,7 @@ public:
      */
     Point(int x, int y);
 
-    Point* pointFromString(string string1);
+    void pointFromString(string string1);
 
     Point();
 

@@ -51,6 +51,7 @@ void Server::run() {
         }
     }  while (task != 7);
     udp.sendData("finish", 7);
+    udp.~Udp();
     exit(0);//
 }
 

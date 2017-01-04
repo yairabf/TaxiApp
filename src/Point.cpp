@@ -34,10 +34,9 @@ int Point::getY() const {
     return y;
 }
 
-Point *Point::pointFromString(string string1) {
-    int x = string1.at(1);
-    int y = string1.at(3);
-    return new Point(x,y);
+void Point::pointFromString(string string1) {
+    x = string1.at(1) - '0';
+    y = string1.at(3) - '0';
 }
 
 /**
