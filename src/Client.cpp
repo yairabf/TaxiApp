@@ -15,13 +15,13 @@ int main(int argc, char** argv){
     ip = argv[1];
     portNumber = *argv[2] - '0';
     //need to change 5555 to portNumber
-    ClientDriver clientDriver = ClientDriver(5555);
+    ClientDriver clientDriver = ClientDriver(5555, ip);
     clientDriver.createAndSendDriver(id,age,status,exp,vid);
     return 0;
 }
 
 
-ClientDriver::ClientDriver(int portNumber) : tcp(Tcp(0, portNumber)) {
+ClientDriver::ClientDriver(int portNumber, string ip) : tcp(Tcp(0, portNumber)) {
     tcp.initialize();
 }
 
