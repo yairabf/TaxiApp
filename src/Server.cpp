@@ -1,10 +1,11 @@
 #include "Server.h"
+#include "Tcp.h"
 
-Server::Server(const int columns, const int rows):udp(Udp(1,5555)) {
+Server::Server(const int columns, const int rows, int portNumber):tcp(Tcp(1,portNumber)) {
     map = new Map(columns, rows);
     taxiStation = new TaxiStation(map);
     clock = 0;
-    udp.initialize();
+    tcp.initialize();
     isFirst9 = true;
 }
 
@@ -45,8 +46,8 @@ void Server::run() {
                 isFirst9 = false;
                 break;
             case 7:
-                udp.sendData("finish", 7);
-                udp.~Udp();
+                tcp.sendData("finish", 7);
+                tcp.~Tcp();
                 return;
             default:
                 break;
@@ -58,33 +59,13 @@ void Server::run() {
 void Server::createDriver() {
     /*receiving all the drivers and insert them into taxiStation list of drivers*/
     int numOfDrivers;
+    int status;
+    pthread_t clientThread;
     cout << "enter num of drivers" << endl;
     cin >> numOfDrivers;
     for(int i=0; i < numOfDrivers; i++) {
-        Driver* driver;
-        char buffer[1024];
-        udp.reciveData(buffer, sizeof(buffer));
-
-        //de serializing the driver we have received.
-        string stringedBuffer(buffer, sizeof(buffer));
-        boost::iostreams::basic_array_source<char> device((char *) stringedBuffer.c_str(), stringedBuffer.size());
-        boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
-        boost::archive::binary_iarchive ia(s2);
-        ia >> driver;
-        cout << driver->getId();
-        taxiStation->addDriver(driver);
-
-        Taxi* taxi;
-        /*serialize the taxi we wont to send the client*/
-        std::string serial_str;
-        boost::iostreams::back_insert_device<std::string> inserter(serial_str);
-        boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
-        boost::archive::binary_oarchive oa(s);
-        taxi = driver->getTaxi();
-        oa << taxi;
-        s.flush();
-        udp.sendData(serial_str, serial_str.length());
-
+        //creating a thread for a client
+        pthread_create(&clientThread, NULL, Server::createThreadsForDrivers, (void*)this);
     }
     /*int id, age, experience, vehicle_id;
     char status , temp;
@@ -96,6 +77,42 @@ void Server::createDriver() {
     //need to create a port and send it to the ClientDriver
     //ClientDriver clientDriver(;//need to add a port number.
 }
+
+void* Server::createThreadsForDrivers(void* s) {
+    int client;
+    Driver* driver;
+    char buffer[1024];
+    Server *server = (Server*)s;
+    Tcp tcp = server->getTcp();
+    //receiving descriptor of client port
+    client = tcp.acceptClient();
+    if(client > 0) {
+        tcp.reciveData(buffer, sizeof(buffer), client);
+        //de serializing the driver we have received.
+        string stringedBuffer(buffer, sizeof(buffer));
+        boost::iostreams::basic_array_source<char> device((char *) stringedBuffer.c_str(), stringedBuffer.size());
+        boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
+        boost::archive::binary_iarchive ia(s2);
+        ia >> driver;
+        //cout << driver->getId();
+        server->getTaxiStation()->addDriver(driver);
+
+        Taxi *taxi;
+        /*serialize the taxi we wont to send the client*/
+        std::string serial_str;
+        boost::iostreams::back_insert_device<std::string> inserter(serial_str);
+        boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
+        boost::archive::binary_oarchive oa(s);
+        taxi = driver->getTaxi();
+        oa << taxi;
+        s.flush();
+        tcp.sendData(serial_str, serial_str.length());
+    }
+    else {
+        cout << "error in accepting the client by the server " << endl;
+    }
+}
+
 
 Server::~Server() {
     delete (taxiStation);
@@ -138,13 +155,13 @@ void Server::requestDriverLocation() {
 }
 
 void Server::startDriving() {
-    char buffer[1024];
+    /*char buffer[1024];
     int id;
     clock++;
     taxiStation->driveAll();
     taxiStation->assignDrivers(clock);
     //receiving the id
-    udp.reciveData(buffer, sizeof(buffer));
+    tcp.reciveData(buffer, sizeof(buffer));
     string stringedBuffer(buffer, sizeof(buffer));
     istringstream convert(stringedBuffer);
     //give the value to id using the characters in the stream
@@ -160,11 +177,13 @@ void Server::startDriving() {
         //driver->drive();
         Node* node = driver->getLocation();
         string driversLocation = node->printValue();
-        udp.sendData("go", 3);
-        udp.sendData(driversLocation, driversLocation.size());
+        tcp.sendData("go", 3);
+        tcp.sendData(driversLocation, driversLocation.size());
         //if first 9
     } else
-        udp.sendData("none", 5);
+        tcp.sendData("none", 5);*/
+
+
     /*if(stringedBuffer.compare("id")) {
         udp.reciveData(buffer, sizeof(buffer));
         string stringedBuffer(buffer, sizeof(buffer));
@@ -192,16 +211,26 @@ void Server::startDriving() {
 
 }
 
+TaxiStation *Server::getTaxiStation() const {
+    return taxiStation;
+}
+
+const Tcp &Server::getTcp() const {
+    return tcp;
+}
+
 /**
  * The main method that runs the program, the method receives form the user the size of the grid
  * and the location of the start point and the goal and the method prints the the fastest route.
  */
 int main(int argc, char** argv) {
-    int columns, rows;
+    int columns, rows, portNumber;
     cout << "enter size of grid" << endl;
     cin >> columns;
     cin >> rows;
-    Server server = Server(columns, rows);
+    portNumber = *argv[1] - '0';
+    //need to change 5555 to portNumber
+    Server server = Server(columns, rows, 5555);
     server.run();
     return 1;
 }

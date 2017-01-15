@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5.1)
 project(adprog1_1)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -std=c++0x")
 set(BOOST_ROOT CACHE PATH "/usr/include/boost/ -lboost_serialization" )
 find_package(Boost 1.58.0 COMPONENTS serialization system)
 include_directories(${Boost_INCLUDE_DIR})
@@ -14,7 +14,7 @@ set(SOURCE_FILES src/Point.cpp src/Point.h src/Node.h src/NodeBlock.cpp src/Node
         src/BreadthFirstSearch.h src/Taxi.cpp src/Taxi.h src/TripInfo.h src/TripInfo.cpp
         src/Driver.cpp src/Driver.h src/Passenger.cpp
         src/Passenger.h src/TaxiStation.cpp src/TaxiStation.h
-        src/Udp.cpp src/Udp.h src/Socket.h src/Socket.cpp)
+        src/Udp.cpp src/Udp.h src/Socket.h src/Socket.cpp src/Tcp.cpp src/Tcp.h)
 
 add_executable(server  src/Server.cpp src/Server.h ${SOURCE_FILES})
 add_executable(client src/Client.cpp src/Client.h ${SOURCE_FILES})

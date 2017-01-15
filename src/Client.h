@@ -6,13 +6,14 @@
 #define ADPROG1_1_CLIENTDRIVER_H
 
 #include "Udp.h"
+#include "Tcp.h"
 
 class ClientDriver {
 private:
-    Udp udp;//check if this is ok
+    Tcp tcp;
 
 public:
-    virtual ~ClientDriver();
+    //virtual ~ClientDriver();
 
 public:
     /**
@@ -40,6 +41,8 @@ public:
      * @return a string.
      */
     string bufferToString(char* buffer, int bufferSize);
+
+    //virtual ~ClientDriver();
 
 
 };

@@ -6,19 +6,23 @@
 #include "NodeBlock.h"
 
 
-int main(){
-    int id,age,exp,vid;
+int main(int argc, char** argv){
+    int id, age, exp, vid, portNumber;
+    string ip;
     char status,temp;
-    cout << "enter driver" << endl;
+    //cout << "enter driver" << endl;
     cin >> id >> temp >> age >> temp >> status >> temp >> exp >> temp>> vid;
+    ip = argv[1];
+    portNumber = *argv[2] - '0';
+    //need to change 5555 to portNumber
     ClientDriver clientDriver = ClientDriver(5555);
     clientDriver.createAndSendDriver(id,age,status,exp,vid);
     return 0;
 }
 
 
-ClientDriver::ClientDriver(int portNumber) : udp(Udp(0, portNumber)) {
-    udp.initialize();
+ClientDriver::ClientDriver(int portNumber) : tcp(Tcp(0, portNumber)) {
+    tcp.initialize();
 }
 
 int ClientDriver::createAndSendDriver(int id, int age, char status, int experience,
@@ -31,12 +35,12 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
     boost::archive::binary_oarchive oa(s);
     oa << driver;
     s.flush();
-    udp.sendData(serial_str, serial_str.length());
+    tcp.sendData(serial_str, 1);
 
     //receiving the taxi from server and adding it to the driver
     Taxi *taxi;
     char buffer[1024];
-    udp.reciveData(buffer, sizeof(buffer));
+    tcp.reciveData(buffer, sizeof(buffer), 1);
     //de serializing the taxi we have received.
     string stringedBuffer(buffer, sizeof(buffer));
     boost::iostreams::basic_array_source<char> device((char *) stringedBuffer.c_str(),
@@ -54,13 +58,13 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
         ostringstream convert;
         convert << driver->getId();
         stringedId = convert.str();
-        udp.sendData(stringedId, stringedId.size());
+        tcp.sendData(stringedId, 1);
         //receiving go or finish
-        udp.reciveData(buffer2, sizeof(buffer2));
+        tcp.reciveData(buffer2, sizeof(buffer2), 1);
         string goOrFinish = buffer2;
         if (strcmp(goOrFinish.data(), "go") == 0) {
             //receiving a node as a string but is actually point.toString
-            udp.reciveData(buffer2, sizeof(buffer2));
+            tcp.reciveData(buffer2, sizeof(buffer2), 1);
             string stringedPoint = buffer2;
             pointLocation->pointFromString(stringedPoint);
             if(driverLoc!= NULL)
@@ -74,16 +78,16 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
         else
             break;
     }
-    udp.~Udp();
+    tcp.~Tcp();
     delete(pointLocation);
     delete(driverLoc);
     delete(driver->getTaxi());
     delete(driver);
 }
 
-ClientDriver::~ClientDriver() {
+//ClientDriver::~ClientDriver() {
 
-}
+//}
 /*  while (true) {
       char buffer2[1024];
       if (driver->getTripInfo() == NULL) {
