@@ -7,6 +7,7 @@ Server::Server(const int columns, const int rows, int portNumber):tcp(Tcp(1,port
     clock = 0;
     tcp.initialize();
     isFirst9 = true;
+    pthread_mutex_init(&this->task_locker, 0);
 }
 
 
@@ -25,6 +26,7 @@ void Server::run() {
     }
     do {
         cout << "enter task" << endl;
+        pthread_mutex_lock(&this->task_locker);
         cin >> task;
         switch (task) {
             case 1:
@@ -40,9 +42,6 @@ void Server::run() {
                 requestDriverLocation();
                 break;
             case 9:
-                startDriving();
-                map->resetVisited();
-                isFirst9 = false;
                 break;
             case 7:
                 tcp.sendData("finish", 7);
@@ -50,7 +49,9 @@ void Server::run() {
                 return;
             default:
                 break;
+
         }
+        pthread_mutex_unlock(&this->task_locker);
     }  while (true);
 
 }
@@ -79,11 +80,11 @@ void Server::createDriver() {
 
 void* Server::createThreadsForDrivers(void* s) {
     Server *server = (Server *) s;
-    int task = server->getTask();
+    int task;
+    server->receivsDriverAndSendTaxi();
     do {
+        task = server->getTask();
         switch (task) {
-            case 1:
-                server->receivsDriverAndSendTaxi();
             case 9:
                 server->startDriving();
                 server->map->resetVisited();
@@ -256,7 +257,7 @@ int main(int argc, char** argv) {
     cin >> rows;
     //portNumber = *argv[1] - '0';
     //need to change 5555 to portNumber
-    Server server = Server(columns, rows, 5555);
+    Server server = Server(columns, rows, 4305);
     server.run();
     return 1;
 }

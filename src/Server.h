@@ -3,6 +3,16 @@
 #define ADPROG1_1_MAINFLOW_H
 
 #include <iostream>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <string.h>
+#include <string>
+#include <sstream>
+#include <stdexcept>
+#include <list>
+#include <iostream>
 #include "Map.h"
 #include "BreadthFirstSearch.h"
 #include "TaxiStation.h"
@@ -25,6 +35,7 @@ private:
     //const int server_port = 5555;
     Map* map;
     TaxiStation* taxiStation;
+    pthread_mutex_t task_locker;
 
     void receivsDriverAndSendTaxi();
     /**

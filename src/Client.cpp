@@ -15,7 +15,7 @@ int main(int argc, char** argv){
     ip = argv[1];
     //portNumber = *argv[2] - '0';
     //need to change 5555 to portNumber
-    ClientDriver clientDriver = ClientDriver(5555, ip);
+    ClientDriver clientDriver = ClientDriver(4305, ip);
     clientDriver.createAndSendDriver(id,age,status,exp,vid);
     return 0;
 }
