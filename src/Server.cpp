@@ -23,7 +23,6 @@ void Server::run() {
             taxiStation->setObstacle(x, y);
         }
     }
-    int task;
     do {
         cout << "enter task" << endl;
         cin >> task;
@@ -79,38 +78,26 @@ void Server::createDriver() {
 }
 
 void* Server::createThreadsForDrivers(void* s) {
-    int client;
-    Driver* driver;
-    char buffer[1024];
-    Server *server = (Server*)s;
-    Tcp tcp = server->getTcp();
-    //receiving descriptor of client port
-    client = tcp.acceptClient();
-    if(client > 0) {
-        tcp.reciveData(buffer, sizeof(buffer), client);
-        //de serializing the driver we have received.
-        string stringedBuffer(buffer, sizeof(buffer));
-        boost::iostreams::basic_array_source<char> device((char *) stringedBuffer.c_str(), stringedBuffer.size());
-        boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
-        boost::archive::binary_iarchive ia(s2);
-        ia >> driver;
-        //cout << driver->getId();
-        server->getTaxiStation()->addDriver(driver);
+    Server *server = (Server *) s;
+    int task = server->getTask();
+    do {
+        switch (task) {
+            case 1:
+                server->receivsDriverAndSendTaxi();
+            case 9:
+                server->startDriving();
+                server->map->resetVisited();
+                server->isFirst9 = false;
+                break;
+            case 7:
+                server->tcp.sendData("finish", 7);
+                server->tcp.~Tcp();
+                break;
+            default:
+                break;
+        }
+    } while (task != 7);
 
-        Taxi *taxi;
-        /*serialize the taxi we wont to send the client*/
-        std::string serial_str;
-        boost::iostreams::back_insert_device<std::string> inserter(serial_str);
-        boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
-        boost::archive::binary_oarchive oa(s);
-        taxi = driver->getTaxi();
-        oa << taxi;
-        s.flush();
-        tcp.sendData(serial_str, serial_str.length());
-    }
-    else {
-        cout << "error in accepting the client by the server " << endl;
-    }
 }
 
 
@@ -155,13 +142,15 @@ void Server::requestDriverLocation() {
 }
 
 void Server::startDriving() {
-    /*char buffer[1024];
+    char buffer[1024];
     int id;
     clock++;
     taxiStation->driveAll();
     taxiStation->assignDrivers(clock);
+    int client;
+    client = tcp.acceptClient();
     //receiving the id
-    tcp.reciveData(buffer, sizeof(buffer));
+    tcp.reciveData(buffer, sizeof(buffer), client);
     string stringedBuffer(buffer, sizeof(buffer));
     istringstream convert(stringedBuffer);
     //give the value to id using the characters in the stream
@@ -181,7 +170,7 @@ void Server::startDriving() {
         tcp.sendData(driversLocation, driversLocation.size());
         //if first 9
     } else
-        tcp.sendData("none", 5);*/
+        tcp.sendData("none", 5);
 
 
     /*if(stringedBuffer.compare("id")) {
@@ -215,8 +204,45 @@ TaxiStation *Server::getTaxiStation() const {
     return taxiStation;
 }
 
-const Tcp &Server::getTcp() const {
-    return tcp;
+Tcp* Server::getTcp() {
+    return &tcp;
+}
+
+int Server::getTask() {
+    return task;
+}
+
+void Server::receivsDriverAndSendTaxi() {
+    int client;
+    Driver* driver;
+    char buffer[1024];
+    //receiving descriptor of client port
+    client = tcp.acceptClient();
+    if(client > 0) {
+        tcp.reciveData(buffer, sizeof(buffer), client);
+        //de serializing the driver we have received.
+        string stringedBuffer(buffer, sizeof(buffer));
+        boost::iostreams::basic_array_source<char> device((char *) stringedBuffer.c_str(), stringedBuffer.size());
+        boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
+        boost::archive::binary_iarchive ia(s2);
+        ia >> driver;
+        //cout << driver->getId();
+        this->getTaxiStation()->addDriver(driver);
+
+        Taxi *taxi;
+        /*serialize the taxi we wont to send the client*/
+     std::string serial_str;
+     boost::iostreams::back_insert_device<std::string> inserter(serial_str);
+     boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
+     boost::archive::binary_oarchive oa(s);
+     taxi = driver->getTaxi();
+     oa << taxi;
+     s.flush();
+     tcp.sendData(serial_str, client);
+ }
+ else {
+     cout << "error in accepting the client by the server " << endl;
+ }
 }
 
 /**
@@ -228,7 +254,7 @@ int main(int argc, char** argv) {
     cout << "enter size of grid" << endl;
     cin >> columns;
     cin >> rows;
-    portNumber = *argv[1] - '0';
+    //portNumber = *argv[1] - '0';
     //need to change 5555 to portNumber
     Server server = Server(columns, rows, 5555);
     server.run();

@@ -15,20 +15,18 @@
 #include <pthread.h>
 
 class Server {
+
 private:
+    int task;
+    int clock;
+    int port;
+    Tcp tcp;
+    bool isFirst9;
     //const int server_port = 5555;
     Map* map;
     TaxiStation* taxiStation;
-public:
-    TaxiStation *getTaxiStation() const;
 
-    const Tcp &getTcp() const;
-
-private:
-    int clock;
-    Tcp tcp;
-    bool isFirst9;
-
+    void receivsDriverAndSendTaxi();
     /**
      * creeates a driver.
      */
@@ -54,6 +52,9 @@ private:
      */
     void startDriving();
 public:
+    TaxiStation *getTaxiStation() const;
+
+    Tcp* getTcp();
     /**
      * constructor.
      * @param columns of the graph.
@@ -76,6 +77,8 @@ public:
      * @return void
      */
     static void* createThreadsForDrivers(void* s);
+
+    int getTask();
 };
 
 

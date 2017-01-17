@@ -13,7 +13,7 @@ int main(int argc, char** argv){
     //cout << "enter driver" << endl;
     cin >> id >> temp >> age >> temp >> status >> temp >> exp >> temp>> vid;
     ip = argv[1];
-    portNumber = *argv[2] - '0';
+    //portNumber = *argv[2] - '0';
     //need to change 5555 to portNumber
     ClientDriver clientDriver = ClientDriver(5555, ip);
     clientDriver.createAndSendDriver(id,age,status,exp,vid);
