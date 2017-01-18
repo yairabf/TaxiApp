@@ -13,16 +13,16 @@
 #include <stdexcept>
 #include <list>
 #include <iostream>
-#include "Map.h"
-#include "BreadthFirstSearch.h"
-#include "TaxiStation.h"
-#include "Tcp.h"
-#include "InfoForClientThread.h"
 #include <boost/iostreams/stream.hpp>
 #include <boost/iostreams/device/back_inserter.hpp>
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
 #include <pthread.h>
+#include "Map.h"
+#include "BreadthFirstSearch.h"
+#include "TaxiStation.h"
+#include "Tcp.h"
+
 
 class Server {
 private:
@@ -34,13 +34,15 @@ private:
     //const int server_port = 5555;
     Map* map;
     TaxiStation* taxiStation;
+    std::list <pthread_t> threadList;
     pthread_mutex_t task_locker;
-
+    pthread_mutex_t thread_locker;
+    pthread_mutex_t driver_locker;
     /**
      * receives a driver and sends a taxi.
      * @param info is the info i need for the thread.
      */
-    void receivsDriverAndSendTaxi(InfoForClientThread* info);
+    void receivesDriverAndSendTaxi(int*);
     /**
      * creeates a driver.
      */
@@ -94,6 +96,7 @@ public:
 
     int getTask();
 };
+
 
 
 #endif //ADPROG1_1_MAINFLOW_H

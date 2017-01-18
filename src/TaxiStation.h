@@ -20,7 +20,10 @@ private:
     list<TripInfo* > trips;
     Map* map;
     BreadthFirstSearch bfs;
-    int clock;
+    int clock = 0;
+public:
+    int getClock() const;
+
 public:
 
 
@@ -93,11 +96,7 @@ public:
      * @return true if the taxi exists.
      */
     bool doesTaxiExist(Taxi *taxi1);
-
-    /**
-     * all drivers drive to their end positions.
-     */
-    void driveAll();
+    
 
     /**
      * sets an obstacle on the grid.
@@ -105,8 +104,6 @@ public:
      * @param y the y axis.
      */
     void setObstacle(int x, int y);
-
-    void assignDrivers();
     
     string tripInfoSerialize(TripInfo*);
     /**
@@ -115,13 +112,7 @@ public:
      * @return a driver.
      */
     Driver* getDriverById(int id);
-
-    /**
-     * getter.
-     * @return the clock.
-     */
-    int getClock() const;
-
+    
     /**
      * thread function.
      * @param trip is the trip we are calculating the route for.
@@ -144,9 +135,10 @@ public:
     void driveOneDriver(Driver* driver);
 
     /**
-     * moves clock by 1.
+     * advances clock.
      */
     void advanceClock();
+    
 };
 
 

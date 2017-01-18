@@ -15,10 +15,10 @@ set(SOURCE_FILES src/Point.cpp src/Point.h src/Node.h src/NodeBlock.cpp src/Node
         src/Driver.cpp src/Driver.h src/Passenger.cpp
         src/Passenger.h src/TaxiStation.cpp src/TaxiStation.h
         src/Udp.cpp src/Udp.h src/Socket.h src/Socket.cpp src/Tcp.cpp src/Tcp.h
-        src/InfoForTripThread.cpp src/InfoForTripThread.h src/InfoForClientThread.cpp
-        src/InfoForClientThread.h)
+        src/InfoForTripThread.cpp src/InfoForTripThread.h
+        )
 
 add_executable(server src/Server.cpp src/Server.h ${SOURCE_FILES})
-add_executable(client src/Client.cpp src/Client.h ${SOURCE_FILES})
+add_executable(client src/Client.cpp src/Client.h ${SOURCE_FILES} )
 target_link_libraries(server ${Boost_LIBRARIES})
 target_link_libraries(client ${Boost_LIBRARIES})

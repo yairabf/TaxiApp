@@ -13,7 +13,7 @@ int main(int argc, char** argv){
     //cout << "enter driver" << endl;
     cin >> id >> temp >> age >> temp >> status >> temp >> exp >> temp>> vid;
     ip = argv[1];
-    portNumber = *argv[2] - '0';
+    //portNumber = *argv[2] - '0';
     //need to change 5555 to portNumber
     ClientDriver clientDriver = ClientDriver(1145, "127.0.0.1");
     clientDriver.createAndSendDriver(id,age,status,exp,vid);
@@ -49,7 +49,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
     boost::archive::binary_iarchive ia(s2);
     ia >> taxi;
     driver->assignTaxi(taxi);
-
+    cout << "taxi assigned to client" << endl;
     NodeBlock* driverLoc;
     Point* pointLocation = new Point(0,0);
     while (true) {
@@ -88,67 +88,3 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
     delete(driver);
 }
 
-//ClientDriver::~ClientDriver() {
-
-//}
-/*  while (true) {
-      char buffer2[1024];
-      if (driver->getTripInfo() == NULL) {
-          string stringedId;
-          ostringstream convert;
-          convert << driver->getId();
-          stringedId = convert.str();
-          udp.sendData("id", 3);
-          //only for connection
-          udp.reciveData(buffer2, sizeof(buffer2));
-          //sendin id
-          udp.sendData(stringedId, stringedId.size());
-          //or trip info or "no trip info"
-          udp.reciveData(buffer2, sizeof(buffer2));
-          string stringedBuffer2(buffer2, sizeof(buffer2));
-          if  (stringedBuffer2.compare("no trip")) {
-              continue;
-          } else {
-              //receiving the trip info from the server and adding it to the driver
-              TripInfo *tripInfo;
-              boost::iostreams::basic_array_source<char> device2((char *) stringedBuffer2.c_str(),
-                                                                 stringedBuffer2.size());
-              boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s3(device);
-              boost::archive::binary_iarchive ia2(s3);
-              ia2 >> tripInfo;
-              driver->assignTripInfo(tripInfo);
-          }
-      }
-      else {
-          udp.sendData("ready to go", 12);
-          udp.reciveData(buffer2, sizeof(buffer2));
-          string stringedBuffer2(buffer2, sizeof(buffer2));
-          if (stringedBuffer2.compare("finish")) {
-              break;
-          }
-              //if the server wants to know our location
-          else if (stringedBuffer2.compare("location")) {
-              //udp.sendData(driver->getLocation()->printValue());
-              boost::iostreams::back_insert_device<std::string> inserter1(serial_str);
-              boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> >
-                      s3(inserter);
-              boost::archive::binary_oarchive oa3(s);
-              //sending the location
-              oa << *driver->getLocation();
-              s.flush();
-              udp.sendData(serial_str, serial_str.length());
-          } else {
-              //check if it is ok to use buffer 2 again
-              //drives as long as it receives go
-              if (stringedBuffer2.compare("go")) {
-                  driver->drive();
-              }
-              //if i have finished the trip
-              if (driver->getTripInfo()->getRoute()->empty()) {
-                  udp.sendData("finished trip", 14);
-                  break;
-              }
-          }
-      }
-  }
-  udp.~Udp();*/

@@ -90,6 +90,7 @@ int Tcp::acceptClient() {
 											   (struct sockaddr *) &client_sin, &addr_len);
 	if (descriptorCC < 0) {
 //return an error represent error at this method
+        cout << "error accept" << endl;
 		return ERROR_ACCEPT;
 	}
 	else return descriptorCC;

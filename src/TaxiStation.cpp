@@ -4,7 +4,6 @@
 
 
 TaxiStation::TaxiStation(Map *map) : map(map), bfs(BreadthFirstSearch(map)) {
-    clock = 0;
 }
 
 TaxiStation::~TaxiStation() {
@@ -66,6 +65,7 @@ void TaxiStation::addTrip(TripInfo* tripInfo) {
 }
 
 void* TaxiStation::creatingRouteByThread(void* info) {
+    cout << "Hello From from bfs" << endl;
     InfoForTripThread* inf = (InfoForTripThread*)info;
     TaxiStation* taxiStation = inf->getTaxiStation();
     TripInfo* tripInfo = inf->getTripInfo();
@@ -81,38 +81,6 @@ void* TaxiStation::creatingRouteByThread(void* info) {
 
 list<Driver *> *TaxiStation::getDrivers() {
     return &drivers;
-}
-
-void TaxiStation::assignDrivers() {
-    std::list<Driver*>::iterator iteratorDrivers;
-    std::list<TripInfo*>::iterator tripInfoIterator = trips.begin();
-    while (tripInfoIterator != trips.end()) {
-        if((*tripInfoIterator)->getStart_time() == clock && !(*tripInfoIterator)->isAssigned()) {
-            //assigns the correct driver to the trip
-            for (iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end();
-                 ++iteratorDrivers) {
-                if ((*iteratorDrivers)->getLocation()->printValue() == (*tripInfoIterator)->getStart()->toString() &&
-                    !(*tripInfoIterator)->isDone() && !(*iteratorDrivers)->isOccupied()) {
-                    (*iteratorDrivers)->assignTripInfo((*tripInfoIterator));
-                    (*tripInfoIterator)->setAssigned(true);
-                    break;
-                }
-
-            }
-        }
-        tripInfoIterator++;
-    }
-}
-
-void TaxiStation::driveAll() {
-    clock++;
-    std::list<Driver*>::iterator iteratorDrivers;
-    for(iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end(); ++iteratorDrivers) {
-        Driver* driver = *iteratorDrivers;
-        if(driver->getTripInfo() != NULL) {
-            driver->drive();
-        }
-    }
 }
 
 bool TaxiStation::doesTaxiExist(Taxi *taxi1) {
@@ -199,11 +167,13 @@ void TaxiStation::driveOneDriver(Driver* driver) {
 }
 
 void TaxiStation::advanceClock() {
-    clock ++;
+    clock++;
 }
-
-
 
 int TaxiStation::getClock() const {
     return clock;
 }
+
+
+
+

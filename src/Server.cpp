@@ -1,6 +1,6 @@
 #include "Server.h"
-#include "Tcp.h"
-#include "InfoForClientThread.h"
+
+int numberOfThreads;
 
 Server::Server(int columns, int rows, int portNumber):tcp(Tcp(1,portNumber)) {
     map = new Map(columns, rows);
@@ -9,6 +9,8 @@ Server::Server(int columns, int rows, int portNumber):tcp(Tcp(1,portNumber)) {
     tcp.initialize();
     isFirst9 = true;
     pthread_mutex_init(&this->task_locker, 0);
+    pthread_mutex_init(&this->driver_locker,0);
+    pthread_mutex_init(&this->thread_locker,0);
 }
 
 
@@ -27,8 +29,18 @@ void Server::run() {
     }
     do {
         cout << "enter task" << endl;
-        pthread_mutex_lock(&this->task_locker);
-        cin >> task;
+        int temp;
+        cin >> temp;
+        std::list<pthread_t>::iterator iteratorThreads;
+
+        /*for (iteratorThreads = threadList.begin(); iteratorThreads != threadList.end();
+             ++iteratorThreads) {
+            pthread_t tempThread = *iteratorThreads;
+            pthread_join(tempThread, int);
+        }/*/
+        if(numberOfThreads == 0 || temp == 1 || isFirst9)
+            task = temp;
+        numberOfThreads = threadList.size();
         switch (task) {
             case 1:
                 createDriver();
@@ -43,6 +55,9 @@ void Server::run() {
                 requestDriverLocation();
                 break;
             case 9:
+                if(numberOfThreads != 0)
+                    break;
+                //taxiStation->advanceClock();
                 taxiStation->advanceClock();
                 break;
             case 7:
@@ -52,7 +67,6 @@ void Server::run() {
             default:
                 break;
         }
-        pthread_mutex_unlock(&this->task_locker);
     }  while (true);
 
 }
@@ -63,10 +77,12 @@ void Server::createDriver() {
     pthread_t clientThread;
     cout << "enter num of drivers" << endl;
     cin >> numOfDrivers;
+
     for(int i=0; i < numOfDrivers; i++) {
         //creating a thread for a client
-        InfoForClientThread* info = new InfoForClientThread(&task, this);
-        pthread_create(&clientThread, NULL, Server::createThreadsForDrivers, info);
+        pthread_create(&clientThread, NULL, Server::createThreadsForDrivers, this);
+        numberOfThreads++;
+        threadList.push_back(clientThread);
     }
     /*int id, age, experience, vehicle_id;
     char status , temp;
@@ -80,18 +96,21 @@ void Server::createDriver() {
 }
 
 void* Server::createThreadsForDrivers(void* inf) {
-    InfoForClientThread* info = (InfoForClientThread*)inf;
+    Server* server = (Server*)inf;
     int task;
-    int clientDescriptor = info->getClientDescriptor();
-    Server* server = info->getServer();
-    server->receivsDriverAndSendTaxi(info);
+    int clientDescriptor;
+    server->receivesDriverAndSendTaxi(&clientDescriptor);
     do {
+        //pthread_mutex_lock(&info->server->task_locker);
         task = server->task;
         switch (task) {
             case 9:
                 server->startDriving(clientDescriptor);
                 server->map->resetVisited();
                 server->isFirst9 = false;
+                pthread_mutex_lock(&server->thread_locker);
+                numberOfThreads--;
+                pthread_mutex_unlock(&server->thread_locker);
                 break;
             case 7:
                 server->tcp.sendData("finish", 7);
@@ -100,9 +119,9 @@ void* Server::createThreadsForDrivers(void* inf) {
             default:
                 break;
         }
+        //pthread_mutex_unlock(&info->server->task_locker);
     } while (task != 7);
     //info was created by new in createDrivers() so we are deleting here.
-    delete(info);
 }
 
 
@@ -165,8 +184,8 @@ void Server::startDriving(int client) {
     //if this is not the first time we pressed 9 and the route is not empty and the time of the trip is now
     //so we want the client to drive to the next spot.
     if((!isFirst9) &&
-            (!driver->getTripInfo()->getRoute()->empty()) &&
-            (driver->getTripInfo()->getStart_time() <= taxiStation->getClock())){
+       (!driver->getTripInfo()->getRoute()->empty()) &&
+       (driver->getTripInfo()->getStart_time() <= taxiStation->getClock())){
         //driver->drive();
         Node* node = driver->getLocation();
         string driversLocation = node->printValue();
@@ -191,16 +210,14 @@ int Server::getTask() {
     return task;
 }
 
-void Server::receivsDriverAndSendTaxi(InfoForClientThread* info) {
+void Server::receivesDriverAndSendTaxi(int* clientDescriptor) {
     Driver* driver;
     char buffer[1024];
-    int client;
     //receiving descriptor of client port
-    client = tcp.acceptClient();
+    *clientDescriptor = tcp.acceptClient();
     //saving the client descriptor
-    info->setClientDescriptor(client);
-    if(client > 0) {
-        tcp.reciveData(buffer, sizeof(buffer), client);
+    if(*clientDescriptor > 0) {
+        tcp.reciveData(buffer, sizeof(buffer), *clientDescriptor);
         //de serializing the driver we have received.
         string stringedBuffer(buffer, sizeof(buffer));
         boost::iostreams::basic_array_source<char> device((char *) stringedBuffer.c_str(), stringedBuffer.size());
@@ -208,8 +225,9 @@ void Server::receivsDriverAndSendTaxi(InfoForClientThread* info) {
         boost::archive::binary_iarchive ia(s2);
         ia >> driver;
         //cout << driver->getId();
+        //pthread_mutex_lock(&this->driver_locker);
         this->getTaxiStation()->addDriver(driver);
-
+        //pthread_mutex_unlock(&this->driver_locker);
         Taxi *taxi;
         /*serialize the taxi we want to send the client*/
         std::string serial_str;
@@ -219,7 +237,7 @@ void Server::receivsDriverAndSendTaxi(InfoForClientThread* info) {
         taxi = driver->getTaxi();
         oa << taxi;
         s.flush();
-        tcp.sendData(serial_str, client);
+        tcp.sendData(serial_str, *clientDescriptor);
     }
     else {
         cout << "error in accepting the client by the server " << endl;
@@ -235,7 +253,7 @@ int main(int argc, char** argv) {
     cout << "enter size of grid" << endl;
     cin >> columns;
     cin >> rows;
-    portNumber = *argv[1] - '0';
+    //portNumber = *argv[1] - '0';
     //need to change 5555 to portNumber
     Server server = Server(columns, rows, 1145);
     server.run();
