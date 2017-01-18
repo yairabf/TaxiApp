@@ -1,8 +1,10 @@
 
 #include "TaxiStation.h"
-#include "Udp.h"
+#include "InfoForTripThread.h"
+
 
 TaxiStation::TaxiStation(Map *map) : map(map), bfs(BreadthFirstSearch(map)) {
+    clock = 0;
 }
 
 TaxiStation::~TaxiStation() {
@@ -53,25 +55,39 @@ void TaxiStation::removeDriver(Driver *driver) {
 }
 
 void TaxiStation::addTrip(TripInfo* tripInfo) {
-    Node* startLocation = map->getBlock(*tripInfo->getStart());
-    Node* endLocation = map->getBlock(*tripInfo->getEnd());
+    pthread_t routeThread;
+    InfoForTripThread* info = new InfoForTripThread(this, tripInfo);
     //creating the best route for the trip using bfs
     map->resetVisited();
-    stack<Node*> tempRoute = bfs.breadthFirstSearch(startLocation, endLocation);
+    pthread_create(&routeThread, NULL, TaxiStation::creatingRouteByThread, (void*)info);
+    //if i need to execute the trip the program needs to wait for the bfs, therefore i used join.
+    if(clock == tripInfo->getStart_time())
+        pthread_join(routeThread, NULL);
+}
+
+void* TaxiStation::creatingRouteByThread(void* info) {
+    InfoForTripThread* inf = (InfoForTripThread*)info;
+    TaxiStation* taxiStation = inf->getTaxiStation();
+    TripInfo* tripInfo = inf->getTripInfo();
+    Node* startLocation = taxiStation->map->getBlock(*tripInfo->getStart());
+    Node* endLocation = taxiStation->map->getBlock(*tripInfo->getEnd());
+    //TripInfo* tripInfo = (TripInfo*)trip;
+    stack<Node*> tempRoute = taxiStation->bfs.breadthFirstSearch(startLocation, endLocation);
     std::stack<Node*>* route = new stack<Node*>(tempRoute);
-    tripInfo->setRoute(route);
-    trips.push_back(tripInfo);
+    inf->getTripInfo()->setRoute(route);
+    inf->getTaxiStation()->trips.push_back(inf->getTripInfo());
+    delete(inf);
 }
 
 list<Driver *> *TaxiStation::getDrivers() {
     return &drivers;
 }
 
-void TaxiStation::assignDrivers(int time) {
+void TaxiStation::assignDrivers() {
     std::list<Driver*>::iterator iteratorDrivers;
     std::list<TripInfo*>::iterator tripInfoIterator = trips.begin();
     while (tripInfoIterator != trips.end()) {
-        if((*tripInfoIterator)->getStart_time() == time && !(*tripInfoIterator)->isAssigned()) {
+        if((*tripInfoIterator)->getStart_time() == clock && !(*tripInfoIterator)->isAssigned()) {
             //assigns the correct driver to the trip
             for (iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end();
                  ++iteratorDrivers) {
@@ -89,6 +105,7 @@ void TaxiStation::assignDrivers(int time) {
 }
 
 void TaxiStation::driveAll() {
+    clock++;
     std::list<Driver*>::iterator iteratorDrivers;
     for(iteratorDrivers = drivers.begin(); iteratorDrivers != drivers.end(); ++iteratorDrivers) {
         Driver* driver = *iteratorDrivers;
@@ -155,4 +172,38 @@ Driver* TaxiStation::getDriverById(int id) {
         if(driver->getId() == id)
             return driver;
     }
+}
+
+void TaxiStation::assignTripToDriver(Driver* driver) {
+    std::list<TripInfo*>::iterator tripInfoIterator = trips.begin();
+    if(!(driver->isOccupied())) {
+        while (tripInfoIterator != trips.end()) {
+            if((*tripInfoIterator)->getStart_time() == clock && !(*tripInfoIterator)->isAssigned()) {
+                //assigns the correct driver to the trip
+                if (driver->getLocation()->printValue() == (*tripInfoIterator)->getStart()->toString() &&
+                    !(*tripInfoIterator)->isDone()) {
+                    driver->assignTripInfo((*tripInfoIterator));
+                    (*tripInfoIterator)->setAssigned(true);
+                    break;
+                }
+            }
+            tripInfoIterator++;
+        }
+    }
+}
+
+void TaxiStation::driveOneDriver(Driver* driver) {
+    if(driver->getTripInfo() != NULL) {
+        driver->drive();
+    }
+}
+
+void TaxiStation::advanceClock() {
+    clock ++;
+}
+
+
+
+int TaxiStation::getClock() const {
+    return clock;
 }

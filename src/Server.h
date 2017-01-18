@@ -16,8 +16,8 @@
 #include "Map.h"
 #include "BreadthFirstSearch.h"
 #include "TaxiStation.h"
-#include "Udp.h"
 #include "Tcp.h"
+#include "InfoForClientThread.h"
 #include <boost/iostreams/stream.hpp>
 #include <boost/iostreams/device/back_inserter.hpp>
 #include <boost/archive/binary_oarchive.hpp>
@@ -25,10 +25,9 @@
 #include <pthread.h>
 
 class Server {
-
 private:
     int task;
-    int clock;
+    //int clock;
     int port;
     Tcp tcp;
     bool isFirst9;
@@ -37,7 +36,11 @@ private:
     TaxiStation* taxiStation;
     pthread_mutex_t task_locker;
 
-    void receivsDriverAndSendTaxi();
+    /**
+     * receives a driver and sends a taxi.
+     * @param info is the info i need for the thread.
+     */
+    void receivsDriverAndSendTaxi(InfoForClientThread* info);
     /**
      * creeates a driver.
      */
@@ -61,7 +64,7 @@ private:
     /**
      * all drivers drive to their destinations.
      */
-    void startDriving();
+    void startDriving(int client);
 public:
     TaxiStation *getTaxiStation() const;
 
@@ -71,7 +74,7 @@ public:
      * @param columns of the graph.
      * @param rows of the graph.
      */
-    Server(const int columns, const int rows, int portNumber);
+    Server(int columns, int rows, int portNumber);
 
     /**
      * destructor.
@@ -87,7 +90,7 @@ public:
      * @param server we are sending the function to have all the members.
      * @return void
      */
-    static void* createThreadsForDrivers(void* s);
+    static void* createThreadsForDrivers(void* inf);
 
     int getTask();
 };

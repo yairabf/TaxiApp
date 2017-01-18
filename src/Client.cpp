@@ -13,9 +13,9 @@ int main(int argc, char** argv){
     //cout << "enter driver" << endl;
     cin >> id >> temp >> age >> temp >> status >> temp >> exp >> temp>> vid;
     ip = argv[1];
-    //portNumber = *argv[2] - '0';
+    portNumber = *argv[2] - '0';
     //need to change 5555 to portNumber
-    ClientDriver clientDriver = ClientDriver(4305, ip);
+    ClientDriver clientDriver = ClientDriver(1145, "127.0.0.1");
     clientDriver.createAndSendDriver(id,age,status,exp,vid);
     return 0;
 }
@@ -49,6 +49,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
     boost::archive::binary_iarchive ia(s2);
     ia >> taxi;
     driver->assignTaxi(taxi);
+
     NodeBlock* driverLoc;
     Point* pointLocation = new Point(0,0);
     while (true) {
@@ -61,6 +62,8 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
         tcp.sendData(stringedId, 1);
         //receiving go or finish
         tcp.reciveData(buffer2, sizeof(buffer2), 1);
+        //sending to retain ping pong
+        tcp.sendData("ok", 1);
         string goOrFinish = buffer2;
         if (strcmp(goOrFinish.data(), "go") == 0) {
             //receiving a node as a string but is actually point.toString

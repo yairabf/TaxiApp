@@ -20,6 +20,11 @@ private:
     list<TripInfo* > trips;
     Map* map;
     BreadthFirstSearch bfs;
+    int clock;
+public:
+
+
+private:
 
     void sendTaxi(Point);
     Driver* calculateClosestDriver(Point destination);
@@ -101,11 +106,47 @@ public:
      */
     void setObstacle(int x, int y);
 
-    void assignDrivers(int time);
+    void assignDrivers();
     
     string tripInfoSerialize(TripInfo*);
-
+    /**
+     * gets a driver according to an id.
+     * @param id of the wanted driver.
+     * @return a driver.
+     */
     Driver* getDriverById(int id);
+
+    /**
+     * getter.
+     * @return the clock.
+     */
+    int getClock() const;
+
+    /**
+     * thread function.
+     * @param trip is the trip we are calculating the route for.
+     * @return void
+     */
+    static void* creatingRouteByThread(void* info);
+
+    /**
+     * runs through all the trips and checks if the starting point is equal to the driver
+     * and the time is correct, if so, assigns it.
+     * @param id the driver id.
+     * @param driver the driver.
+     */
+    void assignTripToDriver(Driver* driver);
+
+    /**
+     * tells a driver to drive to the next spot.
+     * @param driver the driver we want to drive.
+     */
+    void driveOneDriver(Driver* driver);
+
+    /**
+     * moves clock by 1.
+     */
+    void advanceClock();
 };
 
 
