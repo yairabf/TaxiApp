@@ -74,6 +74,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
                 delete(driverLoc);
             driverLoc = new NodeBlock(*pointLocation);
             driver->setLocation(driverLoc);
+            cout << driver->getLocation()->printValue() << endl;
 
         } else if (strcmp(goOrFinish.data(), "none") == 0)
             continue;

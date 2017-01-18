@@ -180,13 +180,14 @@ void Server::startDriving(int client) {
     //assigning the correct trip if needed
     taxiStation->assignTripToDriver(driver);
     //driving the driver if needed.
-    taxiStation->driveOneDriver(driver);
+
     //if this is not the first time we pressed 9 and the route is not empty and the time of the trip is now
     //so we want the client to drive to the next spot.
     if((!isFirst9) &&
        (!driver->getTripInfo()->getRoute()->empty()) &&
        (driver->getTripInfo()->getStart_time() <= taxiStation->getClock())){
         //driver->drive();
+        taxiStation->driveOneDriver(driver);
         Node* node = driver->getLocation();
         string driversLocation = node->printValue();
         tcp.sendData("go", client);
