@@ -38,6 +38,7 @@ private:
     pthread_mutex_t task_locker;
     pthread_mutex_t thread_locker;
     pthread_mutex_t driver_locker;
+    pthread_mutex_t numOfThreads_locker;
     /**
      * receives a driver and sends a taxi.
      * @param info is the info i need for the thread.

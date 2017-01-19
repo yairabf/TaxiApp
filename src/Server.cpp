@@ -11,6 +11,7 @@ Server::Server(int columns, int rows, int portNumber):tcp(Tcp(1,portNumber)) {
     pthread_mutex_init(&this->task_locker, 0);
     pthread_mutex_init(&this->driver_locker,0);
     pthread_mutex_init(&this->thread_locker,0);
+    pthread_mutex_init(&this->numOfThreads_locker, 0);
 }
 
 
@@ -43,20 +44,27 @@ void Server::run() {
         numberOfThreads = threadList.size();
         switch (task) {
             case 1:
+                cout << "server has started task 1" << endl;
                 createDriver();
                 break;
             case 2:
+                cout << "server has started task 2" << endl;
                 createTripInfo();
                 break;
             case 3:
+                cout << "server has started task 3" << endl;
                 createVehicle();
                 break;
             case 4:
+                cout << "server has started task 4" << endl;
                 requestDriverLocation();
                 break;
             case 9:
-                if(numberOfThreads != 0)
+                cout << "server has started task 9" << endl;
+                if(numberOfThreads != 0) {
+                    cout << "server says number of threads isnt 0 yet, so he is not starting task 9" << endl;
                     break;
+                }
                 //taxiStation->advanceClock();
                 taxiStation->advanceClock();
                 break;
@@ -81,18 +89,10 @@ void Server::createDriver() {
     for(int i=0; i < numOfDrivers; i++) {
         //creating a thread for a client
         pthread_create(&clientThread, NULL, Server::createThreadsForDrivers, this);
+        cout << "server says: a thread has been created" << endl;
         numberOfThreads++;
-        threadList.push_back(clientThread);
     }
-    /*int id, age, experience, vehicle_id;
-    char status , temp;
-    //receiving driver details
-    cin >> id >> temp >> age >> temp >> status >> temp >> experience >> temp >> vehicle_id;
-    Driver* driver = new Driver(id,age,status,experience,vehicle_id);
-    taxiStation->addDriver(driver);*/
 
-    //need to create a port and send it to the ClientDriver
-    //ClientDriver clientDriver(;//need to add a port number.
 }
 
 void* Server::createThreadsForDrivers(void* inf) {
@@ -105,6 +105,7 @@ void* Server::createThreadsForDrivers(void* inf) {
         task = server->task;
         switch (task) {
             case 9:
+                cout << "client number: " << clientDescriptor << " is starting task 9" << endl;
                 server->startDriving(clientDescriptor);
                 server->map->resetVisited();
                 server->isFirst9 = false;
@@ -175,10 +176,13 @@ void Server::startDriving(int client) {
     //give the value to id using the characters in the stream
     if ( !(convert >> id) )
         id = -1;
+    cout << "server received from client number :" << client << " the driver id: " << id << endl;
     //we have the correct trip info cos of assign drivers func
     Driver *driver = taxiStation->getDriverById(id);
     //assigning the correct trip if needed
     taxiStation->assignTripToDriver(driver);
+    if(driver->getTripInfo() == NULL)
+        cout << "server says: driver from client: " << client << " has trip info still null, not error." << endl;
     //driving the driver if needed.
 
     //if this is not the first time we pressed 9 and the route is not empty and the time of the trip is now
@@ -186,17 +190,20 @@ void Server::startDriving(int client) {
     if((!isFirst9) &&
        (!driver->getTripInfo()->getRoute()->empty()) &&
        (driver->getTripInfo()->getStart_time() <= taxiStation->getClock())){
-        //driver->drive();
         taxiStation->driveOneDriver(driver);
         Node* node = driver->getLocation();
         string driversLocation = node->printValue();
         tcp.sendData("go", client);
+        cout << "server sent client number: " << client << " the string go" << endl;
         //receiving a temp here to retain ping pong
         tcp.reciveData(buffer, sizeof(buffer), client);
         tcp.sendData(driversLocation, client);
+        cout << "server sent client number: " << client << " the location: " << driversLocation << endl;
         //if first 9
-    } else
+    } else {
         tcp.sendData("none", client);
+        cout << "server sent client number: " << client << " the string none" << endl;
+    }
 }
 
 TaxiStation* Server::getTaxiStation() const {
@@ -225,7 +232,8 @@ void Server::receivesDriverAndSendTaxi(int* clientDescriptor) {
         boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
         boost::archive::binary_iarchive ia(s2);
         ia >> driver;
-        //cout << driver->getId();
+        cout << "the server received from client number: " << *clientDescriptor
+             << " the driver with id: " << driver->getId() << endl;
         //pthread_mutex_lock(&this->driver_locker);
         this->getTaxiStation()->addDriver(driver);
         //pthread_mutex_unlock(&this->driver_locker);
@@ -239,6 +247,8 @@ void Server::receivesDriverAndSendTaxi(int* clientDescriptor) {
         oa << taxi;
         s.flush();
         tcp.sendData(serial_str, *clientDescriptor);
+        cout << "server sent client number: " << *clientDescriptor
+             << " a taxi with id: " << taxi->getId()<< endl;
     }
     else {
         cout << "error in accepting the client by the server " << endl;
