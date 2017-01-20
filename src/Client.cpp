@@ -4,7 +4,9 @@
 #include "Client.h"
 #include "Driver.h"
 #include "NodeBlock.h"
+#include "../easylogging++.h"
 
+INITIALIZE_EASYLOGGINGPP
 //
 int main(int argc, char** argv){
     int id, age, exp, vid, portNumber;
@@ -36,7 +38,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
     oa << driver;
     s.flush();
     tcp.sendData(serial_str, 1);
-    cout << "client sent driver with id: " << driver->getId() << endl;
+    LOG(INFO) << "client sent driver with id: " << driver->getId() << endl;
 
     //receiving the taxi from server and adding it to the driver
     Taxi *taxi;
@@ -50,7 +52,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
     boost::archive::binary_iarchive ia(s2);
     ia >> taxi;
     driver->assignTaxi(taxi);
-    cout << "client has assigned taxi with id: " << driver->getTaxi()->getId() << endl;
+    LOG(INFO) << "client has assigned taxi with id: " << driver->getTaxi()->getId() << endl;
     NodeBlock* driverLoc;
     Point* pointLocation = new Point(0,0);
     while (true) {
@@ -61,13 +63,13 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
         convert << driver->getId();
         stringedId = convert.str();
         tcp.sendData(stringedId, 1);
-        cout << "client send driver id: " << stringedId << endl;
+        LOG(INFO) << "client send driver id: " << stringedId << endl;
         //receiving go or finish
         tcp.reciveData(buffer2, sizeof(buffer2), 1);
-        //sending to retain ping pong
-        tcp.sendData("ok", 1);
         string goOrFinish = buffer2;
         if (strcmp(goOrFinish.data(), "go") == 0) {
+            //sending to retain ping pong
+            tcp.sendData("ok", 1);
             //receiving a node as a string but is actually point.toString
             tcp.reciveData(buffer2, sizeof(buffer2), 1);
             string stringedPoint = buffer2;
@@ -76,16 +78,18 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
                 delete(driverLoc);
             driverLoc = new NodeBlock(*pointLocation);
             driver->setLocation(driverLoc);
-            cout << "client location changed to: " << driver->getLocation()->printValue() << endl;
-        } else if (strcmp(goOrFinish.data(), "none") == 0) {
+            LOG(INFO) << "client location changed to: " << driver->getLocation()->printValue() << endl;
+        } /*else if (strcmp(goOrFinish.data(), "none") == 0) {
             cout << "client received message: none" << endl;
             continue;
-        }
+        }*/
             //if we need to finish
-        else
+        else if(strcmp(goOrFinish.data(), "finish") == 0)
             break;
+        else
+            continue;
     }
-    cout << "client starting deletion of pointers after while loop" << endl;
+    LOG(INFO) << "client starting deletion of pointers after while loop" << endl;
     tcp.~Tcp();
     delete(pointLocation);
     delete(driverLoc);

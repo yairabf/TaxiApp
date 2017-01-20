@@ -34,6 +34,7 @@ private:
     //const int server_port = 5555;
     Map* map;
     TaxiStation* taxiStation;
+    std::deque <int>tasks;
     std::list <pthread_t> threadList;
     pthread_mutex_t task_locker;
     pthread_mutex_t thread_locker;
