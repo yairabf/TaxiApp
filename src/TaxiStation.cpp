@@ -145,6 +145,7 @@ Driver* TaxiStation::getDriverById(int id) {
 void TaxiStation::assignTripToDriver(Driver* driver) {
     std::list<TripInfo*>::iterator tripInfoIterator = trips.begin();
     if(!(driver->isOccupied())) {
+        pthread_mutex_lock(&this->tripAssign_locker);
         while (tripInfoIterator != trips.end()) {
             if((*tripInfoIterator)->getStart_time() == clock && !(*tripInfoIterator)->isAssigned()) {
                 //assigns the correct driver to the trip
@@ -152,11 +153,13 @@ void TaxiStation::assignTripToDriver(Driver* driver) {
                     !(*tripInfoIterator)->isDone()) {
                     driver->assignTripInfo((*tripInfoIterator));
                     (*tripInfoIterator)->setAssigned(true);
+                    pthread_mutex_unlock(&this->tripAssign_locker);
                     break;
                 }
             }
             tripInfoIterator++;
         }
+        pthread_mutex_unlock(&this->tripAssign_locker);
     }
 }
 

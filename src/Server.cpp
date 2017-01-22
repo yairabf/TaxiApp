@@ -1,8 +1,14 @@
+
+#include <stack>
+#include <map>
 #include "Server.h"
 #include "../easylogging++.h"
 
-INITIALIZE_EASYLOGGINGPP
 
+INITIALIZE_EASYLOGGINGPP
+using namespace std;
+
+int numOfDrivers;
 int numberOfThreads;
 
 Server::Server(int columns, int rows, int portNumber):tcp(Tcp(1,portNumber)) {
@@ -16,6 +22,7 @@ Server::Server(int columns, int rows, int portNumber):tcp(Tcp(1,portNumber)) {
     pthread_mutex_init(&this->driver_locker,0);
     pthread_mutex_init(&this->thread_locker,0);
     pthread_mutex_init(&this->numOfThreads_locker, 0);
+    tasks = new list<ClientInfo*>;
 }
 
 Server::~Server() {
@@ -38,46 +45,66 @@ void Server::run() {
     }
     do {
         int temp;
+        LOG(INFO) << "enter Task";
+        LOG(INFO) << this->taxiStation->getClock();
         cin >> temp;
-        if(numberOfThreads == 0 || temp == 1 || isFirst9)
+        if(numberOfThreads == 0 || temp != 9 || temp != 7 ||isFirst9) {
+            pthread_mutex_lock(&this->thread_locker);
+            numberOfThreads = numOfDrivers;
+            pthread_mutex_unlock(&this->thread_locker);
             task = temp;
-        switch (task) {
-            case 1:
-                LOG(INFO) << "server has started task 1";
-                createDriver();
-                break;
-            case 2:
-                LOG(INFO) << "server has started task 2";
-                createTripInfo();
-                break;
-            case 3:
-                LOG(INFO) << "server has started task 3";
-                createVehicle();
-                break;
-            case 4:
-                LOG(INFO) << "server has started task 4";
-                requestDriverLocation();
-                break;
-            case 9:
-                LOG(INFO) << "server has started task 9";
-                for(int i = 0; i < numberOfThreads; i++){
-                    tasks.push_back(9);
-                }
-                if(numberOfThreads != 0) {
-                    LOG(TRACE) << "server says number of threads isnt 0 yet, so he is not starting task 9";
+            switch (task) {
+                case 1:
+                    LOG(INFO) << "server has started task 1";
+                    createDriver();
                     break;
-                }
-                //taxiStation->advanceClock();
-                taxiStation->advanceClock();
-                break;
-            case 7:
-                if(numberOfThreads != 0) {
-                    LOG(INFO) << "server says number of threads isnt 0 yet, so he is not starting task 9";
+                case 2:
+                    LOG(INFO) << "server has started task 2";
+                    createTripInfo();
                     break;
+                case 3:
+                    LOG(INFO) << "server has started task 3";
+                    createVehicle();
+                    break;
+                case 4:
+                    LOG(INFO) << "server has started task 4";
+                    requestDriverLocation();
+                    break;
+                case 7:
+                {
+                    LOG(INFO) << "server has started task 7";
+                    pthread_mutex_lock(&this->task_locker);
+                    list<ClientInfo *>::iterator tasksIter = tasks->begin();
+                    while (tasksIter != tasks->end()) {
+                        (*tasksIter)->task->push(7);
+                        tasksIter++;
+                    }
+                    while (numberOfThreads != 0) {
+
+                    }
                 }
-                return;
-            default:
-                break;
+                tcp.~Tcp();
+                    return;
+                case 9:
+                {
+                    LOG(INFO) << "server has started task 9";
+                    pthread_mutex_lock(&this->task_locker);
+                    list<ClientInfo* >::iterator tasksIter = tasks->begin();
+                    while (tasksIter != tasks->end()) {
+                        (*tasksIter)->task->push(9);
+                        tasksIter++;
+                    }
+                    pthread_mutex_unlock(&this->task_locker);
+                    while (numberOfThreads != 0) {
+
+                    }
+                }
+                    //taxiStation->advanceClock();
+                    taxiStation->advanceClock();
+                    break;
+                default:
+                    break;
+            }
         }
     }  while (true);
 
@@ -85,16 +112,17 @@ void Server::run() {
 
 void Server::createDriver() {
     /*receiving all the drivers and insert them into taxiStation list of drivers*/
-    int numOfDrivers;
     pthread_t clientThread;
     LOG(INFO) << "enter num of drivers";
     cin >> numOfDrivers;
-
     for(int i=0; i < numOfDrivers; i++) {
+        ClientInfo* clientInfo = new ClientInfo();
+        clientInfo->server = this;
         //creating a thread for a client
-        pthread_create(&clientThread, NULL, Server::createThreadsForDrivers, this);
+        pthread_create(&clientThread, NULL, Server::createThreadsForDrivers, clientInfo);
         LOG(INFO) << "server says: a thread has been created";
         numberOfThreads++;
+        tasks->push_back(clientInfo);
     }
 
 }
@@ -186,15 +214,18 @@ void Server::startDriving(int client) {
     Driver *driver = taxiStation->getDriverById(id);
     //assigning the correct trip if needed
     taxiStation->assignTripToDriver(driver);
-    if(driver->getTripInfo() == NULL)
-        LOG(INFO) << "server says: driver from client: " << client << " has trip info still null, not error.";
-    //driving the driver if needed.
-
-    //if this is not the first time we pressed 9 and the route is not empty and the time of the trip is now
-    //so we want the client to drive to the next spot.
-    if((!isFirst9) &&
-       (!driver->getTripInfo()->getRoute()->empty()) &&
-       (driver->getTripInfo()->getStart_time() <= taxiStation->getClock())){
+    if(driver->getTripInfo() == NULL || driver->getTripInfo()->isDone()) {
+        LOG(INFO) << "server says: driver from client: " << client
+                  << " has trip info still null, not error. or his tripinfo done";
+        //driving the driver if needed.
+        tcp.sendData("none", client);
+        LOG(INFO) << "server sent client number: " << client << " the string none";
+    }
+        //if this is not the first time we pressed 9 and the route is not empty and the time of the trip is now
+        //so we want the client to drive to the next spot.
+    else if((!isFirst9) &&
+            (!driver->getTripInfo()->getRoute()->empty()) &&
+            (driver->getTripInfo()->getStart_time() <= taxiStation->getClock())){
         taxiStation->driveOneDriver(driver);
         Node* node = driver->getLocation();
         string driversLocation = node->printValue();
@@ -212,36 +243,34 @@ void Server::startDriving(int client) {
 }
 
 void* Server::createThreadsForDrivers(void* inf) {
-    Server* server = (Server*)inf;
+    ClientInfo* clientInfo = (ClientInfo*)inf;
     int task = 5;
     int clientDescriptor;
-    server->receivesDriverAndSendTaxi(&clientDescriptor);
+    clientInfo->server->receivesDriverAndSendTaxi(&clientDescriptor);
     do {
-        pthread_mutex_lock(&server->task_locker);
-        if(server->tasks.front() != NULL) {
-            task = server->tasks.front();
-            server->tasks.pop_front();
+        if(clientInfo->task->size() > 0) {
+            task = clientInfo->task->top();
+            clientInfo->task->pop();
         }
-        pthread_mutex_unlock(&server->task_locker);
         switch (task) {
             case 9:
-                LOG(INFO) << "client number: " << clientDescriptor << " is starting task 9";
-                server->startDriving(clientDescriptor);
-                server->map->resetVisited();
-                server->isFirst9 = false;
-                pthread_mutex_lock(&server->thread_locker);
+                clientInfo->server->startDriving(clientDescriptor);
+                clientInfo->server->map->resetVisited();
+                clientInfo->server->isFirst9 = false;
+                pthread_mutex_lock(&clientInfo->server->thread_locker);
                 numberOfThreads--;
-                pthread_mutex_unlock(&server->thread_locker);
+                pthread_mutex_unlock(&clientInfo->server->thread_locker);
                 task = 5;
                 break;
             case 7:
-                server->tcp.sendData("finish", 7);
-                server->tcp.~Tcp();
+                clientInfo->server->tcp.sendData("finish", clientDescriptor);
+                pthread_mutex_lock(&clientInfo->server->thread_locker);
+                numberOfThreads--;
+                pthread_mutex_unlock(&clientInfo->server->thread_locker);
                 break;
             default:
                 break;
         }
-
     } while (task != 7);
     //info was created by new in createDrivers() so we are deleting here.
 }
@@ -252,21 +281,11 @@ TaxiStation* Server::getTaxiStation() const {
     return taxiStation;
 }
 
-Tcp* Server::getTcp() {
-    return &tcp;
-}
-
-int Server::getTask() {
-    return task;
-}
-
-
-
 /**
  * The main method that runs the program, the method receives form the user the size of the grid
  * and the location of the start point and the goal and the method prints the the fastest route.
  */
-    int main(int argc, char** argv) {
+int main(int argc, char** argv) {
     int columns, rows, portNumber;
     LOG(INFO) << "enter size of grid";
     cin >> columns;

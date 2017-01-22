@@ -34,12 +34,16 @@ private:
     //const int server_port = 5555;
     Map* map;
     TaxiStation* taxiStation;
-    std::deque <int>tasks;
-    std::list <pthread_t> threadList;
     pthread_mutex_t task_locker;
     pthread_mutex_t thread_locker;
     pthread_mutex_t driver_locker;
     pthread_mutex_t numOfThreads_locker;
+    struct ClientInfo {
+        Server* server;
+        stack <int>* task = new stack<int>;
+    };
+    list<ClientInfo*>* tasks;
+
     /**
      * receives a driver and sends a taxi.
      * @param info is the info i need for the thread.

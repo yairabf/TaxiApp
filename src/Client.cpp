@@ -79,10 +79,11 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
             driverLoc = new NodeBlock(*pointLocation);
             driver->setLocation(driverLoc);
             LOG(INFO) << "client location changed to: " << driver->getLocation()->printValue() << endl;
-        } /*else if (strcmp(goOrFinish.data(), "none") == 0) {
+        }
+        else if (strcmp(goOrFinish.data(), "none") == 0) {
             cout << "client received message: none" << endl;
             continue;
-        }*/
+        }
             //if we need to finish
         else if(strcmp(goOrFinish.data(), "finish") == 0)
             break;

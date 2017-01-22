@@ -21,17 +21,12 @@ private:
     Map* map;
     BreadthFirstSearch bfs;
     int clock = 0;
-public:
-    int getClock() const;
-
-public:
-
-
-private:
-
     void sendTaxi(Point);
     Driver* calculateClosestDriver(Point destination);
+    pthread_mutex_t tripAssign_locker;
 public:
+
+    int getClock() const;
 	/**
      * constructor.
      * @param map is the grid for the taxi station.

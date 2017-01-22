@@ -35,10 +35,12 @@ int Point::getY() const {
 }
 
 void Point::pointFromString(string string1) {
-    x = string1.at(1) - '0';
-    y = string1.at(3) - '0';
+    int split = (int) string1.find(",");
+    string strX = string1.substr(1, (unsigned long) split - 1);
+    string strY = string1.substr((unsigned long) split + 1, string1.size() - 1);
+    std::istringstream(strX) >> x; //i is 10 after this
+    std::istringstream(strY) >> y; //i is 10 after this}
 }
-
 /**
  * overrides ==.
  * @param point is the point we are comparing to.
