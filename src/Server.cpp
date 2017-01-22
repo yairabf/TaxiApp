@@ -13,6 +13,7 @@ Server::Server(int columns, int rows, int portNumber):tcp(Tcp(1,portNumber)) {
     taxiStation = new TaxiStation(map);
     tcp.initialize();
     isFirst9 = true;
+    //clientInfo.task = new stack<int>;
     LOG(INFO) << "Server initialize";
     pthread_mutex_init(&this->task_locker, 0);
     pthread_mutex_init(&this->driver_locker,0);
@@ -26,9 +27,13 @@ Server::~Server() {
     delete (map);
     list<ClientInfo *>::iterator tasksIter = tasks->begin();
     while (tasksIter != tasks->end()) {
+        ClientInfo* clientInfo = *tasksIter;
+        delete(clientInfo->task);
         delete(*tasksIter);
         tasksIter++;
-    }}
+    }
+    delete(tasks);
+}
 
 void Server::run() {
     int numberOfObstacles, x, y;
@@ -118,6 +123,7 @@ void Server::createDriver() {
     for(int i=0; i < numOfDrivers; i++) {
         ClientInfo* clientInfo = new ClientInfo();
         clientInfo->server = this;
+        clientInfo->task = new stack<int>;
         //creating a thread for a client
         pthread_create(&clientThread, NULL, Server::createThreadsForDrivers, clientInfo);
         LOG(INFO) << "server says: a thread has been created";
@@ -244,6 +250,7 @@ void Server::startDriving(int client) {
 
 void* Server::createThreadsForDrivers(void* inf) {
     ClientInfo* clientInfo = (ClientInfo*)inf;
+    //ClientInfo* clientInfo = clientInfo1->server->clientInfo;
     int task = 5;
     int clientDescriptor;
     clientInfo->server->receivesDriverAndSendTaxi(&clientDescriptor);

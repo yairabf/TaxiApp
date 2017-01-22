@@ -41,7 +41,7 @@ private:
     pthread_mutex_t numOfThreads_locker;
     struct ClientInfo {
         Server* server;
-        stack <int>* task = new stack<int>;
+        stack <int>* task;
     };
     list<ClientInfo*>* tasks;
 
@@ -77,7 +77,6 @@ private:
 public:
     TaxiStation *getTaxiStation() const;
 
-    Tcp* getTcp();
     /**
      * constructor.
      * @param columns of the graph.
@@ -100,8 +99,6 @@ public:
      * @return void
      */
     static void* createThreadsForDrivers(void* inf);
-
-    int getTask();
 };
 
 

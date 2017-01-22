@@ -52,6 +52,8 @@ public:
 	int reciveData(char* buffer, int size, int descriptorCC);
 
 	int acceptClient();
+
+	void setIp(string ip);
 };
 
 #endif /* TCP_H_ */

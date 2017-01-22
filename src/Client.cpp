@@ -17,7 +17,7 @@ int main(int argc, char** argv){
     ip = argv[1];
     portNumber = atoi(argv[2]);
     //need to change 5555 to portNumber
-    ClientDriver clientDriver = ClientDriver(portNumber, "127.0.0.1");
+    ClientDriver clientDriver = ClientDriver(portNumber, ip);
     clientDriver.createAndSendDriver(id,age,status,exp,vid);
     return 0;
 }
@@ -25,6 +25,7 @@ int main(int argc, char** argv){
 
 ClientDriver::ClientDriver(int portNumber, string ip) : tcp(Tcp(0, portNumber)) {
     tcp.initialize();
+    tcp.setIp(ip);
 }
 
 int ClientDriver::createAndSendDriver(int id, int age, char status, int experience,

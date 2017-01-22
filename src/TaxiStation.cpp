@@ -1,10 +1,9 @@
 
 #include "TaxiStation.h"
 #include "InfoForTripThread.h"
-#include "../easylogging++.h"
-
 
 TaxiStation::TaxiStation(Map *map) : map(map), bfs(BreadthFirstSearch(map)) {
+    clock = 0;
     pthread_mutex_init(&this->map_locker, NULL);
     pthread_mutex_init(&this->tripAssign_locker, NULL);
 }
@@ -181,7 +180,7 @@ void TaxiStation::advanceClock() {
     clock++;
 }
 
-int TaxiStation::getClock() const {
+int TaxiStation::getClock(){
     return clock;
 }
 

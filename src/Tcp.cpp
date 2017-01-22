@@ -140,3 +140,7 @@ int Tcp::reciveData(char* buffer, int size, int descriptorCC) {
 	//return correct if there were no problem
 	return read_bytes;
 }
+
+void Tcp::setIp(string ip) {
+	this->ip_address = ip;
+}
