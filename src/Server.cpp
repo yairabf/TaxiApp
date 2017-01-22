@@ -4,8 +4,8 @@
 #include "Server.h"
 #include "../easylogging++.h"
 
+_INITIALIZE_EASYLOGGINGPP
 
-INITIALIZE_EASYLOGGINGPP
 using namespace std;
 
 int numOfDrivers;
@@ -272,6 +272,7 @@ void* Server::createThreadsForDrivers(void* inf) {
         }
     } while (task != 7);
     //info was created by new in createDrivers() so we are deleting here.
+    pthread_exit(NULL);
 }
 
 

@@ -5,9 +5,7 @@
 
 _INITIALIZE_EASYLOGGINGPP
 
-
 TaxiStation::TaxiStation(Map *map) : map(map), bfs(BreadthFirstSearch(map)) {
-    pthread_mutex_init(&this->map_locker, NULL);
 }
 
 TaxiStation::~TaxiStation() {
@@ -184,7 +182,5 @@ void TaxiStation::advanceClock() {
 int TaxiStation::getClock() const {
     return clock;
 }
-
-
 
 
