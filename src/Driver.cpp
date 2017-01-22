@@ -79,7 +79,6 @@ void Driver::drive() {
         //if(strcmp(location->printValue().data(), route->top()->printValue().data()) == 0)
             //route->pop();
         setLocation(route->top());
-        //cout << route->top()->printValue() << endl;
     }
     if(tripInfo->getRoute()->size()==1){
         tripInfo->setDone(true);

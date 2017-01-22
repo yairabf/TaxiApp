@@ -1,9 +1,13 @@
 
 #include "TaxiStation.h"
 #include "InfoForTripThread.h"
+#include "../easylogging++.h"
+
+_INITIALIZE_EASYLOGGINGPP
 
 
 TaxiStation::TaxiStation(Map *map) : map(map), bfs(BreadthFirstSearch(map)) {
+    pthread_mutex_init(&this->map_locker, NULL);
 }
 
 TaxiStation::~TaxiStation() {
@@ -65,17 +69,21 @@ void TaxiStation::addTrip(TripInfo* tripInfo) {
 }
 
 void* TaxiStation::creatingRouteByThread(void* info) {
-    cout << "Hello From from bfs" << endl;
+    LOG(INFO) << "Hello From from bfs";
     InfoForTripThread* inf = (InfoForTripThread*)info;
     TaxiStation* taxiStation = inf->getTaxiStation();
     TripInfo* tripInfo = inf->getTripInfo();
     Node* startLocation = taxiStation->map->getBlock(*tripInfo->getStart());
     Node* endLocation = taxiStation->map->getBlock(*tripInfo->getEnd());
-    //TripInfo* tripInfo = (TripInfo*)trip;
-    stack<Node*> tempRoute = taxiStation->bfs.breadthFirstSearch(startLocation, endLocation);
+    pthread_mutex_lock(&taxiStation->map_locker);
+    std::stack<Node*> tempRoute = taxiStation->bfs.breadthFirstSearch(startLocation, endLocation);
+    pthread_mutex_unlock(&taxiStation->map_locker);
     std::stack<Node*>* route = new stack<Node*>(tempRoute);
-    inf->getTripInfo()->setRoute(route);
-    inf->getTaxiStation()->trips.push_back(inf->getTripInfo());
+    //if the route is empty
+    if(route->size() > 0) {
+        inf->getTripInfo()->setRoute(route);
+        inf->getTaxiStation()->trips.push_back(inf->getTripInfo());
+    }
     delete(inf);
 }
 
