@@ -14,7 +14,6 @@ int numberOfThreads;
 Server::Server(int columns, int rows, int portNumber):tcp(Tcp(1,portNumber)) {
     map = new Map(columns, rows);
     taxiStation = new TaxiStation(map);
-    //clock = 0;
     tcp.initialize();
     isFirst9 = true;
     LOG(INFO) << "Server initialize";
@@ -290,9 +289,9 @@ int main(int argc, char** argv) {
     LOG(INFO) << "enter size of grid";
     cin >> columns;
     cin >> rows;
-    //portNumber = *argv[1] - '0';
+    portNumber = atoi(argv[1]);
     //need to change 5555 to portNumber
-    Server server = Server(columns, rows, 1145);
+    Server server = Server(columns, rows, portNumber);
     server.run();
     return 1;
 }

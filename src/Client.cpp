@@ -15,9 +15,9 @@ int main(int argc, char** argv){
     //cout << "enter driver" << endl;
     cin >> id >> temp >> age >> temp >> status >> temp >> exp >> temp>> vid;
     ip = argv[1];
-    //portNumber = *argv[2] - '0';
+    portNumber = atoi(argv[2]);
     //need to change 5555 to portNumber
-    ClientDriver clientDriver = ClientDriver(1145, "127.0.0.1");
+    ClientDriver clientDriver = ClientDriver(portNumber, "127.0.0.1");
     clientDriver.createAndSendDriver(id,age,status,exp,vid);
     return 0;
 }
