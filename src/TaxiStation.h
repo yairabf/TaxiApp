@@ -11,6 +11,7 @@
 #include "Passenger.h"
 #include "Udp.h"
 
+
 using namespace std;
 
 class TaxiStation {
@@ -22,9 +23,6 @@ private:
     BreadthFirstSearch bfs;
     int clock = 0;
     pthread_mutex_t map_locker;
-public:
-    int getClock() const;
-
 
     void sendTaxi(Point);
     Driver* calculateClosestDriver(Point destination);

@@ -6,13 +6,13 @@
 #include "NodeBlock.h"
 #include "../easylogging++.h"
 
-INITIALIZE_EASYLOGGINGPP
-//
+_INITIALIZE_EASYLOGGINGPP
+
 int main(int argc, char** argv){
     int id, age, exp, vid, portNumber;
     string ip;
     char status,temp;
-    //cout << "enter driver" << endl;
+    LOG(INFO) << "enter driver";
     cin >> id >> temp >> age >> temp >> status >> temp >> exp >> temp>> vid;
     ip = argv[1];
     portNumber = atoi(argv[2]);
@@ -38,7 +38,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
     oa << driver;
     s.flush();
     tcp.sendData(serial_str, 1);
-    LOG(INFO) << "client sent driver with id: " << driver->getId() << endl;
+    LOG(INFO) << "client sent driver with id: " << driver->getId();
 
     //receiving the taxi from server and adding it to the driver
     Taxi *taxi;
@@ -52,7 +52,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
     boost::archive::binary_iarchive ia(s2);
     ia >> taxi;
     driver->assignTaxi(taxi);
-    LOG(INFO) << "client has assigned taxi with id: " << driver->getTaxi()->getId() << endl;
+    LOG(INFO) << "client has assigned taxi with id: " << driver->getTaxi()->getId();
     NodeBlock* driverLoc;
     Point* pointLocation = new Point(0,0);
     while (true) {
@@ -63,7 +63,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
         convert << driver->getId();
         stringedId = convert.str();
         tcp.sendData(stringedId, 1);
-        LOG(INFO) << "client send driver id: " << stringedId << endl;
+        LOG(INFO) << "client send driver id: " << stringedId;
         //receiving go or finish
         tcp.reciveData(buffer2, sizeof(buffer2), 1);
         string goOrFinish = buffer2;
@@ -78,10 +78,10 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
                 delete(driverLoc);
             driverLoc = new NodeBlock(*pointLocation);
             driver->setLocation(driverLoc);
-            LOG(INFO) << "client location changed to: " << driver->getLocation()->printValue() << endl;
+            LOG(INFO) << "client location changed to: " << driver->getLocation()->printValue();
         }
         else if (strcmp(goOrFinish.data(), "none") == 0) {
-            cout << "client received message: none" << endl;
+            cout << "client received message: none";
             continue;
         }
             //if we need to finish
@@ -90,7 +90,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
         else
             continue;
     }
-    LOG(INFO) << "client starting deletion of pointers after while loop" << endl;
+    LOG(INFO) << "client starting deletion of pointers after while loop";
     tcp.~Tcp();
     delete(pointLocation);
     delete(driverLoc);

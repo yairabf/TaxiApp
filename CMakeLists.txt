@@ -3,7 +3,6 @@ project(adprog1_1)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -std=c++0x")
 set(BOOST_ROOT CACHE PATH "/usr/include/boost/ -lboost_serialization" )
-set(BOOST_ROOT CACHE PATH "/usr/include/boost/ -lboost_log" )
 find_package(Boost 1.58.0 COMPONENTS serialization system)
 include_directories(${Boost_INCLUDE_DIR})
 
@@ -17,6 +16,7 @@ set(SOURCE_FILES src/Point.cpp src/Point.h src/Node.h src/NodeBlock.cpp src/Node
         src/Passenger.h src/TaxiStation.cpp src/TaxiStation.h
         src/Udp.cpp src/Udp.h src/Socket.h src/Socket.cpp src/Tcp.cpp src/Tcp.h
         src/InfoForTripThread.cpp src/InfoForTripThread.h
+        easylogging++.h
         )
 
 add_executable(server src/Server.cpp src/Server.h ${SOURCE_FILES})

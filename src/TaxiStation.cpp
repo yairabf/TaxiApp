@@ -3,7 +3,6 @@
 #include "InfoForTripThread.h"
 #include "../easylogging++.h"
 
-_INITIALIZE_EASYLOGGINGPP
 
 TaxiStation::TaxiStation(Map *map) : map(map), bfs(BreadthFirstSearch(map)) {
 }
