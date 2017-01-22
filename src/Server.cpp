@@ -27,7 +27,11 @@ Server::Server(int columns, int rows, int portNumber):tcp(Tcp(1,portNumber)) {
 Server::~Server() {
     delete (taxiStation);
     delete (map);
-}
+    list<ClientInfo *>::iterator tasksIter = tasks->begin();
+    while (tasksIter != tasks->end()) {
+        delete(*tasksIter);
+        tasksIter++;
+    }}
 
 void Server::run() {
     int numberOfObstacles, x, y;

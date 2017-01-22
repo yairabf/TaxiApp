@@ -83,6 +83,7 @@ void* TaxiStation::creatingRouteByThread(void* info) {
         inf->getTaxiStation()->trips.push_back(inf->getTripInfo());
     }
     delete(inf);
+    pthread_exit(NULL);
 }
 
 list<Driver *> *TaxiStation::getDrivers() {
