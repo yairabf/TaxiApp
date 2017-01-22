@@ -23,6 +23,7 @@
 #include "TaxiStation.h"
 #include "Tcp.h"
 
+_INITIALIZE_EASYLOGGINGPP
 
 class Server {
 private:

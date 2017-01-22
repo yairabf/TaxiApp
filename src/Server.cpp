@@ -2,9 +2,6 @@
 #include <stack>
 #include <map>
 #include "Server.h"
-#include "../easylogging++.h"
-
-_INITIALIZE_EASYLOGGINGPP
 
 using namespace std;
 

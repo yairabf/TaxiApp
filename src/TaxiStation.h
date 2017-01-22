@@ -10,6 +10,7 @@
 #include "BreadthFirstSearch.h"
 #include "Passenger.h"
 #include "Udp.h"
+#include "../easylogging++.h"
 
 using namespace std;
 
@@ -29,9 +30,7 @@ public:
     void sendTaxi(Point);
     Driver* calculateClosestDriver(Point destination);
     pthread_mutex_t tripAssign_locker;
-public:
 
-    int getClock() const;
 	/**
      * constructor.
      * @param map is the grid for the taxi station.

@@ -3,9 +3,10 @@
 #include "InfoForTripThread.h"
 #include "../easylogging++.h"
 
-_INITIALIZE_EASYLOGGINGPP
 
 TaxiStation::TaxiStation(Map *map) : map(map), bfs(BreadthFirstSearch(map)) {
+    pthread_mutex_init(&this->map_locker, NULL);
+    pthread_mutex_init(&this->tripAssign_locker, NULL);
 }
 
 TaxiStation::~TaxiStation() {
@@ -62,7 +63,7 @@ void TaxiStation::addTrip(TripInfo* tripInfo) {
     map->resetVisited();
     pthread_create(&routeThread, NULL, TaxiStation::creatingRouteByThread, (void*)info);
     //if i need to execute the trip the program needs to wait for the bfs, therefore i used join.
-    if(clock == tripInfo->getStart_time())
+    if(clock <= tripInfo->getStart_time())
         pthread_join(routeThread, NULL);
 }
 
