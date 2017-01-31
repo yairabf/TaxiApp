@@ -63,6 +63,19 @@ public:
      */
     void resetVisited();
 
+    /**
+     * getter.
+     * @return member.
+     */
+    int getRows() const;
+
+    /**
+     * getter.
+     * @return member.
+     */
+    int getColumns() const;
+
+
 };
 
 #endif //ADPROG1_1_MAP_H

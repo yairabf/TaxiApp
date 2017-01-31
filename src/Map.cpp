@@ -70,3 +70,11 @@ void Map::resetObstacles() {
         }
     }
 }
+
+int Map::getRows() const {
+    return rows;
+}
+
+int Map::getColumns() const {
+    return columns;
+}

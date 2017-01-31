@@ -5,21 +5,45 @@
 #include "Driver.h"
 #include "NodeBlock.h"
 #include "../easylogging++.h"
+#include "InputValidityTests.h"
 
 _INITIALIZE_EASYLOGGINGPP
 //
 int main(int argc, char** argv){
     int id, age, exp, vid, portNumber;
-    string ip;
-    char status,temp;
+    string ip, input;
     LOG(INFO)<< "enter driver";
-    cin >> id >> temp >> age >> temp >> status >> temp >> exp >> temp>> vid;
+    getline(cin, input);
     ip = argv[1];
     portNumber = atoi(argv[2]);
-    //need to change 5555 to portNumber
-    ClientDriver clientDriver = ClientDriver(portNumber, ip);
-    clientDriver.createAndSendDriver(id,age,status,exp,vid);
+    InputValidityTests ivt;
+    vector<string> v = ivt.inputBraker(input, ",");
+    if(v.size() == 5) {
+        if(ClientDriver::driverInputValid(v)) {
+            id = stoi(v[0]);
+            age = stoi(v[1]);
+            exp = stoi(v[3]);
+            vid = stoi(v[4]);
+            ClientDriver clientDriver = ClientDriver(portNumber, ip);
+            clientDriver.createAndSendDriver(id, age, v[2].at(0), exp, vid);
+        }
+    }
     return 0;
+}
+
+
+bool ClientDriver::driverInputValid(vector<string> v) {
+    if(v[0].find_first_not_of("0123456789") != string::npos)
+        return false;
+    else if(v[1].find_first_not_of("0123456789") != string::npos)
+        return false;
+    else if(!(!v[2].compare("M") || !v[2].compare("D") || !v[2].compare("W") || !v[2].compare("S")))
+        return false;
+    else if(v[3].find_first_not_of("0123456789") != string::npos)
+        return false;
+    else if(v[4].find_first_not_of("0123456789") != string::npos)
+        return false;
+    return true;
 }
 
 
@@ -54,8 +78,8 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
     ia >> taxi;
     driver->assignTaxi(taxi);
     LOG(INFO) << "client has assigned taxi with id: " << driver->getTaxi()->getId();
-    NodeBlock* driverLoc;
     Point* pointLocation = new Point(0,0);
+    NodeBlock* driverLoc = new NodeBlock(*pointLocation);
     while (true) {
         char buffer2[1024];
         //sending the id of the driver
@@ -75,8 +99,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
             tcp.reciveData(buffer2, sizeof(buffer2), 1);
             string stringedPoint = buffer2;
             pointLocation->pointFromString(stringedPoint);
-            if(driverLoc!= NULL)
-                delete(driverLoc);
+            delete(driverLoc);
             driverLoc = new NodeBlock(*pointLocation);
             driver->setLocation(driverLoc);
             LOG(INFO) << "client location changed to: " << driver->getLocation()->printValue();
@@ -92,7 +115,6 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
             continue;
     }
     LOG(INFO) << "client starting deletion of pointers after while loop";
-    tcp.~Tcp();
     delete(pointLocation);
     delete(driverLoc);
     delete(driver->getTaxi());

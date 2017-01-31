@@ -5,6 +5,7 @@
 #ifndef ADPROG1_1_CLIENTDRIVER_H
 #define ADPROG1_1_CLIENTDRIVER_H
 
+#include <vector>
 #include "Udp.h"
 #include "Tcp.h"
 
@@ -12,8 +13,6 @@ class ClientDriver {
 private:
     Tcp tcp;
 
-public:
-    //virtual ~ClientDriver();
 
 public:
     /**
@@ -42,7 +41,13 @@ public:
      */
     string bufferToString(char* buffer, int bufferSize);
 
-    //virtual ~ClientDriver();
+    /**
+     * static function that checks the validity of the client.
+     * @return true or false.
+     */
+    bool static driverInputValid(vector<string>);
+
+        //virtual ~ClientDriver();
 
 
 };

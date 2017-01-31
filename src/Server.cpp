@@ -2,6 +2,9 @@
 #include <stack>
 #include <map>
 #include "Server.h"
+#include "InputValidityTests.h"
+
+_INITIALIZE_EASYLOGGINGPP
 
 using namespace std;
 
@@ -36,28 +39,17 @@ Server::~Server() {
 }
 
 void Server::run() {
-    int numberOfObstacles, x, y;
-    char temp;
-    LOG(INFO) << "how many obstacles?";
-    cin >> numberOfObstacles;
-    if(numberOfObstacles > 0 ) {
-        //waits for obstacles input
-        //need to add a test that checks if the obstacles have been inserted correctly.
-        for(int i = 1; i <= numberOfObstacles; i++) {
-            cin >> x >> temp >> y;
-            taxiStation->setObstacle(x, y);
-        }
-    }
+
     do {
-        int temp;
+        int tempInt;
         LOG(INFO) << "enter Task";
         LOG(INFO) << this->taxiStation->getClock();
-        cin >> temp;
-        if(numberOfThreads == 0 || temp != 9 || temp != 7 ||isFirst9) {
+        cin >> tempInt;
+        if(numberOfThreads == 0 || tempInt != 9 || tempInt != 7 ||isFirst9) {
             pthread_mutex_lock(&this->thread_locker);
             numberOfThreads = numOfDrivers;
             pthread_mutex_unlock(&this->thread_locker);
-            task = temp;
+            task = tempInt;
             switch (task) {
                 case 1:
                     LOG(INFO) << "server has started task 1";
@@ -108,6 +100,7 @@ void Server::run() {
                     taxiStation->advanceClock();
                     break;
                 default:
+                    cout << "-1" << endl;
                     break;
             }
         }
@@ -115,11 +108,18 @@ void Server::run() {
 
 }
 
+
 void Server::createDriver() {
     /*receiving all the drivers and insert them into taxiStation list of drivers*/
     pthread_t clientThread;
     LOG(INFO) << "enter num of drivers";
-    cin >> numOfDrivers;
+    while(true) {
+        cin >> numOfDrivers;
+        if(numOfDrivers <= 0)
+            cout << "-1" << endl;
+        else
+            break;
+    }
     for(int i=0; i < numOfDrivers; i++) {
         ClientInfo* clientInfo = new ClientInfo();
         clientInfo->server = this;
@@ -133,39 +133,121 @@ void Server::createDriver() {
 
 }
 
+
 void Server::createTripInfo() {
     int id, x_start, y_start, x_end, y_end, num_of_passenger, start_time;
+    string input;
     double tariff;
-    char temp;
     LOG(INFO) << "enter trip info: id, start,end,numof,tarrif,time";
     //receiving trip details
-    cin >> id >> temp >> x_start >> temp >> y_start >> temp >> x_end >> temp >> y_end >> temp
-        >> num_of_passenger >> temp >> tariff >> temp >> start_time;
-    TripInfo *tripInfo = new TripInfo(id, x_start, y_start, x_end, y_end, num_of_passenger, tariff, start_time);
-    taxiStation->addTrip(tripInfo);
+    getline(cin, input);
+    InputValidityTests ivt;
+    vector<string> v = ivt.inputBraker(input, ",");
+    //if there is enough parameters we can continue the check
+    if(v.size() == 8) {
+        if(tripInfoInputValid(v)) {
+            id = stoi(v[0]);
+            x_start = stoi(v[1]);
+            y_start = stoi(v[2]);
+            x_end = stoi(v[3]);
+            y_end = stoi(v[4]);
+            num_of_passenger = stoi(v[5]);
+            tariff = stod(v[6]);
+            start_time = stoi(v[7]);
+            TripInfo *tripInfo = new TripInfo(id, x_start, y_start, x_end, y_end,
+                                              num_of_passenger, tariff, start_time);
+            taxiStation->addTrip(tripInfo);
+        } else
+            cout << "-1" << endl;
+    } else
+        cout << "-1" << endl;
+}
+
+bool Server::tripInfoInputValid(vector<string> v) {
+    int x_start, y_start, x_end, y_end;
+    if(v[0].find_first_not_of("0123456789") != string::npos)
+        return false;
+    else if(v[1].find_first_not_of("0123456789") != string::npos)
+        return false;
+    else if(v[2].find_first_not_of("0123456789") != string::npos)
+        return false;
+    else if(v[3].find_first_not_of("0123456789") != string::npos)
+        return false;
+    else if(v[4].find_first_not_of("0123456789") != string::npos)
+        return false;
+    else if(v[5].find_first_not_of("0123456789") != string::npos)
+        return false;
+        //added '.' cos this is tarrif and can be float
+    else if(v[6].find_first_not_of("0123456789.") != string::npos)
+        return false;
+    else if(v[7].find_first_not_of("0123456789") != string::npos)
+        return false;
+    x_start = stoi(v[1]);
+    y_start = stoi(v[2]);
+    x_end = stoi(v[3]);
+    y_end = stoi(v[4]);
+    if(x_start >= taxiStation->getColumns() || x_end >= taxiStation->getColumns()
+            || y_start >= taxiStation->getRows() || y_end >= taxiStation->getRows())
+        return false;
+    else
+        return true;
 }
 
 void Server::createVehicle() {
     int id, taxi_type;
-    char manufacturer, color, temp;
+    string input;
+    char manufacturer, color;
+    InputValidityTests ivt;
     LOG(INFO) << "enter taxi";
     //receiving trip details
-    cin >> id >> temp >> taxi_type >> temp >> manufacturer >> temp >> color;
-    Taxi *taxi = new Taxi(id, manufacturer, color, taxi_type);
-    taxiStation->addTaxi(taxi);
+    getline(cin, input);
+    vector<string> v = ivt.inputBraker(input, ",");
+    if(v.size() == 4) {
+        if(taxiInputValid(v)) {
+            id = stoi(v[0]);
+            taxi_type = stoi(v[1]);
+            manufacturer = v[2].at(0);
+            color = v[3].at(0);
+            Taxi *taxi = new Taxi(id, manufacturer, color, taxi_type);
+            taxiStation->addTaxi(taxi);
+        } else
+            cout << "-1" << endl;
+    } else
+        cout << "-1" << endl;
+}
+
+bool Server::taxiInputValid(vector<string> v) {
+    if(v[0].find_first_not_of("0123456789") != string::npos)
+        return false;
+    else if(!(!v[1].compare("1") || !v[1].compare("2")))
+        return false;
+        //compares returns 0 if equal. not on that is 1. not on all is 0.
+        //if i get 1 then none of them are equal so false
+    else if(!(!v[2].compare("H") || !v[2].compare("F") || !v[2].compare("S") || !v[2].compare("T")))
+        return false;
+    else if(!(!v[3].compare("R") || !v[3].compare("B") || !v[3].compare("P") ||
+            !v[3].compare("W") || !v[3].compare("G")))
+        return false;
+    else
+        return true;
 }
 
 void Server::requestDriverLocation() {
     int id;
+    bool driverExists = false;
     cin >> id;
     list<Driver*>::iterator it = taxiStation->getDrivers()->begin();
     while(it != taxiStation->getDrivers()->end()) {
         if(it.operator*()->getId() == id) {
             cout << it.operator*()->getLocation()->printValue() << endl;
+            driverExists = true;
             break;
         }
         it++;
     }
+    //if the driver id is incorrect
+    if(!driverExists)
+        cout << "-1" << endl;
 }
 
 void Server::receivesDriverAndSendTaxi(int* clientDescriptor) {
@@ -294,15 +376,94 @@ TaxiStation* Server::getTaxiStation() const {
  * and the location of the start point and the goal and the method prints the the fastest route.
  */
 int main(int argc, char** argv) {
-    int columns, rows, portNumber;
-    LOG(INFO) << "enter size of grid";
-    cin >> columns;
-    cin >> rows;
+    int columns, rows, numberOfObstacles, x, y, portNumber;
+    bool valid = true;
+    string input;
     portNumber = atoi(argv[1]);
-    //need to change 5555 to portNumber
-    Server server = Server(columns, rows, portNumber);
-    server.run();
+    vector<string> v;
+    InputValidityTests ivt;
+    //making sure the grid size is valid
+    while(true) {
+        LOG(INFO) << "enter size of grid";
+        getline(cin, input);
+        //breaking the string in to columns and rows
+        v = ivt.inputBraker(input, " ");
+        if(v.size() != 2) {
+            cout << "-1" << endl;
+            continue;
+            //if one of the grid sizes is not a number
+        } else if((v[0].find_first_not_of("0123456789") != string::npos) ||
+                (v[1].find_first_not_of("0123456789") != string::npos)) {
+            cout << "-1" << endl;
+            continue;
+        } else {
+            //we know columns and rows are numbers. checking if 0, negative has been checked
+            columns = stoi(v[0]);
+            rows = stoi(v[1]);
+            if(rows == 0 || columns == 0) {
+                cout << "-1" << endl;
+                continue;
+            } else {
+                //*********************************************need to check how far down a mistake means to start over,
+                // ********************************************whenever i do so before a continue i need to delete server
+                Server server = Server(columns, rows, portNumber);
+                LOG(INFO) << "how many obstacles?";
+                getline(cin, input);
+                input = ivt.trim(input);
+                //making sure number of obstacles is a number
+                if(input.find_first_not_of("0123456789") != string::npos) {
+                    cout << "-1" << endl;
+                    continue;
+                } else {
+                    //number of obstacles is a number
+                    numberOfObstacles = stoi(input);
+                    if (numberOfObstacles >= 0) {
+                        for (int i = 0; i < numberOfObstacles; i++) {
+                            //checks if the obstacles are in grid
+                            LOG(INFO) << "enter obstacle" ;
+                            getline(cin, input);
+                            v = ivt.inputBraker(input, ",");
+                            //if there arent enough parameters
+                            if(v.size() != 2) {
+                                valid = false;
+                                continue;
+                                //if they arent numbers
+                            } else if((v[0].find_first_not_of("0123456789") != string::npos) ||
+                               (v[1].find_first_not_of("0123456789") != string::npos)) {
+                                valid = false;
+                                break;
+                            } else {
+                                x = stoi(v[0]);
+                                y = stoi(v[1]);
+                                //if they are out of the grid
+                                if (x >= columns || y >= rows) {
+                                    valid = false;
+                                    break;
+                                    //if the obstacles are valid we add them
+                                } else
+                                    server.setObstacle(x, y);
+                            }
+                        }
+                        //if one of the obstacles input was incorrect
+                        if(!valid) {
+                            cout << "-1" << endl;
+                            continue;
+                            //if all input was valid we start the program
+                        } else {
+                            server.run();
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
     return 1;
 }
+
+void Server::setObstacle(int x, int y) {
+    taxiStation->setObstacle(x,y);
+}
+
 
 

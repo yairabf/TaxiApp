@@ -23,7 +23,6 @@
 #include "TaxiStation.h"
 #include "Tcp.h"
 
-_INITIALIZE_EASYLOGGINGPP
 
 class Server {
 private:
@@ -99,6 +98,29 @@ public:
      * @return void
      */
     static void* createThreadsForDrivers(void* inf);
+
+    /**
+     * creates an obstacle in the map.
+     * @param x the x axis.
+     * @param y the y axis.
+     */
+    void setObstacle(int x, int y);
+
+    /**
+     * checks if the input for trip info is valid.
+     * @param v the vector of the input.
+     * @return true or false.
+     */
+    bool tripInfoInputValid(vector<string> v);
+
+    /**
+     * checks if the input for taxi is valid.
+     * @param v the vector of the input.
+     * @return true or false.
+     */
+    bool taxiInputValid(vector<string> v);
+
+
 };
 
 

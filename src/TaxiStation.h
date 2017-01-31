@@ -142,6 +142,18 @@ public:
      */
     int getClock();
 
+    /**
+     * getter
+     * @return a member.
+     */
+    int getColumns();
+
+    /**
+     * getter.
+     * @return a member.
+     */
+    int getRows();
+
 
 };
 

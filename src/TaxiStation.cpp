@@ -184,4 +184,12 @@ int TaxiStation::getClock(){
     return clock;
 }
 
+int TaxiStation::getColumns() {
+    return map->getColumns();
+}
+
+int TaxiStation::getRows() {
+    return map->getRows();
+}
+
 
