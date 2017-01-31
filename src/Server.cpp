@@ -42,10 +42,17 @@ void Server::run() {
 
     do {
         int tempInt;
+        string input;
         LOG(INFO) << "enter Task";
         LOG(INFO) << this->taxiStation->getClock();
-        cin >> tempInt;
-        if(numberOfThreads == 0 || tempInt != 9 || tempInt != 7 ||isFirst9) {
+        getline(cin, input);
+        if(input.find_first_not_of("123479") != string::npos) {
+            cout << "-1" << endl;
+            continue;
+        } else {
+            tempInt = stoi(input);
+        }
+        if(numberOfThreads == 0 || tempInt != 9 ||isFirst9) {
             pthread_mutex_lock(&this->thread_locker);
             numberOfThreads = numOfDrivers;
             pthread_mutex_unlock(&this->thread_locker);
@@ -112,13 +119,19 @@ void Server::run() {
 void Server::createDriver() {
     /*receiving all the drivers and insert them into taxiStation list of drivers*/
     pthread_t clientThread;
+    string input;
     LOG(INFO) << "enter num of drivers";
     while(true) {
-        cin >> numOfDrivers;
-        if(numOfDrivers <= 0)
+        getline(cin, input);
+        if(input.find_first_not_of("0123456789") != string::npos) {
             cout << "-1" << endl;
-        else
-            break;
+        } else {
+            numOfDrivers = stoi(input);
+            if(numOfDrivers == 0)
+                cout << "-1" << endl;
+            else
+                break;
+        }
     }
     for(int i=0; i < numOfDrivers; i++) {
         ClientInfo* clientInfo = new ClientInfo();
@@ -234,20 +247,28 @@ bool Server::taxiInputValid(vector<string> v) {
 
 void Server::requestDriverLocation() {
     int id;
+    string input;
     bool driverExists = false;
-    cin >> id;
-    list<Driver*>::iterator it = taxiStation->getDrivers()->begin();
-    while(it != taxiStation->getDrivers()->end()) {
-        if(it.operator*()->getId() == id) {
-            cout << it.operator*()->getLocation()->printValue() << endl;
-            driverExists = true;
-            break;
-        }
-        it++;
-    }
-    //if the driver id is incorrect
-    if(!driverExists)
+    LOG(INFO) << "enter driver id";
+    getline(cin, input);
+    if(input.find_first_not_of("0123456789") != string::npos)
         cout << "-1" << endl;
+    else {
+        id = stoi(input);
+        list<Driver*>::iterator it = taxiStation->getDrivers()->begin();
+        while(it != taxiStation->getDrivers()->end()) {
+            if(it.operator*()->getId() == id) {
+                cout << it.operator*()->getLocation()->printValue() << endl;
+                driverExists = true;
+                break;
+            }
+            it++;
+        }
+        //if the driver id is incorrect
+        if(!driverExists)
+            cout << "-1" << endl;
+    }
+
 }
 
 void Server::receivesDriverAndSendTaxi(int* clientDescriptor) {
