@@ -423,7 +423,7 @@ int main(int argc, char** argv) {
                 cout << "-1" << endl;
                 continue;
             } else {
-                //*********************************************need to check how far down a mistake means to start over,
+                //******************************sd***************need to check how far down a mistake means to start over,
                 // ********************************************whenever i do so before a continue i need to delete server
                 Server server = Server(columns, rows, portNumber);
                 LOG(INFO) << "how many obstacles?";
