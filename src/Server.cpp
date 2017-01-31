@@ -90,7 +90,10 @@ void Server::run() {
                 return;
             case 9:
             {
-                LOG(INFO) << "server has started task 9";
+                while(!taxiStation->getThreadPool()->isEmpty()){
+
+                }
+                    LOG(INFO) << "server has started task 9";
                 pthread_mutex_lock(&this->task_locker);
                 list<ClientInfo* >::iterator tasksIter = tasks->begin();
                 while (tasksIter != tasks->end()) {

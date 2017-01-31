@@ -2,7 +2,7 @@
 #include "TaxiStation.h"
 #include "InfoForTripThread.h"
 
-TaxiStation::TaxiStation(Map *map) : map(map), bfs(BreadthFirstSearch(map)),threadPool(ThreadPool(5)) {
+TaxiStation::TaxiStation(Map *map) : map(map), bfs(BreadthFirstSearch(map)),threadPool(new ThreadPool(5)) {
     clock = 0;
     pthread_mutex_init(&this->map_locker, NULL);
     pthread_mutex_init(&this->tripAssign_locker, NULL);
@@ -24,7 +24,8 @@ TaxiStation::~TaxiStation() {
         TripInfo *tempTripInfo = *iteratorTrips;
         delete(tempTripInfo);
     }
-    threadPool.terminate();
+    threadPool->terminate();
+    delete (threadPool);
 }
 
 void TaxiStation::addTaxi(Taxi *taxi) {
@@ -61,7 +62,7 @@ void TaxiStation::addTrip(TripInfo* tripInfo) {
     InfoForTripThread* info = new InfoForTripThread(this, tripInfo);
     //creating the best route for the trip using bfs
     Job* bsfCal = new Job(creatingRouteByThread, (void*)info);
-    threadPool.addJob(bsfCal);
+    threadPool->addJob(bsfCal);
 }
 
 void* TaxiStation::creatingRouteByThread(void* info) {
@@ -189,6 +190,10 @@ int TaxiStation::getColumns() {
 
 int TaxiStation::getRows() {
     return map->getRows();
+}
+
+ThreadPool* TaxiStation::getThreadPool() const {
+    return threadPool;
 }
 
 

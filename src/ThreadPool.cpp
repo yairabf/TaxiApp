@@ -51,6 +51,6 @@ ThreadPool::~ThreadPool() {
 }
 
 bool ThreadPool::isEmpty() {
-
+    return jobs_queue.empty();
 }
 

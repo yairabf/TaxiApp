@@ -21,7 +21,7 @@ private:
     list<Driver* > drivers;
     list<Taxi* > taxis;
     list<TripInfo* > trips;
-    ThreadPool threadPool;
+    ThreadPool* threadPool;
     Map* map;
     BreadthFirstSearch bfs;
     int clock;
@@ -31,7 +31,9 @@ public:
     Driver* calculateClosestDriver(Point destination);
     pthread_mutex_t tripAssign_locker;
 
-	/**
+    ThreadPool* getThreadPool() const;
+
+    /**
      * constructor.
      * @param map is the grid for the taxi station.
      * @return a new taxi station.
