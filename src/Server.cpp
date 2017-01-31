@@ -24,7 +24,7 @@ Server::Server(int columns, int rows, int portNumber):tcp(Tcp(1,portNumber)) {
     pthread_mutex_init(&this->numOfThreads_locker, 0);
     tasks = new list<ClientInfo*>;
 }
-
+//
 Server::~Server() {
     delete (taxiStation);
     delete (map);
