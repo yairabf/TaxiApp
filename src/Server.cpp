@@ -24,7 +24,7 @@ Server::Server(int columns, int rows, int portNumber):tcp(Tcp(1,portNumber)) {
     pthread_mutex_init(&this->numOfThreads_locker, 0);
     tasks = new list<ClientInfo*>;
 }
-//
+
 Server::~Server() {
     delete (taxiStation);
     delete (map);
@@ -52,64 +52,62 @@ void Server::run() {
         } else {
             tempInt = stoi(input);
         }
-        if(numberOfThreads == 0 || tempInt != 9 ||isFirst9) {
-            pthread_mutex_lock(&this->thread_locker);
-            numberOfThreads = numOfDrivers;
-            pthread_mutex_unlock(&this->thread_locker);
-            task = tempInt;
-            switch (task) {
-                case 1:
-                    LOG(INFO) << "server has started task 1";
-                    createDriver();
-                    break;
-                case 2:
-                    LOG(INFO) << "server has started task 2";
-                    createTripInfo();
-                    break;
-                case 3:
-                    LOG(INFO) << "server has started task 3";
-                    createVehicle();
-                    break;
-                case 4:
-                    LOG(INFO) << "server has started task 4";
-                    requestDriverLocation();
-                    break;
-                case 7:
-                {
-                    LOG(INFO) << "server has started task 7";
-                    pthread_mutex_lock(&this->task_locker);
-                    list<ClientInfo *>::iterator tasksIter = tasks->begin();
-                    while (tasksIter != tasks->end()) {
-                        (*tasksIter)->task->push(7);
-                        tasksIter++;
-                    }
-                    while (numberOfThreads != 0) {
-
-                    }
+        pthread_mutex_lock(&this->thread_locker);
+        numberOfThreads = numOfDrivers;
+        pthread_mutex_unlock(&this->thread_locker);
+        task = tempInt;
+        switch (task) {
+            case 1:
+                LOG(INFO) << "server has started task 1";
+                createDriver();
+                break;
+            case 2:
+                LOG(INFO) << "server has started task 2";
+                createTripInfo();
+                break;
+            case 3:
+                LOG(INFO) << "server has started task 3";
+                createVehicle();
+                break;
+            case 4:
+                LOG(INFO) << "server has started task 4";
+                requestDriverLocation();
+                break;
+            case 7:
+            {
+                LOG(INFO) << "server has started task 7";
+                pthread_mutex_lock(&this->task_locker);
+                list<ClientInfo *>::iterator tasksIter = tasks->begin();
+                while (tasksIter != tasks->end()) {
+                    (*tasksIter)->task->push(7);
+                    tasksIter++;
                 }
-                tcp.~Tcp();
-                    return;
-                case 9:
-                {
-                    LOG(INFO) << "server has started task 9";
-                    pthread_mutex_lock(&this->task_locker);
-                    list<ClientInfo* >::iterator tasksIter = tasks->begin();
-                    while (tasksIter != tasks->end()) {
-                        (*tasksIter)->task->push(9);
-                        tasksIter++;
-                    }
-                    pthread_mutex_unlock(&this->task_locker);
-                    while (numberOfThreads != 0) {
+                while (numberOfThreads != 0) {
 
-                    }
                 }
-                    //taxiStation->advanceClock();
-                    taxiStation->advanceClock();
-                    break;
-                default:
-                    cout << "-1" << endl;
-                    break;
             }
+                tcp.~Tcp();
+                return;
+            case 9:
+            {
+                LOG(INFO) << "server has started task 9";
+                pthread_mutex_lock(&this->task_locker);
+                list<ClientInfo* >::iterator tasksIter = tasks->begin();
+                while (tasksIter != tasks->end()) {
+                    (*tasksIter)->task->push(9);
+                    tasksIter++;
+                }
+                pthread_mutex_unlock(&this->task_locker);
+                while (numberOfThreads != 0) {
+
+                }
+            }
+                //taxiStation->advanceClock();
+                taxiStation->advanceClock();
+                break;
+            default:
+                cout << "-1" << endl;
+                break;
         }
     }  while (true);
 
@@ -447,7 +445,7 @@ int main(int argc, char** argv) {
                             //if there arent enough parameters
                             if(v.size() != 2) {
                                 valid = false;
-                                continue;
+                                break;
                                 //if they arent numbers
                             } else if((v[0].find_first_not_of("0123456789") != string::npos) ||
                                (v[1].find_first_not_of("0123456789") != string::npos)) {

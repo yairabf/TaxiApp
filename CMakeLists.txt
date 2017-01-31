@@ -20,6 +20,7 @@ set(SOURCE_FILES src/Point.cpp src/Point.h src/Node.h src/NodeBlock.cpp src/Node
         src/InputValidityTests.h)
 
 add_executable(server src/Server.cpp src/Server.h ${SOURCE_FILES})
-add_executable(client src/Client.cpp src/Client.h ${SOURCE_FILES} src/inputValidity.cpp src/InputValidityTests.cpp src/InputValidityTests.h)
+add_executable(client src/Client.cpp src/Client.h ${SOURCE_FILES} src/InputValidityTests.cpp
+        src/InputValidityTests.h)
 target_link_libraries(server ${Boost_LIBRARIES})
 target_link_libraries(client ${Boost_LIBRARIES})
