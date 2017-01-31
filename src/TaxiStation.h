@@ -26,6 +26,7 @@ private:
     BreadthFirstSearch bfs;
     int clock;
     pthread_mutex_t map_locker;
+    pthread_mutex_t addingTrip_locker;
 public:
     void sendTaxi(Point);
     Driver* calculateClosestDriver(Point destination);

@@ -399,12 +399,13 @@ TaxiStation* Server::getTaxiStation() const {
  */
 int main(int argc, char** argv) {
     int columns, rows, numberOfObstacles, x, y, portNumber;
-    bool valid = true;
+    bool valid;
     string input;
     portNumber = atoi(argv[1]);
     vector<string> v;
     InputValidityTests ivt;
     //making sure the grid size is valid
+    Server* server;
     while(true) {
         LOG(INFO) << "enter size of grid";
         getline(cin, input);
@@ -428,15 +429,17 @@ int main(int argc, char** argv) {
             } else {
                 //******************************sd***************need to check how far down a mistake means to start over,
                 // ********************************************whenever i do so before a continue i need to delete server
-                Server server = Server(columns, rows, portNumber);
+                server = new Server(columns, rows, portNumber);
                 LOG(INFO) << "how many obstacles?";
                 getline(cin, input);
                 input = ivt.trim(input);
                 //making sure number of obstacles is a number
                 if(input.find_first_not_of("0123456789") != string::npos) {
                     cout << "-1" << endl;
+                    delete(server);
                     continue;
                 } else {
+                    valid = true;
                     //number of obstacles is a number
                     numberOfObstacles = stoi(input);
                     if (numberOfObstacles >= 0) {
@@ -463,16 +466,16 @@ int main(int argc, char** argv) {
                                     break;
                                     //if the obstacles are valid we add them
                                 } else
-                                    server.setObstacle(x, y);
+                                    server->setObstacle(x, y);
                             }
                         }
                         //if one of the obstacles input was incorrect
                         if(!valid) {
                             cout << "-1" << endl;
+                            delete(server);
                             continue;
                             //if all input was valid we start the program
                         } else {
-                            server.run();
                             break;
                         }
                     }
@@ -480,6 +483,8 @@ int main(int argc, char** argv) {
             }
         }
     }
+    server->run();
+    delete(server);
     return 1;
 }
 

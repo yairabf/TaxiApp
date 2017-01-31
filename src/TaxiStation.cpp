@@ -6,6 +6,7 @@ TaxiStation::TaxiStation(Map *map) : map(map), bfs(BreadthFirstSearch(map)),thre
     clock = 0;
     pthread_mutex_init(&this->map_locker, NULL);
     pthread_mutex_init(&this->tripAssign_locker, NULL);
+    pthread_mutex_init(&this->addingTrip_locker, NULL);
 }
 
 TaxiStation::~TaxiStation() {
@@ -81,7 +82,9 @@ void* TaxiStation::creatingRouteByThread(void* info) {
     if(route->size() > 0) {
         inf->getTripInfo()->setRoute(route);
         inf->getTaxiStation()->trips.push_back(inf->getTripInfo());
+        LOG(INFO) << " a trip has been added to taxi station";
     }
+
     delete(inf);
     pthread_exit(NULL);
 }
@@ -160,6 +163,8 @@ void TaxiStation::assignTripToDriver(Driver* driver) {
                     !(*tripInfoIterator)->isDone()) {
                     driver->assignTripInfo((*tripInfoIterator));
                     (*tripInfoIterator)->setAssigned(true);
+                    LOG(INFO) << "driver with id: " << driver->getId() << " received trip id: "
+                              << (*tripInfoIterator)->getId();
                     pthread_mutex_unlock(&this->tripAssign_locker);
                     break;
                 }
