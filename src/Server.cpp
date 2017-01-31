@@ -121,19 +121,17 @@ void Server::createDriver() {
     /*receiving all the drivers and insert them into taxiStation list of drivers*/
     pthread_t clientThread;
     string input;
+    numOfDrivers = 0;
     LOG(INFO) << "enter num of drivers";
-    while(true) {
-        getline(cin, input);
-        if(input.find_first_not_of("0123456789") != string::npos) {
+    getline(cin, input);
+    if(input.find_first_not_of("0123456789") != string::npos) {
+        cout << "-1" << endl;
+    } else {
+        numOfDrivers = stoi(input);
+        if(numOfDrivers == 0)
             cout << "-1" << endl;
-        } else {
-            numOfDrivers = stoi(input);
-            if(numOfDrivers == 0)
-                cout << "-1" << endl;
-            else
-                break;
-        }
     }
+    //if the input is invalid the numOfDrivers will stay 0 and the for loop will not execute
     for(int i=0; i < numOfDrivers; i++) {
         ClientInfo* clientInfo = new ClientInfo();
         clientInfo->server = this;
