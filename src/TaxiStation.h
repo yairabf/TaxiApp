@@ -10,6 +10,7 @@
 #include "BreadthFirstSearch.h"
 #include "Passenger.h"
 #include "Udp.h"
+#include "ThreadPool.h"
 #include "../easylogging++.h"
 
 
@@ -20,6 +21,7 @@ private:
     list<Driver* > drivers;
     list<Taxi* > taxis;
     list<TripInfo* > trips;
+    ThreadPool threadPool;
     Map* map;
     BreadthFirstSearch bfs;
     int clock;

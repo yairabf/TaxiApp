@@ -120,7 +120,7 @@ public:
      * sets a route to the trip info.
      * @param route is the new route.
      */
-    void setRoute(std::stack<Node*> *route);
+    void setRoute(std::stack<Node*>* route);
     /**
      * getter.
      * @return the route for the trip as a stack.

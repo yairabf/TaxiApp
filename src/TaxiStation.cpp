@@ -2,7 +2,7 @@
 #include "TaxiStation.h"
 #include "InfoForTripThread.h"
 
-TaxiStation::TaxiStation(Map *map) : map(map), bfs(BreadthFirstSearch(map)) {
+TaxiStation::TaxiStation(Map *map) : map(map), bfs(BreadthFirstSearch(map)),threadPool(ThreadPool(5)) {
     clock = 0;
     pthread_mutex_init(&this->map_locker, NULL);
     pthread_mutex_init(&this->tripAssign_locker, NULL);
@@ -24,6 +24,7 @@ TaxiStation::~TaxiStation() {
         TripInfo *tempTripInfo = *iteratorTrips;
         delete(tempTripInfo);
     }
+    threadPool.terminate();
 }
 
 void TaxiStation::addTaxi(Taxi *taxi) {
@@ -41,7 +42,7 @@ void TaxiStation::addDriver(Driver *driver) {
     std::list<Taxi*>::iterator taxiIterator;
     //assigns the correct taxi to the driver.
     for(taxiIterator = taxis.begin(); taxiIterator != taxis.end(); ++taxiIterator) {
-        Taxi* currentTaxi = *taxiIterator;
+            Taxi* currentTaxi = *taxiIterator;
         //if their ids are matching ,assign
         if(driver->getVehicle_id() == currentTaxi->getId()) {
             driver->assignTaxi(currentTaxi);
@@ -59,11 +60,8 @@ void TaxiStation::addTrip(TripInfo* tripInfo) {
     pthread_t routeThread;
     InfoForTripThread* info = new InfoForTripThread(this, tripInfo);
     //creating the best route for the trip using bfs
-    map->resetVisited();
-    pthread_create(&routeThread, NULL, TaxiStation::creatingRouteByThread, (void*)info);
-    //if i need to execute the trip the program needs to wait for the bfs, therefore i used join.
-    if(clock <= tripInfo->getStart_time())
-        pthread_join(routeThread, NULL);
+    Job* bsfCal = new Job(creatingRouteByThread, (void*)info);
+    threadPool.addJob(bsfCal);
 }
 
 void* TaxiStation::creatingRouteByThread(void* info) {
@@ -74,6 +72,7 @@ void* TaxiStation::creatingRouteByThread(void* info) {
     Node* startLocation = taxiStation->map->getBlock(*tripInfo->getStart());
     Node* endLocation = taxiStation->map->getBlock(*tripInfo->getEnd());
     pthread_mutex_lock(&taxiStation->map_locker);
+    taxiStation->map->resetVisited();
     std::stack<Node*> tempRoute = taxiStation->bfs.breadthFirstSearch(startLocation, endLocation);
     pthread_mutex_unlock(&taxiStation->map_locker);
     std::stack<Node*>* route = new stack<Node*>(tempRoute);
