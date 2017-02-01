@@ -28,8 +28,6 @@ private:
     pthread_mutex_t map_locker;
     pthread_mutex_t addingTrip_locker;
 public:
-    void sendTaxi(Point);
-    Driver* calculateClosestDriver(Point destination);
     pthread_mutex_t tripAssign_locker;
 
     ThreadPool* getThreadPool() const;
@@ -47,13 +45,6 @@ public:
     virtual ~TaxiStation();
 
     /**
-     * answers a call and assigns a driver to the journey.
-     * @param destination of the journey.
-     * @param passenger that want a taxi.
-     */
-    void answerCall(Point destination, Passenger *passenger);
-
-    /**
      * adds a drivre to the driver list.
      * @param driver is the driver to be added.
      */
@@ -66,18 +57,6 @@ public:
     void addTaxi(Taxi* taxi);
 
     void addTrip(TripInfo* tripInfo);
-
-    /**
-     * removes a driver form the driver list.
-     * @param driver is to be deleted.
-     */
-    void removeDriver(Driver* driver);
-
-    /**
-     * removes a taxi from the taxi list.
-     * @param taxi is to be removed.
-     */
-    void removeTaxi(Taxi* taxi);
 
     /**
      * getter.
@@ -107,7 +86,6 @@ public:
      */
     void setObstacle(int x, int y);
     
-    string tripInfoSerialize(TripInfo*);
     /**
      * gets a driver according to an id.
      * @param id of the wanted driver.
@@ -158,6 +136,8 @@ public:
      * @return a member.
      */
     int getRows();
+
+    list<TripInfo *>* getTrips();
 
 
 };

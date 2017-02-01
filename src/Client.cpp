@@ -104,7 +104,7 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
             LOG(INFO) << "client location changed to: " << driver->getLocation()->printValue();
         }
         else if (strcmp(goOrFinish.data(), "none") == 0) {
-            cout << "client received message: none";
+            LOG(INFO) << "client received message: none";
             continue;
         }
             //if we need to finish

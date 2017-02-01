@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include "Driver.h"
+#include "../easylogging++.h"
 
 
 Driver::Driver(int id, int age,char status1, int yearsExp1, int vehicle_id): id(id), age(age),
@@ -68,6 +69,7 @@ void Driver::addPassenger(Passenger* passenger) {
 }
 
 void Driver::drive() {
+    LOG(INFO) << "Driver number" << id << " drive";
     //checking if the driver has been assigned to a route
     if((tripInfo != NULL) && (!tripInfo->isDone())) {
         stack<Node*> *route = tripInfo->getRoute();

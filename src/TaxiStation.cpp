@@ -13,6 +13,8 @@ TaxiStation::~TaxiStation() {
     std::list<Taxi*>::iterator iteratorTaxis;
     std::list<Driver*>::iterator iteratorDrivers;
     std::list<TripInfo*>::iterator iteratorTrips;
+    threadPool->terminate();
+    delete (threadPool);
     for (iteratorTaxis = taxis.begin(); iteratorTaxis != taxis.end(); ++iteratorTaxis) {
         Taxi *tempTaxi = *iteratorTaxis;
         delete(tempTaxi);
@@ -25,18 +27,13 @@ TaxiStation::~TaxiStation() {
         TripInfo *tempTripInfo = *iteratorTrips;
         delete(tempTripInfo);
     }
-    threadPool->terminate();
-    delete (threadPool);
+
 }
 
 void TaxiStation::addTaxi(Taxi *taxi) {
     taxis.push_back(taxi);
 }
 
-void TaxiStation::removeTaxi(Taxi *taxi) {
-    taxis.remove(taxi);
-    delete(taxi);
-}
 
 void TaxiStation::addDriver(Driver *driver) {
     NodeBlock* startingLocation = map->getBlock(Point(0,0));
@@ -53,10 +50,6 @@ void TaxiStation::addDriver(Driver *driver) {
     }
     drivers.push_back(driver);
 }
-void TaxiStation::removeDriver(Driver *driver) {
-    drivers.remove(driver);
-    delete(driver);
-}
 
 void TaxiStation::addTrip(TripInfo* tripInfo) {
     //pthread_t routeThread;
@@ -68,25 +61,28 @@ void TaxiStation::addTrip(TripInfo* tripInfo) {
 
 void* TaxiStation::creatingRouteByThread(void* info) {
     LOG(INFO) << "Hello From from bfs";
+    pthread_mutex_t locker;
+    pthread_mutex_init(&locker, NULL);
+    pthread_mutex_lock(&locker);
     InfoForTripThread* inf = (InfoForTripThread*)info;
     TaxiStation* taxiStation = inf->getTaxiStation();
     TripInfo* tripInfo = inf->getTripInfo();
     Node* startLocation = taxiStation->map->getBlock(*tripInfo->getStart());
     Node* endLocation = taxiStation->map->getBlock(*tripInfo->getEnd());
-    pthread_mutex_lock(&taxiStation->map_locker);
+    //pthread_mutex_lock(&taxiStation->map_locker);
     taxiStation->map->resetVisited();
     std::stack<Node*> tempRoute = taxiStation->bfs.breadthFirstSearch(startLocation, endLocation);
-    pthread_mutex_unlock(&taxiStation->map_locker);
     std::stack<Node*>* route = new stack<Node*>(tempRoute);
     //if the route is empty
-    if(route->size() > 0) {
+    if(route->size() > 1) {
         inf->getTripInfo()->setRoute(route);
         inf->getTaxiStation()->trips.push_back(inf->getTripInfo());
         LOG(INFO) << " a trip has been added to taxi station";
     }
-
     delete(inf);
-    pthread_exit(NULL);
+    pthread_mutex_unlock(&locker);
+    pthread_mutex_destroy(&locker);
+    //pthread_exit(NULL);
 }
 
 list<Driver *> *TaxiStation::getDrivers() {
@@ -117,30 +113,6 @@ bool TaxiStation::doesDriverExist(Driver *driver1) {
 
 void TaxiStation::setObstacle(int x, int y) {
     map->setObstacle(Point(x, y));
-}
-
-void TaxiStation::answerCall(Point destination, Passenger *passenger) {
-
-}
-
-Driver* TaxiStation::calculateClosestDriver(Point destination) {
-    return NULL;
-}
-
-void TaxiStation::sendTaxi(Point) {
-
-}
-
-string TaxiStation::tripInfoSerialize(TripInfo *tripInfo) {
-    string serial_str;
-    boost::iostreams::back_insert_device<std::string> inserter(serial_str);
-    boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
-    boost::archive::binary_oarchive oa(s);
-    TripInfo *tripInfo1;
-    tripInfo1 = tripInfo;
-    oa << tripInfo1;
-    s.flush();
-    return serial_str;
 }
 
 Driver* TaxiStation::getDriverById(int id) {
@@ -199,6 +171,10 @@ int TaxiStation::getRows() {
 
 ThreadPool* TaxiStation::getThreadPool() const {
     return threadPool;
+}
+
+list<TripInfo *>* TaxiStation::getTrips()  {
+    return &trips;
 }
 
 

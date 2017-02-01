@@ -1,5 +1,6 @@
 
 #include "ThreadPool.h"
+#include "../easylogging++.h"
 #include <unistd.h>
 #include <iostream>
 
@@ -15,9 +16,12 @@ void ThreadPool::doJobs() {
 		if (!jobs_queue.empty()) {
 			Job* job = jobs_queue.front();
 			jobs_queue.pop();
+            LOG(INFO) << "Job poped";
 			pthread_mutex_unlock(&lock);
-			job->execute();
-		}
+            LOG(INFO) << "Job start executing";
+            job->execute();
+            LOG(INFO) << "Job executed";
+        }
 		else {
 			pthread_mutex_unlock(&lock);
 			sleep(1);

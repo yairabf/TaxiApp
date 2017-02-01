@@ -93,7 +93,7 @@ void Server::run() {
                 while(!taxiStation->getThreadPool()->isEmpty()){//******************gets stuck here for some reason
 
                 }
-                    LOG(INFO) << "server has started task 9";
+                LOG(INFO) << "server has started task 9";
                 pthread_mutex_lock(&this->task_locker);
                 list<ClientInfo* >::iterator tasksIter = tasks->begin();
                 while (tasksIter != tasks->end()) {
@@ -426,8 +426,8 @@ int main(int argc, char** argv) {
                 cout << "-1" << endl;
                 continue;
             } else {
-                //******************************sd***************need to check how far down a mistake means to start over,
-                // ********************************************whenever i do so before a continue i need to delete server
+                //******************need to check how far down a mistake means to start over,
+                // *****************whenever i do so before a continue i need to delete server
                 server = new Server(columns, rows, portNumber);
                 LOG(INFO) << "how many obstacles?";
                 getline(cin, input);
