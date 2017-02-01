@@ -15,7 +15,7 @@ using namespace std;
 
 class ThreadPool {
 private:
-	queue<Job *> jobs_queue;
+	queue<Job*> jobs_queue;
 	int threads_num;
 	pthread_t* threads;
 	bool stop;

@@ -90,7 +90,7 @@ void Server::run() {
                 return;
             case 9:
             {
-                while(!taxiStation->getThreadPool()->isEmpty()){
+                while(!taxiStation->getThreadPool()->isEmpty()){//******************gets stuck here for some reason
 
                 }
                     LOG(INFO) << "server has started task 9";
@@ -201,6 +201,8 @@ bool Server::tripInfoInputValid(vector<string> v) {
     if(x_start >= taxiStation->getColumns() || x_end >= taxiStation->getColumns()
             || y_start >= taxiStation->getRows() || y_end >= taxiStation->getRows())
         return false;
+    else if((x_start == x_end) && (y_start == y_end))
+        return false;
     else
         return true;
 }
@@ -267,7 +269,6 @@ void Server::requestDriverLocation() {
         if(!driverExists)
             cout << "-1" << endl;
     }
-
 }
 
 void Server::receivesDriverAndSendTaxi(int* clientDescriptor) {

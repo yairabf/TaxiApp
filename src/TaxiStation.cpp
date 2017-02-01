@@ -59,7 +59,7 @@ void TaxiStation::removeDriver(Driver *driver) {
 }
 
 void TaxiStation::addTrip(TripInfo* tripInfo) {
-    pthread_t routeThread;
+    //pthread_t routeThread;
     InfoForTripThread* info = new InfoForTripThread(this, tripInfo);
     //creating the best route for the trip using bfs
     Job* bsfCal = new Job(creatingRouteByThread, (void*)info);

@@ -64,12 +64,11 @@ int ClientDriver::createAndSendDriver(int id, int age, char status, int experien
     s.flush();
     tcp.sendData(serial_str, 1);
     LOG(INFO) << "client sent driver with id: " << driver->getId();
-
     //receiving the taxi from server and adding it to the driver
     Taxi *taxi;
     char buffer[1024];
     tcp.reciveData(buffer, sizeof(buffer), 1);
-    //de serializing the taxi we have received.
+    //de serializing the taxi we have received
     string stringedBuffer(buffer, sizeof(buffer));
     boost::iostreams::basic_array_source<char> device((char *) stringedBuffer.c_str(),
                                                       stringedBuffer.size());
