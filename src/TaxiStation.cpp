@@ -61,27 +61,23 @@ void TaxiStation::addTrip(TripInfo* tripInfo) {
 
 void* TaxiStation::creatingRouteByThread(void* info) {
     LOG(INFO) << "Hello From from bfs";
-    pthread_mutex_t locker;
-    pthread_mutex_init(&locker, NULL);
-    pthread_mutex_lock(&locker);
     InfoForTripThread* inf = (InfoForTripThread*)info;
     TaxiStation* taxiStation = inf->getTaxiStation();
+    pthread_mutex_lock(&taxiStation->map_locker);
     TripInfo* tripInfo = inf->getTripInfo();
     Node* startLocation = taxiStation->map->getBlock(*tripInfo->getStart());
     Node* endLocation = taxiStation->map->getBlock(*tripInfo->getEnd());
-    //pthread_mutex_lock(&taxiStation->map_locker);
     taxiStation->map->resetVisited();
     std::stack<Node*> tempRoute = taxiStation->bfs.breadthFirstSearch(startLocation, endLocation);
     std::stack<Node*>* route = new stack<Node*>(tempRoute);
     //if the route is empty
-    if(route->size() > 1) {
+    if(route->size() > 0) {
         inf->getTripInfo()->setRoute(route);
         inf->getTaxiStation()->trips.push_back(inf->getTripInfo());
         LOG(INFO) << " a trip has been added to taxi station";
     }
     delete(inf);
-    pthread_mutex_unlock(&locker);
-    pthread_mutex_destroy(&locker);
+    pthread_mutex_unlock(&taxiStation->map_locker);
     //pthread_exit(NULL);
 }
 
